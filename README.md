@@ -7,6 +7,18 @@
 > Genesis 물리 엔진 위에서 MPPI가 채굴한 골든 제어 라벨로 Path→(Steer, Throttle, Brake)
 > Mapper를 학습하고, Real2Sim–Sim2Real 정책 전이로 확장하는 프로젝트.
 
+**Abstract (EN).** We distill the optimal control of large-scale parallel physics
+simulation into a real-time driving policy. On the Genesis physics engine, an MPPI
+controller mines *golden* control labels by rolling out 2048 candidate futures per step
+over ray-wheel vehicle dynamics; a lightweight trajectory-to-controls mapper is then
+trained on these labels via behavior cloning and DAgger, replacing the 2048-env
+optimizer with a single neural-network inference at deployment. Because the labels
+carry physical response — slope climbing, load transfer, tire slip — rather than
+idealized kinematics, the learned policy targets generalization on rough, off-nominal
+terrain. The same Blender→Genesis sim2sim calibration (frame, timestep, terrain, and
+vehicle-parameter alignment) is designed to serve directly as the methodology for a
+future Real2Sim→Sim2Real transfer loop.
+
 ![](./car_test/res_wjdaksry/0625/mppi_fan_chicane_LRL_teaser.gif)
 
 *매 스텝 2048개의 후보 미래를 병렬 물리로 시뮬레이션하고, 최적 궤적 하나를 선택해 지형을 주행하는 MPPI — 반투명 고스트는 컨트롤러가 "상상한" 미래들이다.*
@@ -49,3 +61,21 @@
 | Sim2Real | 목표 | 학습 정책의 실차 전이 | — |
 
 전체 연구 기록(50여 편)은 **[문서 인덱스](car_test/docs/README.md)** 에서 단계별로 볼 수 있다.
+
+## 장기 비전 — Real2Sim ↔ Sim2Real 폐루프
+
+이 프로젝트의 sim2sim 정합은 그 자체가 목적이 아니라, **실측–시뮬 폐루프의 리허설**이다.
+현재 Blender를 "이상적 현실의 대리자(surrogate)"로 두고 Genesis가 그 주행을 물리적으로
+재현하도록 정합하는데, 이 파이프라인이 성립하면 Blender 자리에 실제 현실을 그대로 치환할 수
+있다. 지향하는 최종 구조는 두 방향이 맞물린 폐루프다.
+
+- **Real2Sim** — 관측된 실차 롤아웃에서 inverse-dynamics mapper가 잠재 제어 궤적(ST, B)과
+  Genesis–현실 간 보정 항을 복원한다. 정책 학습이 시작되기 *전에* 제어와 동역학을 명시적으로
+  복원해 sim-to-real 간극을 먼저 좁힌다. 이 복원된 정합이 이후 모든 학습(residual RL, 다중
+  에이전트, 험지 전이)이 올라서는 공통 기반이 된다.
+- **Sim2Real** — 보정된 시뮬에서 학습한 정책이 정량적 강건성을 갖고 실차로 전이된다.
+  BC 기반 정책 위에 covariate shift와 미모델링 동역학을 보상하는 residual RL 항을 얹는
+  구조를 겨냥한다.
+
+> Real2Sim / Sim2Real 단계는 아직 착수 전(로드맵의 예정·목표)이며, 위 서술은 완료된 결과가
+> 아니라 설계 방향이다.
