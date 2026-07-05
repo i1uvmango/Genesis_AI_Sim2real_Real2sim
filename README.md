@@ -40,12 +40,12 @@
 
 ## 로드맵
 
-| 단계 | 내용 | 문서 |
-|---|---|---|
-| ✅ Sim2Sim 정합 | Blender 물리 주행 ↔ Genesis ray-wheel 물리 정합 | [Sim2Sim Calibration](car_test/docs/%5B26-03-15%5D_Sim2Sim_Calibration.md) · [Ray-wheel 충돌 모델](car_test/docs/%5B26-05-02%5D_ray_wheel.md) · [Pacejka 타이어 모델](car_test/docs/%5B26-05-07%5D_pacejka_model.md) · [정합 평가 지표](car_test/docs/tech/%5B26-04-29%5D_slope_kappa_rmse.md) |
-| ✅ 골든 라벨 채굴 | 34개 기동 시나리오 × 표준 지형, MPPI 마이닝 (최저 CTE 0.11 m) | [MPPI 개요](car_test/docs/%5B26-02-22%5D_MPPI.md) · [3D 지형 마이닝](car_test/docs/%5B26-06-01%5D_MPPI_onTerrain.md) · [데이터 스케일링](car_test/docs/%5B26-06-24%5D_data.md) · [MPPI 파라미터](car_test/docs/tech/%5B26-06-01%5D_MPPI_warmstart.md) |
-| 🔄 Path→(ST,B) Mapper | BC 학습 + DAgger 폐루프 개선 | [BC Inverse Mapper](car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md) · [DAgger](car_test/docs/tech/%5B26-03-05%5D_DAgger.md) |
-| ⏳ Real2Sim | 실측 궤적·지형의 시뮬 정합, 실환경 분포 라벨 재채굴 | — |
-| 🎯 Sim2Real | 학습 정책의 실차 전이 | — |
+| 단계 | 상태 | 내용 | 문서 |
+|---|---|---|---|
+| Sim2Sim 정합 | 완료 | Blender 물리 주행 ↔ Genesis ray-wheel 물리 정합 | [Sim2Sim Calibration](car_test/docs/%5B26-03-15%5D_Sim2Sim_Calibration.md) · [Ray-wheel 충돌 모델](car_test/docs/%5B26-05-02%5D_ray_wheel.md) · [Pacejka 타이어 모델](car_test/docs/%5B26-05-07%5D_pacejka_model.md) · [정합 평가 지표](car_test/docs/tech/%5B26-04-29%5D_slope_kappa_rmse.md) |
+| 골든 라벨 채굴 | 완료 | 34개 기동 시나리오 × 표준 지형, MPPI 마이닝 (최저 CTE 0.11 m) | [MPPI 개요](car_test/docs/%5B26-02-22%5D_MPPI.md) · [3D 지형 마이닝](car_test/docs/%5B26-06-01%5D_MPPI_onTerrain.md) · [데이터 스케일링](car_test/docs/%5B26-06-24%5D_data.md) · [MPPI 파라미터](car_test/docs/tech/%5B26-06-01%5D_MPPI_warmstart.md) |
+| Path→(ST,B) Mapper | 진행 중 | BC 학습 + DAgger 폐루프 개선 | [BC Inverse Mapper](car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md) · [DAgger](car_test/docs/tech/%5B26-03-05%5D_DAgger.md) |
+| Real2Sim | 예정 | 실측 궤적·지형의 시뮬 정합, 실환경 분포 라벨 재채굴 | — |
+| Sim2Real | 목표 | 학습 정책의 실차 전이 | — |
 
 전체 연구 기록(50여 편)은 **[문서 인덱스](car_test/docs/README.md)** 에서 단계별로 볼 수 있다.
