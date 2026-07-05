@@ -21,7 +21,7 @@ warmstart 용 최적 파라미터: 이 기준을 근처로 grid search 추천.
 | `horizon`        | 20 |
 | `lookahead_step` | 2 |
 | `corr_alpha`     | 0.5 (노이즈 시간 스무딩) |
-| `mppi_lambda`    | 0.05 |
+| `mppi_lambda`    | 0.20 (run_126 grid 우승값) |
 
 
 ## Cost 가중치
@@ -31,7 +31,7 @@ warmstart 용 최적 파라미터: 이 기준을 근처로 grid search 추천.
 | `w_dist`    | 6000 | `w_heading` | 4000 |
 | `w_vel`     | 2500 | `w_pitch`   |  800 |
 | `w_roll`    |  600 | `w_vz`      |  250 |
-| `w_rate`    |  150 | `w_kappa`   |   50 |
+| `w_rate`    |   40 | `w_kappa`   |   50 |
 | `w_accel`   |    1 | `w_ff`      |    1 |
 
 
@@ -40,7 +40,7 @@ warmstart 용 최적 파라미터: 이 기준을 근처로 grid search 추천.
 | 항목 | 값 |
 | :--- | :--- |
 | `noise_throttle` / `noise_steer` | 0.6 / 0.30 |
-| `alpha_throttle` / `alpha_steer` | 0.2 / 0.3 (MPPI 영향력; CSV 0.8 / 0.7) |
+| `alpha_throttle` / `alpha_steer` | 0.4 / 0.3 (MPPI 영향력; CSV 0.6 / 0.7) |
 | `overspeed_mult`     | 4.0 (과속 4배 벌점) |
 | `kappa_v_threshold`  | 0.2 |
 | `spawn_before_mesh`  | 0 |
@@ -57,15 +57,15 @@ warmstart 용 최적 파라미터: 이 기준을 근처로 grid search 추천.
 
 ---
 
-## ⚠️ 짚어둘 점 — 현재 cfg ≠ grid search 우승값 (run_126)
+## 현재 cfg = grid search 우승값 (run_126) 정렬 완료
 
-| 파라미터 | 현재 cfg | run_126 (grid 우승) |
+| 파라미터 | 초기 cfg | 현재 cfg = run_126 (grid 우승) |
 | :--- | :--- | :--- |
 | `mppi_lambda`                  | 0.05               | **0.20** |
 | `alpha_throttle`               | 0.2                | **0.4** |
 | `w_rate`                       | 150                | **40** |
 | `w_vel` / `w_heading` / `w_dist` | 2500 / 4000 / 6000 | 2500 / 4000 / 6000 ✓ |
 
-> `w_vel` / `w_heading` / `w_dist` 는 **우연히 일치**.
-> 하지만 `lambda` · `alpha_throttle` · `w_rate` 는 grid 최적값과 다름.
-> → 지금 마이닝은 **grid best 가 아니라 기본값(default) 기준**으로 돌고 있음.
+> [26-07-05 업데이트] 작성 시점에는 `lambda` · `alpha_throttle` · `w_rate` 가 grid 최적값과 달라
+> 기본값(default) 기준으로 마이닝이 돌고 있었으나, 이후 run_126 우승값으로 정렬 완료.
+> 현재 마이닝은 **grid best 기준**으로 동작 중이며, 위 본문 테이블도 우승값 기준으로 갱신됨.
