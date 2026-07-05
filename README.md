@@ -17,7 +17,10 @@ carry physical response — slope climbing, load transfer, tire slip — rather 
 idealized kinematics, the learned policy targets generalization on rough, off-nominal
 terrain. The same Blender→Genesis sim2sim calibration (frame, timestep, terrain, and
 vehicle-parameter alignment) is designed to serve directly as the methodology for a
-future Real2Sim→Sim2Real transfer loop.
+future Real2Sim→Sim2Real transfer loop. On top of this supervised base, we plan a
+reinforcement-learning stage: a residual RL head that compensates for covariate shift
+and unmodeled dynamics, and extends the action space to explicit brake control for a
+full (steer, throttle, brake) policy.
 
 ![](./car_test/res_wjdaksry/0625/mppi_fan_chicane_LRL_teaser.gif)
 
@@ -58,8 +61,9 @@ future Real2Sim→Sim2Real transfer loop.
 | Sim2Sim 정합 | 완료 | Blender 물리 주행 ↔ Genesis ray-wheel 물리 정합 | [Sim2Sim Calibration](car_test/docs/%5B26-03-15%5D_Sim2Sim_Calibration.md) · [Ray-wheel 충돌 모델](car_test/docs/%5B26-05-02%5D_ray_wheel.md) · [Pacejka 타이어 모델](car_test/docs/%5B26-05-07%5D_pacejka_model.md) · [정합 평가 지표](car_test/docs/tech/%5B26-04-29%5D_slope_kappa_rmse.md) |
 | 골든 라벨 채굴 | 완료 | 34개 기동 시나리오 × 표준 지형, MPPI 마이닝 (최저 CTE 0.11 m) | [MPPI 개요](car_test/docs/%5B26-02-22%5D_MPPI.md) · [3D 지형 마이닝](car_test/docs/%5B26-06-01%5D_MPPI_onTerrain.md) · [데이터 스케일링](car_test/docs/%5B26-06-24%5D_data.md) · [MPPI 파라미터](car_test/docs/tech/%5B26-06-01%5D_MPPI_warmstart.md) |
 | Path→(ST,B) Mapper | 진행 중 | BC 학습 + DAgger 폐루프 개선 | [BC Inverse Mapper](car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md) · [DAgger](car_test/docs/tech/%5B26-03-05%5D_DAgger.md) |
-| Real2Sim | 예정 | 실측 궤적·지형의 시뮬 정합, 실환경 분포 라벨 재채굴 | — |
-| Sim2Real | 목표 | 학습 정책의 실차 전이 | — |
+| Residual RL 정책 | 설계 완료 | BC 기반 정책 위 residual RL, brake 제어 추가, (S,T,B) 완전 정책 | [PPO Residual RL 설계](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) · [보상 함수](car_test/docs/tech/%5B26-01-15%5D_reward.md) |
+| Real2Sim | 다음 단계 | 실측 궤적·지형의 시뮬 정합, 실환경 분포 라벨 재채굴 | — |
+| Sim2Real | 최종 목표 | 학습 정책의 실차 전이 | — |
 
 전체 연구 기록(50여 편)은 **[문서 인덱스](car_test/docs/README.md)** 에서 단계별로 볼 수 있다.
 
@@ -78,5 +82,22 @@ future Real2Sim→Sim2Real transfer loop.
   BC 기반 정책 위에 covariate shift와 미모델링 동역학을 보상하는 residual RL 항을 얹는
   구조를 겨냥한다.
 
-> Real2Sim / Sim2Real 단계는 아직 착수 전(로드맵의 예정·목표)이며, 위 서술은 완료된 결과가
-> 아니라 설계 방향이다.
+> Real2Sim / Sim2Real은 현재 진행 중인 sim2sim 정합 위에서 이어질 다음 단계이며, 위 서술은
+> 그 설계 방향이다.
+
+## 강화학습 단계
+
+지도학습(BC + DAgger)으로 만든 mapper는 전문가 라벨을 재현하는 **기반 정책**이다. 그 위에
+강화학습을 얹어 라벨만으로는 닿지 않는 부분을 채우는 것이 다음 단계다. 세 방향을 겨냥한다.
+
+- **Residual RL** — BC 기반 정책의 출력에 강화학습 residual 항을 더해, 폐루프에서 누적되는
+  covariate shift와 MPPI 라벨이 담지 못한 미모델링 동역학을 보상한다. 처음부터 정책을
+  학습하는 대신 검증된 base 위의 보정만 학습하므로 표본 효율과 안정성이 높다.
+- **Brake 제어 확장** — 현재 mapper 출력은 (Steer, Throttle) 2차원이고 brake는 물리 검증만
+  된 상태다. 강화학습 단계에서 행동 공간에 brake를 추가해 **(Steer, Throttle, Brake) 완전
+  정책**으로 확장한다. 급경사 하강·감속 구간처럼 throttle만으로 부족한 상황이 대상이다.
+- **Policy 학습** — 정합된 시뮬 위에서 보상 기반으로 주행 정책을 직접 최적화하고, 이를
+  Sim2Real 전이 대상 정책으로 삼는다.
+
+> 설계 노트: [PPO Residual RL](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) ·
+> [보상 함수 설계](car_test/docs/tech/%5B26-01-15%5D_reward.md)
