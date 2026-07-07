@@ -150,15 +150,15 @@ $$(T,S)_t \in [-1, 1]^{20}$$
 
 
 #### 비교 영상
-(https://github.com/user-attachments/assets/6103ad6f-9538-481e-93c3-e8ca63dad50e) <video src="../res_wjdaksry/0701/cmp_p124.mp4" controls width="400"></video>
+https://github.com/user-attachments/assets/6103ad6f-9538-481e-93c3-e8ca63dad50e <video src="../res_wjdaksry/0701/cmp_p124.mp4" controls width="400"></video>
 
-(https://github.com/user-attachments/assets/ef931e00-9b6d-4db7-b944-771a0b269e46) <video src="../res_wjdaksry/0701/cmp_p132.mp4" controls width="400"></video>
+https://github.com/user-attachments/assets/ef931e00-9b6d-4db7-b944-771a0b269e46 <video src="../res_wjdaksry/0701/cmp_p132.mp4" controls width="400"></video>
 
-(https://github.com/user-attachments/assets/fe213fe6-d32d-4c8e-8fd9-15a7c9d4d3e5) <video src="../res_wjdaksry/0701/cmp_p142.mp4" controls width="400"></video>
+https://github.com/user-attachments/assets/fe213fe6-d32d-4c8e-8fd9-15a7c9d4d3e5 <video src="../res_wjdaksry/0701/cmp_p142.mp4" controls width="400"></video>
 
-(https://github.com/user-attachments/assets/90b6d246-6c1a-4dd4-89af-92bf8040ffb3) <video src="../res_wjdaksry/0701/cmp_p148.mp4" controls width="400"></video>
+https://github.com/user-attachments/assets/90b6d246-6c1a-4dd4-89af-92bf8040ffb3 <video src="../res_wjdaksry/0701/cmp_p148.mp4" controls width="400"></video>
 
-(https://github.com/user-attachments/assets/71e8b4a8-ae65-40c8-a0a6-9b5a6673089b) <video src="../res_wjdaksry/0701/cmp_p153.mp4" controls width="400"></video>
+https://github.com/user-attachments/assets/71e8b4a8-ae65-40c8-a0a6-9b5a6673089b <video src="../res_wjdaksry/0701/cmp_p153.mp4" controls width="400"></video>
 
 
 ## 4. 평가 기준: validation loss 로 모델을 선발하면 안 되는 이유
