@@ -1,7 +1,7 @@
 # MLP Pipeline Changes: Optuna Mining, Sequence BC, dual_scene performance eval
 
 ---
-## 1. 도로 규격 기반 주행 데이터 생성 (Claude MCP → Blender)
+## 1. 도로 규격 기반 S,T 주행 데이터 생성 (Claude MCP → Blender)
 
 | 항목 | 값 |
 |---|---|
@@ -62,7 +62,7 @@
 
 * 이전 n 프레임의 `미분값` / `변화량` 을 입력 state로 가져감.
 
-* 과거 프레임을 통째로 넣지 않고, 미분 피쳐 3개로 압축하되, dt(1/48)가 매우 작기에 5프레임의 평균 변화율을 사용하여 노이즈 없는 `경향성`을 주입
+* 과거 프레임을 통째로 넣지 않고, 미분 피쳐 3개로 압축하되, dt(1/48)가 매우 작기에 5프레임의 `평균 변화율`을 사용하여 노이즈 영향이 적은 `경향성`을 주입
 
 
 #### 삭제된 prev states
@@ -136,6 +136,8 @@ $$(T,S)_t \in [-1, 1]^{20}$$
 
 #### 기존 학습 모델(code 2_train.py)
 ![](../res_wjdaksry/0701/compare_20_grid.png) 
+
+* 30 , [3D: 2_train.py 설계 ](car_test\docs\[26-06-01]_MPPI_onTerrain.md)
 
 #### 출력값 미래 10프레임의 $(S,T)$ (2.1_train.py)
 
