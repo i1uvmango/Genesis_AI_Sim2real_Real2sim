@@ -152,7 +152,7 @@ $$(T,S)_t \in [-1, 1]^{20}$$
 * prev $(S,T)$(data leakage) 제거 후, `prev 5 frame`의 `경향성`을 input으로 넣어 `prev state` 고려한 미래 10frame의 제어값 $(S,T)$
 
 
-#### 비교 영상
+#### checkpoint 비교 영상 (2.0, 2.1, 2.2)
 https://github.com/user-attachments/assets/6103ad6f-9538-481e-93c3-e8ca63dad50e 
 
 <video src="../res_wjdaksry/0701/cmp_p124.mp4" controls width="400"></video>
