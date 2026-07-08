@@ -135,9 +135,10 @@ $$(T,S)_t \in [-1, 1]^{20}$$
 ### 결과 비교 
 
 #### 기존 학습 모델(code 2_train.py)
+
 ![](../res_wjdaksry/0701/compare_20_grid.png) 
 
-* 30 , [3D: 2_train.py 설계 ](car_test\docs\[26-06-01]_MPPI_onTerrain.md)
+* 30 , [3D: 2_train.py 설계](%5B26-06-01%5D_MPPI_onTerrain.md)
 
 #### 출력값 미래 10프레임의 $(S,T)$ (2.1_train.py)
 
