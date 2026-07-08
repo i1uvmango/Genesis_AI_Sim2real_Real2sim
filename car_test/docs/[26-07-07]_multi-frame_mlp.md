@@ -153,6 +153,11 @@ $$(T,S)_t \in [-1, 1]^{20}$$
 
 
 #### checkpoint 비교 영상 (2.0, 2.1, 2.2)
+
+주행 요약
+![](../res_wjdaksry/0701/compare_23_grid.png)
+
+
 https://github.com/user-attachments/assets/6103ad6f-9538-481e-93c3-e8ca63dad50e 
 
 <video src="../res_wjdaksry/0701/cmp_p124.mp4" controls width="400"></video>
