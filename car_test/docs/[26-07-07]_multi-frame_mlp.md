@@ -1,7 +1,7 @@
 # MLP Pipeline Changes: Optuna Mining, Sequence BC, dual_scene performance eval
 
 ---
-## 1. 도로 규격 기반 S,T 주행 데이터 생성 (Claude MCP → Blender)
+## 1. 도로 규격 기반 S,T 주행 데이터 생성 (Claude : Blender MCP)
 
 | 항목 | 값 |
 |---|---|
