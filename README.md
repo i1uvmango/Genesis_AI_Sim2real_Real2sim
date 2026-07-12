@@ -39,10 +39,24 @@ full (steer, throttle, brake) policy.
    Predictive Path Integral)가 reference 궤적을 재추종한다. 매 스텝 **2048개 병렬 환경**에서
    후보 제어 시퀀스를 실제 물리로 전개·평가해 최적 입력을 선택하고, 그 결과로
    *(주행 상태 → Throttle, Steer, Brake)* 전문가 라벨이 쌓인다.
-3. **Path→(ST,B) Mapper 학습** — 채굴된 라벨을 지도학습(BC + DAgger)해, 경로와 현재 상태만
+3. **Path→(ST) Mapper 학습** — 채굴된 라벨을 지도학습(BC + DAgger)해, 경로와 현재 상태만
    보고 제어를 출력하는 경량 정책을 만든다. 학습 후에는 **2048-env 최적화 없이** 단일
    신경망 추론만으로 실시간 경로 추종이 가능하다.
+
+![](./car_test/res_wjdaksry/0701/mlp.png)
+
 ![](./car_test/res_wjdaksry/0701/replay_p122.gif)
+
+
+
+*Mapper 구조 — 오차 피드백·현재 물리 상태·미래 경로(곡률/가속)·과거 경향성 미분을 입력받아, 미래 프레임의 제어 시퀀스 (Steer, Throttle)를 출력한다.*
+
+4. **BC freeze + Residual RL** — 학습된 BC mapper를 base 정책으로 **동결(freeze)**하고, 그
+   위에 강화학습 residual 항을 얹어 폐루프에서 누적되는 추종 오차(covariate shift·미모델링
+   동역학)를 보정한다. 동시에 BC가 다루지 않던 **brake**를 행동 공간에 추가해
+   *(Steer, Throttle, Brake)* 완전 제어를 학습한다. 검증된 base는 건드리지 않고 보정만
+   학습하므로 표본 효율과 안정성이 높다.
+
 
 ## 왜 중요한가
 
@@ -53,6 +67,23 @@ full (steer, throttle, brake) policy.
   하중 이동)을 담고 있어, 험지·비정형 지형에서의 일반화를 겨냥한다.
 - **전이 파이프라인의 리허설** — 현재의 Blender→Genesis sim2sim 정합(좌표계·시간 스텝·
   지형·차량 파라미터)은 그대로 real2sim 정합의 방법론이 된다.
+
+## 강화학습 단계
+
+지도학습(BC + DAgger)으로 만든 mapper는 전문가 라벨을 재현하는 **기반 정책**이다. 그 위에
+강화학습을 얹어 라벨만으로는 닿지 않는 부분을 채우는 것이 다음 단계다. 세 방향을 겨냥한다.
+
+- **Residual RL** — BC 기반 정책의 출력에 강화학습 residual 항을 더해, 폐루프에서 누적되는
+  covariate shift와 MPPI 라벨이 담지 못한 미모델링 동역학을 보상한다. 처음부터 정책을
+  학습하는 대신 검증된 base 위의 보정만 학습하므로 표본 효율과 안정성이 높다.
+- **Brake 제어 확장** — 현재 mapper 출력은 (Steer, Throttle) 2차원이고 brake는 물리 검증만
+  된 상태다. 강화학습 단계에서 행동 공간에 brake를 추가해 **(Steer, Throttle, Brake) 완전
+  정책**으로 확장한다. 급경사 하강·감속 구간처럼 throttle만으로 부족한 상황이 대상이다.
+- **Policy 학습** — 정합된 시뮬 위에서 보상 기반으로 주행 정책을 직접 최적화하고, 이를
+  Sim2Real 전이 대상 정책으로 삼는다.
+
+> 설계 노트: [PPO Residual RL](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) ·
+> [보상 함수 설계](car_test/docs/tech/%5B26-01-15%5D_reward.md)
 
 ## 로드맵
 
@@ -84,20 +115,3 @@ full (steer, throttle, brake) policy.
 
 > Real2Sim / Sim2Real은 현재 진행 중인 sim2sim 정합 위에서 이어질 다음 단계이며, 위 서술은
 > 그 설계 방향이다.
-
-## 강화학습 단계
-
-지도학습(BC + DAgger)으로 만든 mapper는 전문가 라벨을 재현하는 **기반 정책**이다. 그 위에
-강화학습을 얹어 라벨만으로는 닿지 않는 부분을 채우는 것이 다음 단계다. 세 방향을 겨냥한다.
-
-- **Residual RL** — BC 기반 정책의 출력에 강화학습 residual 항을 더해, 폐루프에서 누적되는
-  covariate shift와 MPPI 라벨이 담지 못한 미모델링 동역학을 보상한다. 처음부터 정책을
-  학습하는 대신 검증된 base 위의 보정만 학습하므로 표본 효율과 안정성이 높다.
-- **Brake 제어 확장** — 현재 mapper 출력은 (Steer, Throttle) 2차원이고 brake는 물리 검증만
-  된 상태다. 강화학습 단계에서 행동 공간에 brake를 추가해 **(Steer, Throttle, Brake) 완전
-  정책**으로 확장한다. 급경사 하강·감속 구간처럼 throttle만으로 부족한 상황이 대상이다.
-- **Policy 학습** — 정합된 시뮬 위에서 보상 기반으로 주행 정책을 직접 최적화하고, 이를
-  Sim2Real 전이 대상 정책으로 삼는다.
-
-> 설계 노트: [PPO Residual RL](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) ·
-> [보상 함수 설계](car_test/docs/tech/%5B26-01-15%5D_reward.md)
