@@ -223,7 +223,7 @@ step 127 episode B 계속 진행 중
 → PPO update
 ```
 
-## 6. DAgger 와 동일 역할
+## 6. DAgger 와 유사 역할
 
 **핵심 통찰 (맞는 부분)**: BC 의 근본 약점은 covariate shift — expert 분포에서만
 배우므로, 자기 실수로 분포 밖 상태에 들어가면 복구를 모른다. DAgger 는 "정책이
@@ -263,7 +263,7 @@ RL 상태 구성 시 레퍼런스 프레임을 고르는 두 방식:
 ![](../res_wjdaksry/0712/grid_TIME_iter799.png) 
 * time 기반
 
-![](../res_wjdaksry/0712/grid_TIME_iter799.png)
+![](../res_wjdaksry/0712/grid_POS_iter600.png)
 * position 기반
 
 
@@ -277,16 +277,24 @@ RL 상태 구성 시 레퍼런스 프레임을 고르는 두 방식:
 
 ![](../res_wjdaksry/0712/rl_p112_mode_compare.mp4)
 
+https://github.com/user-attachments/assets/68677325-6406-4eb5-82df-97e7b226a5d4
+
 * 코너 오차 감소량을 보며 방향 설정
 
 ### 주행 영상 (time vs pos)
 
 ![](../res_wjdaksry/0712/p134_time_vs_pos.mp4)
 
+https://github.com/user-attachments/assets/21e860c2-2e7b-42a1-b858-872a4030335d
+
 ![](../res_wjdaksry/0712/p135_time_vs_pos.mp4)
+
+https://github.com/user-attachments/assets/f7e24de3-72f6-4080-8023-ac7cfa1ab123
 
 ![](../res_wjdaksry/0712/p148_time_vs_pos.mp4)
 
+https://github.com/user-attachments/assets/dc63ce11-df26-42df-89b8-d5820f443c30
+
 ![](../res_wjdaksry/0712/p121_time_vs_pos.mp4)
 
-
+https://github.com/user-attachments/assets/fbe4b419-17a0-4c41-835e-95cc3bff680a
