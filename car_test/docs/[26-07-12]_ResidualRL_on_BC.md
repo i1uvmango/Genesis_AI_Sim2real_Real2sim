@@ -42,6 +42,8 @@ else:
 **잔차(residual) 정책**만 PPO 로 학습한다. 최종 행동 = BC 기본행동 + 잔차.
 → BC 의 전역 안정성을 보존하면서, RL 은 "얼마나 더/덜 밟고 꺾을지"의 **작은 보정**만 담당한다.
 
+
+
 ###  Policy : Actor - Critic
 
 | - | 구조 | 비고 |
@@ -71,6 +73,7 @@ u = T_BC + Δu      S = S_BC + ΔS
 ### 4. State Sheet (31D — BC와 동일 구조)
 `state7`(Δv, Δheading, CTE, v_long, κ, pitch, roll) + `k_look×10` + `a_look×10` + `a_target` + `deriv3`(v̇, ṗ, ṙ, backward-slope K=5)
 
+![](../res_wjdaksry/0712/rl_pipeline.png)
 
 | 그룹 | Dim | 피처 | 설계 의도 |
 |---|---|---|---|
@@ -122,6 +125,7 @@ u = T_BC + Δu      S = S_BC + ΔS
 
 ### 7. RL 학습 과정
 
+![](../res_wjdaksry/0712/rl_env.png)
 
 1. 초기화:
   512 env 생성
