@@ -259,9 +259,7 @@ step 127 episode B 계속 진행 중
 
 
 
-===============================================
-
-## Robust Mapper(BC Freeze + RL_PPO)
+## Generalized Mapper(BC Freeze + RL_PPO)
 
 MLP 처럼 **통합 데이터 주행 policy**
 
@@ -274,6 +272,7 @@ RL 상태 구성 시 레퍼런스 프레임을 고르는 두 방식:
 - **position 모드**: 시간에 무관하게 `현재위치 vs 경로 위 점` 가장 가까운 경로 위 점에 있는가?
   * 경로에 붙어서 주행하는가?
   * 주어진 프레임에서 약간의 미완주 가능
+
 
 
 ### 결과: BC VS BC+RL
