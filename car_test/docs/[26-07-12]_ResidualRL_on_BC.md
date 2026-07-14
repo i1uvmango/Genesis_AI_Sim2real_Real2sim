@@ -32,7 +32,6 @@ else:
 # u: BC + RL 보정을 거친 최종 longitudinal command
 ```
 
-
 ----------
 
 
@@ -50,7 +49,7 @@ else:
 |---|---|---|
 | **Actor (행동 결정자)** | 31 → 128 → 128 → 2 (ELU) | 행동 생성 (Residual Δu,ΔS) |
 | **Critic (평가자)** | (31 + 특권 33) → 256 → 256 → 1 (ELU) | 현재 상태 평가 V(s) |
-| PPO | - | Actor 업데이트를 안정화 |
+| PPO | proximal update | Actor 업데이트를 안정화 |
 
 
 
@@ -68,6 +67,27 @@ u = T_BC + Δu      S = S_BC + ΔS
 * 가속(+Δu)은 좁게(0.3)
 * 감속/브레이크(−Δu)는 넓게(0.7) 
     * 안전측(감속) 보정을 더 허용
+
+
+### 브레이크 로직
+
+
+1. BC의 감속 의도:  감속 구간에서 T_BC가 작아짐 (golden의 감속 패턴)
+2. RL이 눌러서: Δu ∈ [−0.7, +0.3] — RL이 최대 −0.7까지 내림
+   * (비대칭 cap: T_BC가 +0.5여도 0.5 − 0.7 = −0.2 → 브레이크 도달 가능)
+
+발동 상황: 
+* 고속 → 저속 코너 진입. v가 v_target보다 빠른데(velocity 초과 벌점) 
+* 앞 프리뷰(a_look)가 감속을 예고 → BC가 T를 내리고 + RL이 Δu를 음수로 → u<0 → 브레이크. 코너 지나면 u가 다시 양수로 → catch-up 가속.
+
+
+추가 디테일 2개
+
+1. brake 크기 = |u| (0~0.8 연속값) — on/off가 아니라 세기 조절. 영상 HUD의 br=0.02 같은 값이 그것.
+2. 저속 + 강한 브레이크의 특수동작: brake > 0.3 이고 v < 0.5면 SDK의 `StaticFrictionLock`(주차 스프링 락)이 걸립니다 — 정지 유지용.
+
+
+------
 
 
 ### State Sheet (31D — BC와 동일 구조)
@@ -95,8 +115,8 @@ u = T_BC + Δu      S = S_BC + ΔS
 | Progress (+) | **+1.0** | 차량이 목표 경로를 따라 계속 전진하도록 유도합니다. 한 번에 너무 멀리 점프해서 점수를 얻는 것을 막기 위해 프레임당 최대 전진량을 제한 |
 | CTE (−) | **2.0** | 경로에서 벗어나면 큰 감점 |
 | Heading (−) | **0.8** | 차량의 방향이 경로 방향과 다르면 감점 |
-| Velocity (−) | **0.5** | 코너에서는 천천히 가는 것이 자연스러우므로 느린 것은 비교적 관대하게 보고, 과속은 크게 감점합니다. |
-| Lag (−) | **0.3** | 시간표나 목표 위치를 따라가지 못하는 것을 방지합니다. (position 기반 모드에서만 사용 : 이후 설명 예정) |
+| Velocity (−) | **0.5** | 코너에서는 천천히 가는 것이 자연스러우므로 느린 것은 비교적 관대하게 보고, 과속은 크게 감점합니다. 단, **뒤처짐(lag) 중에는 lag 1m당 +1m/s 초과속도를 허용(catch-up, 상한 +2)** — 감속 후 다시 따라잡는 행동이 벌점받지 않도록. |
+| Lag (−) | **0.6** | 시간표(스케줄)를 따라가지 못하는 것을 방지합니다. 차량의 실제 최근접 프레임 기준 signed lag — **뒤처짐(+)과 앞섬(−) 모두 대칭 벌점**, time·position 모드 공통 활성. |
 | Backward (−) | 0.5 | 후진(Δs<−0.05 & v<0.1)만 벌점 |
 | Smooth / Res / Brake (−) | 0.05 / 0.1 / 0.02 | 핸들을 갑자기 꺾거나, RL이 너무 큰 보정을 하거나, 브레이크를 과도하게 사용하는 것을 억제 |
 | 종료 벌점 | **−10** | \|cte\|>3.0m or \|roll\|>45° or \|pitch\|>45° 크게 실패하면 큰 감점 후 종료 |
@@ -275,31 +295,31 @@ RL 상태 구성 시 레퍼런스 프레임을 고르는 두 방식:
 
 
 
-### 결과: BC VS BC+RL
+### 정량 평가: BC VS BC+RL
 
-> 재현: (BC=2.3 frozen / RL time it799 / RL pos it600)
+> 재현: (BC=2.3 frozen / RL time it500(lagfix, brake on) / RL pos it600)
 
-| 지표 | BC (2.3) | RL time | RL pos | RL 개선 |
+| 지표 | BC (2.3) | RL time | RL pos | BC 대비 개선 |
 |---|---|---|---|---|
-| **frame 거리오차 fm (m)** | 0.855 | **0.710** | 0.721 | **−17%** |
-| **횡오차 CTE (경로선 붙음, 실차 핵심, m)** | 0.232 | 0.068 | **0.059** | **−75%** |
-| **heading 오차 HE (°)** | 1.74 | 0.82 | **0.67** | **−62%** |
-| **lag (종방향 오차, m)** | 0.752 | 0.699 | **0.697** | −7% |
+| **frame 거리오차 fm (m)** | 0.855 | **0.448** | 0.721 | **−48%** |
+| **횡오차 CTE (경로선 붙음, 실차 핵심, m)** | 0.232 | **0.051** | 0.059 | **−78%** |
+| **heading 오차 HE (°)** | 1.74 | 0.69 | **0.67** | **−62%** |
+| **lag (종방향 오차, m)** | 0.752 | **0.434** | 0.697 | **−42%** |
 
-- **핵심 성과**: 잔차 RL 이 BC 를 전 지표 개선 — 특히 **횡오차 −75%**(0.23→0.06). 경로선 추종 능력이 근본적으로 향상.
-- **lag 만 개선폭이 작음**(−7%) → 종방향(스케줄 지연)이 다음 병목. BC 자체의 고속 속도부족이 바닥을 깔고 있음.
+- **핵심 성과**: 잔차 RL 이 BC 를 전 지표 개선 — **횡오차 −78%**(0.23→0.05), **fm −48%**(0.86→0.45). 경로선 추종과 스케줄 추종 모두 근본적으로 향상.
+- lag 도 **−42%**(0.75→0.43) — lag 보상 활성화 + catch-up 허용으로 종방향 병목을 절반으로. 잔여 lag 는 BC 자체의 고속 속도부족이 바닥 (고속 golden 재마이닝이 근본 해법).
 
 
 ### 결과: RL_time vs RL_position (설계 선택 근거)
 
 | 지표 | time | position | 판정 |
 |---|---|---|---|
-| **frame 거리오차 fm (m)** | **0.710** | 0.721 | time 근소 우위 (1.5%) |
-| **횡오차 CTE (경로선 붙음, 실차 핵심, m)** | 0.068 | **0.059** | **position** (p134 시각적으로 크게 개선 0.19→**0.05**) |
-| **lag (종방향 오차, m)** | 0.699 | 0.697 | **동률** |
+| **frame 거리오차 fm (m)** | **0.448** | 0.721 | **time 압도 (−38%)** |
+| **횡오차 CTE (경로선 붙음, 실차 핵심, m)** | **0.051** | 0.059 | **time** (횡추종까지 역전, 하지만 코너에서 `미리 돌기` 현상은 미해결) |
+| **lag (종방향 오차, m)** | **0.434** | 0.697 | **time (−38%)** |
 
 
-![](../res_wjdaksry/0712/grid_TIME_iter799.png) 
+![](../res_wjdaksry/0712/grid_TIME_lagfix_iter500.png) 
 * time 기반
 
 ![](../res_wjdaksry/0712/grid_POS_iter600.png)
@@ -307,7 +327,8 @@ RL 상태 구성 시 레퍼런스 프레임을 고르는 두 방식:
 
 
 -  `position` 은 **lag 를 동등하게 유지하면서 횡오차를 더 낮춤** = 스케줄 추종은 동등한데 경로선엔 더 정확 
-- `Brake`로 인해 종방향 오차는 생길 수 밖에 없음 &rarr; `CTE` 를 줄이는게 더 중요하다고 판단
+   * `lagfix`(lag 시 과속 허용 해주며 `time`방식 역전)
+- 코너에서 `time` 기반 RL은 위상이 기다려주지 않으므로, steering이 선제적으로 일어나는 현상은(`미리꺾기`) 미해결
 
 
 
@@ -321,18 +342,18 @@ https://github.com/user-attachments/assets/68677325-6406-4eb5-82df-97e7b226a5d4
 
 ### 주행 영상 (time vs pos)
 
-![](../res_wjdaksry/0712/p134_time_vs_pos.mp4)
+![](../res_wjdaksry/0712/p134_bc_vs_time_vs_pos.mp4)
 
-https://github.com/user-attachments/assets/21e860c2-2e7b-42a1-b858-872a4030335d
+https://github.com/user-attachments/assets/71cc1e65-3f56-4483-8360-11ecb3ae9b70
 
-![](../res_wjdaksry/0712/p135_time_vs_pos.mp4)
+![](../res_wjdaksry/0712/p135_bc_vs_time_vs_pos.mp4)
 
-https://github.com/user-attachments/assets/f7e24de3-72f6-4080-8023-ac7cfa1ab123
+https://github.com/user-attachments/assets/a0754bc0-e6c2-4506-8eb2-0e0a33a8e847
 
-![](../res_wjdaksry/0712/p148_time_vs_pos.mp4)
+![](../res_wjdaksry/0712/p148_bc_vs_time_vs_pos.mp4)
 
-https://github.com/user-attachments/assets/dc63ce11-df26-42df-89b8-d5820f443c30
+https://github.com/user-attachments/assets/9f65966d-c26f-4e25-a943-f459964363e0
 
-![](../res_wjdaksry/0712/p121_time_vs_pos.mp4)
+![](../res_wjdaksry/0712/p121_bc_vs_time_vs_pos.mp4)
 
-https://github.com/user-attachments/assets/fbe4b419-17a0-4c41-835e-95cc3bff680a
+https://github.com/user-attachments/assets/db20bac4-2ecb-4941-87bf-bea269eb739d
