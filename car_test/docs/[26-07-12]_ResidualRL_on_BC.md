@@ -71,6 +71,8 @@ u = T_BC + Δu      S = S_BC + ΔS
 
 ### 브레이크 로직
 
+![](../res_wjdaksry/0712/rl_p124_time_rl_iter500.gif)
+
 
 1. BC의 감속 의도:  감속 구간에서 T_BC가 작아짐 (golden의 감속 패턴)
 2. RL이 눌러서: Δu ∈ [−0.7, +0.3] — RL이 최대 −0.7까지 내림

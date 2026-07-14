@@ -32,6 +32,10 @@ full (steer, throttle, brake) policy.
 
 자율주행 경로 추종 제어기를 **물리적으로 실현 가능한(physically feasible) 데이터**로 학습한다.
 
+
+![](./car_test/res_wjdaksry/0712/rl_pipeline.png)
+
+
 1. **Reference 생성** — 한국 도로공사 표준 기반 지형 위에서 차량이 순수 물리 주행으로 만든
    궤적을 추출한다. 위치를 강제로 이식한 kinematic 궤적은 배제한다 — 지형 경사, 하중 이동,
    타이어 접지, 서스펜션 응답이 빠진 데이터로는 실물에서 일반화되지 않기 때문이다.
@@ -42,13 +46,7 @@ full (steer, throttle, brake) policy.
 3. **Path→(ST) Mapper 학습** — 채굴된 라벨을 지도학습(BC + DAgger)해, 경로와 현재 상태만
    보고 제어를 출력하는 경량 정책을 만든다. 학습 후에는 **2048-env 최적화 없이** 단일
    신경망 추론만으로 실시간 경로 추종이 가능하다.
-
-![](./car_test/res_wjdaksry/0701/mlp.png)
-
-![](./car_test/res_wjdaksry/0701/replay_p122.gif)
-
-
-
+   
 *Mapper 구조 — 오차 피드백·현재 물리 상태·미래 경로(곡률/가속)·과거 경향성 미분을 입력받아, 미래 프레임의 제어 시퀀스 (Steer, Throttle)를 출력한다.*
 
 4. **BC freeze + Residual RL** — 학습된 BC mapper를 base 정책으로 **동결(freeze)**하고, 그
@@ -56,6 +54,10 @@ full (steer, throttle, brake) policy.
    동역학)를 보정한다. 동시에 BC가 다루지 않던 **brake**를 행동 공간에 추가해
    *(Steer, Throttle, Brake)* 완전 제어를 학습한다. 검증된 base는 건드리지 않고 보정만
    학습하므로 표본 효율과 안정성이 높다.
+
+|  |  |
+|---|---|
+| ![](./car_test/res_wjdaksry/0712/rl_p124_time_rl_iter500.gif) | ![](./car_test/res_wjdaksry/0712/rl_p142_position_rl_iter600.gif) |
 
 
 ## 왜 중요한가
@@ -82,7 +84,9 @@ full (steer, throttle, brake) policy.
 - **Policy 학습** — 정합된 시뮬 위에서 보상 기반으로 주행 정책을 직접 최적화하고, 이를
   Sim2Real 전이 대상 정책으로 삼는다.
 
+> 구현·결과: [Residual RL on BC Mapper](car_test/docs/%5B26-07-12%5D_ResidualRL_on_BC.md) ·
 > 설계 노트: [PPO Residual RL](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) ·
+> [PPO 용어 정리](car_test/docs/tech/%5B26-07-12%5D_PPO_terminology.md) ·
 > [보상 함수 설계](car_test/docs/tech/%5B26-01-15%5D_reward.md)
 
 ## 로드맵
@@ -91,8 +95,8 @@ full (steer, throttle, brake) policy.
 |---|---|---|---|
 | Sim2Sim 정합 | 완료 | Blender 물리 주행 ↔ Genesis ray-wheel 물리 정합 | [Sim2Sim Calibration](car_test/docs/%5B26-03-15%5D_Sim2Sim_Calibration.md) · [Ray-wheel 충돌 모델](car_test/docs/%5B26-05-02%5D_ray_wheel.md) · [Pacejka 타이어 모델](car_test/docs/%5B26-05-07%5D_pacejka_model.md) · [정합 평가 지표](car_test/docs/tech/%5B26-04-29%5D_slope_kappa_rmse.md) |
 | 골든 라벨 채굴 | 완료 | 34개 기동 시나리오 × 표준 지형, MPPI 마이닝 (최저 CTE 0.11 m) | [MPPI 개요](car_test/docs/%5B26-02-22%5D_MPPI.md) · [3D 지형 마이닝](car_test/docs/%5B26-06-01%5D_MPPI_onTerrain.md) · [데이터 스케일링](car_test/docs/%5B26-06-24%5D_data.md) · [MPPI 파라미터](car_test/docs/tech/%5B26-06-01%5D_MPPI_warmstart.md) |
-| Path→(ST,B) Mapper | 진행 중 | BC 학습 + DAgger 폐루프 개선 | [BC Inverse Mapper](car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md) · [DAgger](car_test/docs/tech/%5B26-03-05%5D_DAgger.md) |
-| Residual RL 정책 | 설계 완료 | BC 기반 정책 위 residual RL, brake 제어 추가, (S,T,B) 완전 정책 | [PPO Residual RL 설계](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) · [보상 함수](car_test/docs/tech/%5B26-01-15%5D_reward.md) |
+| Path→(ST,B) Mapper | 완료 | BC 학습 + DAgger 폐루프 개선, 멀티프레임(액션 청크) 시퀀스 학습 | [BC Inverse Mapper](car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md) · [멀티프레임 MLP](car_test/docs/%5B26-07-07%5D_multi-frame_mlp.md) · [DAgger](car_test/docs/tech/%5B26-03-05%5D_DAgger.md) |
+| Residual RL 정책 | 완료 | BC freeze + PPO residual 학습, brake 제어 추가, (S,T,B) 완전 정책 | [Residual RL on BC Mapper](car_test/docs/%5B26-07-12%5D_ResidualRL_on_BC.md) · [PPO Residual RL 설계](car_test/docs/%5B26-01-12%5D_ppo_residualRL.md) · [PPO 용어](car_test/docs/tech/%5B26-07-12%5D_PPO_terminology.md) · [보상 함수](car_test/docs/tech/%5B26-01-15%5D_reward.md) |
 | Real2Sim | 다음 단계 | 실측 궤적·지형의 시뮬 정합, 실환경 분포 라벨 재채굴 | — |
 | Sim2Real | 최종 목표 | 학습 정책의 실차 전이 | — |
 
