@@ -334,13 +334,6 @@ RL 상태 구성 시 레퍼런스 프레임을 고르는 두 방식:
 
 ### 주행 영상 (BC vs RL_time vs RL_pos)
 
-![](../res_wjdaksry/0712/rl_p112_mode_compare.mp4)
-
-https://github.com/user-attachments/assets/68677325-6406-4eb5-82df-97e7b226a5d4
-
-* 코너 오차 감소량을 보며 방향 설정
-
-### 주행 영상 (time vs pos)
 
 ![](../res_wjdaksry/0712/p134_bc_vs_time_vs_pos.mp4)
 
