@@ -51,6 +51,7 @@ else:
 | **Critic (평가자)** | (31 + 추가 33) → 256 → 256 → 1 (ELU) | 현재 상태 평가 V(s) |
 | PPO | proximal update | Actor 업데이트를 안정화 |
 
+ELU : Residual Network 라서 gradient가 작아 RELU에선 gradient가 손실 될 수 있음, 128 &rarr; 128 처럼 작은 구조에서 gradient 손실 = 정보 손실 
 
 Critic 입력 = 31 + 33 = 64D: 같은 31D에 더해, 시뮬레이터 안에서만 알 수 있는 "추가(특권 - privileged)" 정보 33차원을 추가로 받습니다:
 
