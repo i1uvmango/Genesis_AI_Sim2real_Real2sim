@@ -150,7 +150,7 @@ u = T_BC + Δu      S = S_BC + ΔS
 * grad-norm clip 0.5
 * entropy 0.01(0 &rarr; 0.1 &rarr; 0.01 로 튜닝)
 * **Curricum Learning**: 허용 최대 속도 점진 상승(학습 안정성)
-    * CNN의 점진 학습 처럼 쉬운 데이터 부터 학습
+    * CNN의 점진 학습 처럼 쉬운 데이터 부터 학습(ex)
       * 최대속도 5m/s 
       * 최대속도 8m/s
       * 최대속도 12m/s 등 허용 속도 점진 증가
