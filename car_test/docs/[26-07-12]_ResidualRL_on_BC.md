@@ -352,3 +352,10 @@ https://github.com/user-attachments/assets/9f65966d-c26f-4e25-a943-f459964363e0
 ![](../res_wjdaksry/0712/p121_bc_vs_time_vs_pos.mp4)
 
 https://github.com/user-attachments/assets/db20bac4-2ecb-4941-87bf-bea269eb739d
+
+
+#### 미학습 경로 추론
+
+![](../res_wjdaksry/0712/rl_p117_time_rl_iter500.mp4)
+
+https://github.com/user-attachments/assets/bb4b323a-b73d-4e65-a5d0-ae6fc0183bbf
