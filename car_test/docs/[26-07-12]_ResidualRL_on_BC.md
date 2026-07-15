@@ -359,3 +359,11 @@ https://github.com/user-attachments/assets/db20bac4-2ecb-4941-87bf-bea269eb739d
 ![](../res_wjdaksry/0712/rl_p117_time_rl_iter500.mp4)
 
 https://github.com/user-attachments/assets/bb4b323a-b73d-4e65-a5d0-ae6fc0183bbf
+
+* time 기반 추론
+
+![](../res_wjdaksry/0712/rl_p117_position_rl_iter600.mp4)
+
+https://github.com/user-attachments/assets/ffa6aa49-b46c-4d2d-a1b5-9801272a0c9c
+
+* position 기반 추론
