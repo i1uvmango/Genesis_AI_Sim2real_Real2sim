@@ -28,15 +28,15 @@ https://github.com/user-attachments/assets/71cc1e65-3f56-4483-8360-11ecb3ae9b70
 
 **문제점**: 너무 time 추종에 유리한 metric이며, CTE/HE 등이 차량이 목표점(ref car pos)를 time serial 하게 잘 추종한다면 오류가 없지만, 조금이라도 뒤쳐지는 순간 feedback이 오염이 발생.
 
-* 실제 viewer를 통해 확인 시 경로 추종 능력은 `RL Pos`가 더 우수
-     * 커브길에서 선제 조향 나타나지 않음 : time mode은 발생
+* 정량 평가는 `time`이 우세했지만, 실제 viewer를 통해 확인 시 경로 추종 능력은 `RL Pos`가 더 우수
 * 잘못된 정량 지표 측정
+  * 문제: 커브길에서 선제 조향 나타나지 않음 : time mode은 발생
 
 
 
-#### 실제 RL의 목표
+#### RL의 목표 정리
 
-**RL의 목표**: 속도 오차가 있더라도, 해당 경로를 어떤 상황에서도 잘 따라가도록 하는 것, 외란 같이 특수한 상황이 발생했을때 이를 반영하여 경로 추종 능력을 유지하여 오차를 복구하는 것이 RL의 목표이다.
+**RL의 목표**: 속도 오차가 있더라도, 해당 경로를 **어떤 상황에서도** 잘 따라가도록 하는 것, **외란** 같이 특수한 상황이 발생했을때 이를 반영하여 **경로 추종 능력**을 유지하여 **오차를 복구**하는 것이 RL의 목표이다.
 
 
 
@@ -57,17 +57,18 @@ https://github.com/user-attachments/assets/71cc1e65-3f56-4483-8360-11ecb3ae9b70
 
 2. arc-length average CTE/HE : 경로를 구간별로 분할하여, 해당 구간 길이 별 CTE/HE의 평균을 측정한다
 
-
-![](../res_wjdaksry/0721/tangential_err.png)  ![](../res_wjdaksry/0721/cte.png)  
+================<여기부터 다시 작성> 
 
 projection하는 연산 P(X,Y)를 정의하고, reference path로부터의 orthogonal distance를 contouring error로 정의함. 이게 우리 nearest-point CTE (논문)
 
-> frame 단위 평균은 “시간별 평균”이고, arc length average CTE/HE는 “경로 길이 기준 평균”
+x> frame 단위 평균은 “시간별 평균”이고, arc length average CTE/HE는 “경로 길이 기준 평균”
 
-* cte,he 는 현재 차량의 위치에 nearest point를 기준으로 측정된다
+![](../res_wjdaksry/0721/tangential_err.png)
+
+
+3. CTE/HE 계산은 차량과 heading 방향과 나란한 nearest point(ref point) 기준으로 계산
+
 * 지연에 따른 측정 오류를 막기 위함
-
-
 
 ## new metric
 
