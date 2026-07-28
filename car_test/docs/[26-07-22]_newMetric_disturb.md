@@ -465,7 +465,7 @@ https://github.com/user-attachments/assets/3aecdeab-5c90-472a-a51a-5b8b75d447d7
 | **spin** | 2.5 (p120) | 3.49배 | 5~11m 배회 | **실패** |
 | **spin** | 4.0 (p120·p161) | DNF(did not finish) | 발산 | **실패** |
 
-> **핵심**: 통합 단일모델 F 는 소규모 외란(kick·brake·spawn)은 정상 복구하나, **spin에서 무너짐**
+ **핵심**: 통합 단일모델 F 는 소규모 외란(kick·brake·spawn)은 정상 복구하나, **spin에서 무너짐**
 
 > F는 소규모 외란(kick·brake·spawn)은 복구하지만 대이탈(spin)에서 무너진다. 문제는 학습량도 보상도 아닌 관측 — 기존 31D는 경로 근처만 전제해 대이탈에서 무의미(OOD)해지기 때문이다. 그렇다면 대이탈에서도 유효한 관측을 갖춘 별도 정책을 두면 어떨까?
 
