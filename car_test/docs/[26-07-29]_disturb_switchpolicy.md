@@ -12,6 +12,7 @@
 
 **핵심 아이디어**: 주행 정책(RL_pos)은 건드리지 않는다. 복구는 전 거리에서 유계·유의미한 복구형 Policy(12D: 경로 방위각, 포화 거리 tanh(d/5), 접선 정렬)으로 따로 배우고, Dist< 3m 기존 Policy로 전환
 
+---
 
 ### Recap: RL_pos vs RL_F(단일 모델: 경로 + 외란 학습)
 
@@ -24,6 +25,8 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 * RL_recover_F는 코너 진입 시 조향 수정 빈도가 높고, 직선 구간에서도 미세 조향이 반복됨
 * RL_pos는 동일 구간에서 조향 변화가 더 작고 경로 중심을 안정적으로 유지함
 
+---
+
 #### 학습량 및 환경
 
 | 모델 | 구성 | 학습량 (env × horizon × iter) | 환경 상호작용 샘플 | 학습 시간 (RTX 4090 실측) |
@@ -31,7 +34,7 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 | RL_pos | 무외란, 보상 v1 | 512 × 128 × 350 (총 700it 중 iter350 채택) | ~23M | 총 **≈1.8h** (9.3 s/it 실측 × 700it; 채택 시점 iter350 은 ≈0.9h) |
 | RL_F | 외란 |RL_pos을 warm-start 로 추가 학습 4096 × 128 × 300iter | 누적 ~288M | **4.2h 실측**(warmstart 누적 5.1h) |
 
-
+---
 
 ### **표 1 — 일반 주행 (무외란)**
 
@@ -46,6 +49,8 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 | **미학습 p161** | \|CTE\| mean | 0.309 | **0.087** |
 | 미학습 p161 | 곡률존 \|CTE\| | 0.090 | **0.049** |
 
+---
+
 ### **표 2 — 외란 주행**
 
 | 시험 | RL_pos | RL_F(외란학습 모델) | 지표 의미 | 
@@ -54,13 +59,15 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 | kick — 평균 복구거리 / total | **9.0 m / 4.55** | 9.3 m / 5.24 | 외란 수습하는데 도로 몇 미터를 소모했는가 |
 | kick — peak \|CTE\| 평균/최대 | 0.80 / 3.00 m | **0.76 / 2.57 m** | 횡방향 오차|
 
-> **완주 시간 배율** = 기준 경로 추종 시간 대비 완주 시간 배율. 1에 가까울수록 빠름. **DNF** = 제한 시간 내 완주 실패. (이하 모든 표 동일)
+> **완주 시간 배율** = 기준 경로 추종 시간 대비 완주 시간 배율. 1에 가까울수록 빠름. **timeout** = 제한 시간(clean 1.5배·spin 3.5배 프레임) 내 경로 끝 미도달. (이하 모든 표 동일)
 
 | 시험 | RL_pos 완주 시간 배율 | RL_F 완주 시간 배율 |
 |---|---|---|
 | Spin 2.5 (p120 학습씬) | **1.78×** | 2.18× |
-| Spin 4.0 (p120 학습씬) | 2.01× (21m 루프 우연 재진입) | **DNF** |
-| Spin 4.0 (p161 미학습씬) | DNF | DNF |
+| Spin 4.0 (p120 학습씬) | 2.01× (21m 루프 우연 재진입) | **timeout** |
+| Spin 4.0 (p161 미학습씬) | timeout | timeout |
+
+---
 
 #### 해석
 1. 학습 씬 일반 주행은 RL_pos 우위
@@ -79,7 +86,7 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 
 * 외란 복구 주행
 
-
+---
 
 ### Recovery Policy: Recovery Observation State
 
@@ -88,23 +95,24 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 ![](../res_wjdaksry/0726/recovery.png)
 
 
-| # | 피쳐 | 정의 | 대이탈에서 살아있는 이유 |
-|---|---|---|---|
-| 1~2 | ang_bear | `sin/cos(bearing)`, 현재 차량 heading기준으로 잰 나아가야 할 각도 | 각도라 항상 [−π,π], "경로는 왼쪽 40°"가 1m든 30m든 같은 의미 |
-| 3 | unsign_cte_close | `tanh(d/5)` | 경로 최근접점까지의 미세조정용 거리(0~5m) |
-| 4 | unsign_cte_far | `tanh(d/20)` | 경로 최근접점까지의 대이탈 거리(5m 이상) |
-| 5~6 | align | `sin/cos(align)`, align = 경로 접선 − 차 heading | 각도라 유계. "경로 방향과 얼마나 틀어졌나" — 안착 직전 정렬용 |
-| 7 | v_lat | `clamp(d_rate/5, ±2)` | 경로 복귀 중 미리 감속하여 지나치지 않도록 방지 (오버슛·지그재그 방지) |
-| 8 | v_long | `v_long/10` | 속도상한(v3) 판단 기준 |
-| 9 | yaw_rate | `clamp(yaw_rate/3, ±2)` | 스핀 직후 회전 상태 감지 — 자세 안정화용 |
-| 10~11 | pos | `pitch`, `roll` | 전복 임박 감지 (라디안, 소각이라 자연 유계) |
-| 12 | prev_steer | `prev_steer/MAX_STEER` | 조향 연속성(스무드) 확보 |
+| # | 피쳐 | 정의 | 대이탈에서 살아있는 이유 | 가중치 |
+|---|---|---|---|---|
+| 1~2 | ang_bear | `sin/cos(bearing)`, nearest point와 차량 위치를 이은 각도와 차량 heading 차이 | [−π,π] | — |
+| 3 | unsign_cte_close | `tanh(d/5)` | 경로 최근접점까지의 미세조정용 거리(0~5m) | 2.0 |
+| 4 | unsign_cte_far | `tanh(d/20)` | 경로 최근접점까지의 대이탈 거리(5m 이상) | 2.0 |
+| 5~6 | align | `sin/cos(align)`, align = 경로 접선 − 차 heading | 각도라 유계. "경로 방향과 얼마나 틀어졌나" — 안착 직전 정렬용 | 0.8 |
+| 7 | v_lat | `clamp(d_rate/5, ±2)` | 경로 복귀 횡방향 속도, 미리 감쇠를 주어 overcorrection 방지 (오버슛·지그재그 방지) | 0.05 |
+| 8 | v_long | `v_long/10` | 현재 차량 속도: 과속, 주차 방지 | 0.15 / 0.08 |
+| 9 | yaw_rate | `clamp(yaw_rate/3, ±2)` | 스핀 직후 차량 상태 감지용 — 자세 안정화 | — |
+| 10~11 | pos | `pitch`, `roll` | 전복 임박 감지 (자세 안정화 목적) | 50 |
+| 12 | prev_steer | `prev_steer/MAX_STEER` | 조향 연속성(스무드) 확보 | 0.5 |
 
 - **핵심 대비**: **경로가 어느 방향인지를** 가리켜, 뒤돌아 운전해 가야 하는 상황도 표현
-- **tanh** 사용 이유: 가까운 거리에선 정밀하게, 먼 거리에선 이탈 정보만 사용
+- **tanh**: 하이퍼볼릭 탄젠트, 가까운 거리에선 정밀하게, 먼 거리에선 이탈 정보만 사용
 - **이중 거리 정보(3·4)**: tanh 하나면 5m 밖이 전부 ≈1 로 뭉개진다. 5m·20m 두 스케일로 근거리 미세조정과 원거리 대세를 모두 관측.
-- **복구용 정책 분리**: OOD시 복구할 수 있는 단독 policy
+- **복구용 정책 분리**: OOD시 복구할 수 있는 단독 policy(위치 보정용 policy와 독립)
 
+---
 
 ### RL_recovery 학습 설계
 
@@ -116,7 +124,7 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 | observatioin | 나침반 12D (아래 표) — 조준점 = **최근접점** |
 | episode | 정상 스폰 → 즉시 물리 충격(횡속 0.5–8 m/s + yaw ±1–4 rad/s, 커리큘럼 80it 램프) → 복귀가 과제. 텔레포트 없음 — 지형 정합 보장 |
 | pass/fail 판정 | **armed**: 3m 이탈을 실제로 겪은 뒤 d<2.5m 를 12프레임 유지 (조기인계 배포와 정합. 스폰 직후 공짜 성공 차단) |
-| reward | 접근 potential `2.0·Δd` + 근접 정렬 `−0.8·e^(−d/3)·\|align\|` + **속도상한 초과 벌점** `−0.15·relu(v−(3+0.8d))²` + 접선 진행 + 저속 벌점(정차 함정 방지) + 조향 스무드 |
+| reward | 접근 potential `2.0·Δd` + 근접 정렬 `−0.8·prox·\|align\|` + 감쇠 `−0.05·prox·d_rate²` + 접선 진행 `+0.4·e^(−d/2)·tang` + 속도상한 초과 `−0.15·relu(v−(3+0.8d))²` + 저속 벌점 `−0.08` + 조향 스무드 `−0.5·ΔS²` + 시간 벌점 `−0.01/f`. 종결: 성공 **+30** / 실패 **−50** |
 | 종결 | \|roll\|·\|pitch\|>0.8 / d>40m / 물리 정지 96프레임 / 타임아웃 720프레임 &rarr; 벌점 후 재시작 |
 | 학습량 | 26씬 × 4096env × 128 × **250it** ≈ 131M 샘플, **≈3.5h 실측** (RTX 4090) |
 
@@ -133,6 +141,7 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 * 스위칭 로직 자체는 if 문 수준(전역 최근접 거리 계산 포함)
 * actor - critic 은 동일 구조(privilige 없음)
 
+---
 
 ### single policy vs switch policy 결과 비교
 
@@ -162,24 +171,25 @@ https://github.com/user-attachments/assets/75189ab4-97fc-4eab-b781-e001117439ad
 | kick 복구 벤치 24회 — 성공률 | 96% (23/24) | **100%** (24/24) |
 | kick — peak \|CTE\| 평균 / 최대 (m) | **0.76 / 2.57** | 0.80 / 3.00 |
 | Spin 2.5 (p120 학습씬) — 완주 시간 배율 | 2.18× | **1.49×** |
-| Spin 4.0 (p120 학습씬) — 완주 시간 배율 | **DNF** | **1.93×** |
-| Spin 4.0 (p161 미학습씬) — 완주 시간 배율 | **DNF** | **1.66×** |
+| Spin 4.0 (p120 학습씬) — 완주 시간 배율 | **timeout** | **1.93×** |
+| Spin 4.0 (p161 미학습씬) — 완주 시간 배율 | **timeout** | **1.66×** |
 | 배포 actor | **1개 (82 KB)** | 2개 (154 KB) + 전환 로직 |
 
-* **spin 급 대이탈은 switch 만 복구** — F 는 학습·미학습 씬 모두 DNF 다. 288M 샘플을 쓴 단일 모델은 실패, 분리 정책은 성공
+* **spin 급 대이탈은 switch 만 복구** — F 는 학습·미학습 씬 모두 timeout 이다. 288M 샘플을 쓴 단일 모델은 실패, 분리 정책은 성공
 * **평시 주행도 switch 가 무손실** — RL_pos 를 그대로 쓰므로 \|CTE\| 0.036 을 유지한다. F 는 외란 학습 대가로 0.050 으로 내줬다.
 * F 가 앞서는 곳은 kick 급 소외란의 peak \|CTE\| 와 배포 단순성(체크포인트 1개)뿐이다.
 
 > 작은 외란에서는 기존 강화학습이 어느정도 복구 가능했지만, 외란이 크게 영향을 주었을때는 OOD 발생으로 인한 recovery 로직이 필요했다
 
-
-
+---
 
 #### 문제인식 : 경로 방향 observation을 포함한 단일 모델 학습 필요
 >정량 평가를 하던 중, policy를 분리해야한다는 선행연구에 너무 초점이 맞춰져 있다는 것을 깨달음
 
 1. 기존 model F에는 OOD에 대비할 observation이 없으니 당연히 강한 외란에 대처하지 못함
 2. 테슬라의 자율주행 시스템도 **단일모델** + 데이터로 강건성을 얻는 구조
+
+---
 
 ### observation 포함 통합 모델 학습 재설계
 > 단일 모델로 2가지 태스크 모두 수행: RL_pos 구조(31D) + 외란 복구용 경로 방향 observation(5D) = 36D
@@ -232,7 +242,7 @@ https://github.com/user-attachments/assets/c6d19dc3-408a-497b-8eda-5b9b367424e9
 
 https://github.com/user-attachments/assets/ba043352-a086-43ee-99f8-c21b20704ed2
 
-* spin 4.0 (p161 미학습) → DNF: 3m 까지 복구 후 catch-up 과속으로 재발산.
+* spin 4.0 (p161 미학습) → timeout: 3m 까지 복구 후 catch-up 과속으로 재발산.
 
 ---
 
@@ -262,7 +272,7 @@ https://github.com/user-attachments/assets/829fd4bb-c2e3-4784-aa37-3c5458179397
 
 ![](../res_wjdaksry/0726/42_융합0802U_spin4.0_p120_완주1.88x.mp4)
 
-* **학습 씬 p120, spin 4.0** — 0729U·0801U 가 각각 기어가기·정차로 DNF 였던 시험의 첫 완주.
+* **학습 씬 p120, spin 4.0** — 0729U·0801U 가 각각 기어가기·정차로 timeout 이던 시험의 첫 완주.
 
 https://github.com/user-attachments/assets/c12be5ef-7505-438c-a0e0-6fdc4a7b364d
 
@@ -289,6 +299,23 @@ https://github.com/user-attachments/assets/c12be5ef-7505-438c-a0e0-6fdc4a7b364d
 
 * **switch (pos &lrarr; v3)** — 이탈 폭이 절반 이하(peak 평균 7.1m 대 14.7m)이고 26씬 전부 2m 이내, 23씬은 초록으로 복귀한다.
 
+<details>
+<summary><b>무외란 주행 궤적 (26씬)</b> — 평시 정밀도 비교 (펼치기)</summary>
+
+외란 없이 같은 26씬을 주행한 궤적. 오차 규모가 두 자릿수 작아 색 구간을 **5cm / 20cm** 로 세분했다(외란 그림의 0.5m/2m 기준이면 양쪽 다 전부 초록이라 변별되지 않는다). switch 의 무외란 주행은 복구 정책이 발동하지 않으므로 RL_pos 와 동일하다(오발동 0회 실측).
+
+![](../res_wjdaksry/0726/46_무외란궤적_26씬_single0802U.png)
+
+* **single 통합 (0802U)** — 26씬 평균 \|CTE\| **0.012 m**. 거의 전 구간이 5cm 이내다.
+
+![](../res_wjdaksry/0726/47_무외란궤적_26씬_switch.png)
+
+* **switch (= RL_pos)** — 26씬 평균 \|CTE\| 0.036 m. 곡률 구간에서 노란 구간(5–20cm)이 눈에 띄게 늘어난다.
+
+</details>
+
+---
+
 ### recovery 정량 비교 : switch vs single(0802)
 
 씬 2개(학습 씬 1개, 미학습 씬 1개) × 주입 2곳(30%,60% 지점) × 스핀 2회(2.5, 4.0 rad/s) = **정책당 8회**.
@@ -311,7 +338,7 @@ https://github.com/user-attachments/assets/c12be5ef-7505-438c-a0e0-6fdc4a7b364d
 * **복귀 정확도는 switch 우위** — peak \|CTE\| 6.6m 대 19.1m 는 판정 임계와 무관한 생값이라 기준을 바꿔도 뒤집히지 않는다.
 * **완주와 평시 정밀도는 0802U 우위** — 다른 질문이다. 이탈 폭이 안전 제약이면 switch, 단일 모델 배포가 우선이면 0802U.
 
-
+---
 
 #### 현재 결론
 
