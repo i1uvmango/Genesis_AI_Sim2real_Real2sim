@@ -185,7 +185,7 @@ Disturbance Recovery는 RL의 핵심 목표인 “외란 발생 후 경로 추�
 Recovery window 안에 복귀하지 못한 run은 실패로 처리하며, `d_rec = NaN`으로 기록하고 `recovery success rate`에만 반영한다. 실패 run을 평균 `d_rec`에 섞으면 실패가 은폐될 수 있기 때문이다.
 
 
-
+> 이렇게 설계했지만, 저 지표들을 모두 늘어놓으면 잘 이해가 가지 않기 때문에, 무외란 주행에서는 CTE(HE는 RL특성상 미미), 외란 주행에서는 `복구 성공률`, `평균 복구 거리`,`excursion(cte 누적하여 s에 대해 적분)`,`평균 peak CTE`, `최대 peak CTE` 로 정량 평가한다
 
 ## 결과: 26씬 정량 측정
 
