@@ -185,7 +185,7 @@ Disturbance Recovery는 RL의 핵심 목표인 “외란 발생 후 경로 추�
 Recovery window 안에 복귀하지 못한 run은 실패로 처리하며, `d_rec = NaN`으로 기록하고 `recovery success rate`에만 반영한다. 실패 run을 평균 `d_rec`에 섞으면 실패가 은폐될 수 있기 때문이다.
 
 
-
+> 이렇게 설계했지만, 저 지표들을 모두 늘어놓으면 잘 이해가 가지 않기 때문에, 무외란 주행에서는 CTE(HE는 RL특성상 미미), 외란 주행에서는 `복구 성공률`, `평균 복구 거리`,`excursion(cte 누적하여 s에 대해 적분)`,`평균 peak CTE`, `최대 peak CTE` 로 정량 평가한다
 
 ## 결과: 26씬 정량 측정
 
@@ -332,8 +332,8 @@ autonomous racing에서 optimization-based control과 RL을 직접 비교함. �
 ## privilige 정보 수정
 
 ### 이전 privilige 설계 (33D)
-| 특권 정보 | 차원 | 내용 | 유지 여부 |
-|---|---|---|---|
+| 특권 정보 | 차원 | 내용 |
+|---|---|---|
 | `last_distances` | 4 | 바퀴별 레이캐스트 지면 거리 &rarr; real-world에서 practical하다고 보기 어려움 | 
 | `omega` | 4 | 바퀴별 회전 각속도 (휠스핀/슬립 감지 &rarr; privilige 정보 아님) | 
 | `last_compression` | 4 | 바퀴별 서스펜션 압축량 (접지 상태) &rarr;  privilige 정보 아님 | 
@@ -463,7 +463,7 @@ https://github.com/user-attachments/assets/3aecdeab-5c90-472a-a51a-5b8b75d447d7
 | **brake** | 0.7×12f (p134) | 1.00배 | 0.02 m | **복구** |
 | **spawn** | 횡 0.8m (p120) | 0.94배 | 0.07 m | **복구**|
 | **spin** | 2.5 (p120) | 3.49배 | 5~11m 배회 | **실패** |
-| **spin** | 4.0 (p120·p161) | DNF(did not finish) | 발산 | **실패** |
+| **spin** | 4.0 (p120·p161) | timeout fail | 발산 | **실패** |
 
  **핵심**: 통합 단일모델 F 는 소규모 외란(kick·brake·spawn)은 정상 복구하나, **spin에서 무너짐**
 
