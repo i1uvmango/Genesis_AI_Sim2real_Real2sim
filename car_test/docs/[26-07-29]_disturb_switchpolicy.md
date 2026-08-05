@@ -102,7 +102,7 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 | 4 | unsign_cte_far | `tanh(d/20)` | 경로 최근접점까지의 대이탈 거리(5m 이상) | 2.0 |
 | 5~6 | align | `sin/cos(align)`, align = 경로 접선 − 차 heading | 각도라 유계. "경로 방향과 얼마나 틀어졌나" — 안착 직전 정렬용 | 0.8 |
 | 7 | v_lat | `clamp(d_rate/5, ±2)` | 경로 복귀 횡방향 속도, 미리 감쇠를 주어 overcorrection 방지 (오버슛·지그재그 방지) | 0.05 |
-| 8 | v_long | `v_long/10` | 현재 차량 속도: 과속, 주차 방지 | 0.15 / 0.08 |
+| 8 | v_long | `v_long/10` | 현재 차량 속도: 과속, 주차 방지 | 0.15  |
 | 9 | yaw_rate | `clamp(yaw_rate/3, ±2)` | 스핀 직후 차량 상태 감지용 — 자세 안정화 | — |
 | 10~11 | pos | `pitch`, `roll` | 전복 임박 감지 (자세 안정화 목적) | 50 |
 | 12 | prev_steer | `prev_steer/MAX_STEER` | 조향 연속성(스무드) 확보 | 0.5 |
