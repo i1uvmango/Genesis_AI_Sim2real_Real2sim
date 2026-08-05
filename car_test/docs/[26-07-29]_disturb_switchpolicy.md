@@ -121,7 +121,7 @@ https://github.com/user-attachments/assets/ed8d96e6-e9de-4cf7-8529-9fe317d670af
 | 항목 | 설계 |
 |---|---|
 | policy 구조 | **recovery policy** (12D → 128 → 128 → 2, actor 72 KB) — BC/RL_pos와 분리 |
-| observatioin | 나침반 12D (아래 표) — 조준점 = **최근접점** |
+| observation | 나침반 12D (아래 표) — 조준점 = **최근접점** |
 | episode | 정상 스폰 → 즉시 물리 충격(횡속 0.5–8 m/s + yaw ±1–4 rad/s, 커리큘럼 80it 램프) → 복귀가 과제. 텔레포트 없음 — 지형 정합 보장 |
 | pass/fail 판정 | **armed**: 3m 이탈을 실제로 겪은 뒤 d<2.5m 를 12프레임 유지 (조기인계 배포와 정합. 스폰 직후 공짜 성공 차단) |
 | reward | 접근 potential `2.0·Δd` + 근접 정렬 `−0.8·prox·\|align\|` + 감쇠 `−0.05·prox·d_rate²` + 접선 진행 `+0.4·e^(−d/2)·tang` + 속도상한 초과 `−0.15·relu(v−(3+0.8d))²` + 저속 벌점 `−0.08` + 조향 스무드 `−0.5·ΔS²` + 시간 벌점 `−0.01/f`. 종결: 성공 **+30** / 실패 **−50** |
