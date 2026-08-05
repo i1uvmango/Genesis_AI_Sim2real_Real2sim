@@ -332,8 +332,8 @@ autonomous racing에서 optimization-based control과 RL을 직접 비교함. �
 ## privilige 정보 수정
 
 ### 이전 privilige 설계 (33D)
-| 특권 정보 | 차원 | 내용 | 유지 여부 |
-|---|---|---|---|
+| 특권 정보 | 차원 | 내용 |
+|---|---|---|
 | `last_distances` | 4 | 바퀴별 레이캐스트 지면 거리 &rarr; real-world에서 practical하다고 보기 어려움 | 
 | `omega` | 4 | 바퀴별 회전 각속도 (휠스핀/슬립 감지 &rarr; privilige 정보 아님) | 
 | `last_compression` | 4 | 바퀴별 서스펜션 압축량 (접지 상태) &rarr;  privilige 정보 아님 | 
