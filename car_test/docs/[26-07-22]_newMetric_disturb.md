@@ -463,7 +463,7 @@ https://github.com/user-attachments/assets/3aecdeab-5c90-472a-a51a-5b8b75d447d7
 | **brake** | 0.7×12f (p134) | 1.00배 | 0.02 m | **복구** |
 | **spawn** | 횡 0.8m (p120) | 0.94배 | 0.07 m | **복구**|
 | **spin** | 2.5 (p120) | 3.49배 | 5~11m 배회 | **실패** |
-| **spin** | 4.0 (p120·p161) | DNF(did not finish) | 발산 | **실패** |
+| **spin** | 4.0 (p120·p161) | timeout fail | 발산 | **실패** |
 
  **핵심**: 통합 단일모델 F 는 소규모 외란(kick·brake·spawn)은 정상 복구하나, **spin에서 무너짐**
 
