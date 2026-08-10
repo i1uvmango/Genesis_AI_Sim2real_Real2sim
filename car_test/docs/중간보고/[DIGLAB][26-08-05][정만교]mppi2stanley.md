@@ -50,7 +50,7 @@ PID     : ω −= k·e + Ki·∫e dt + Kd·de/dt    ← 같은 e 에 I·D 를 �
  * D는 오차가 줄어드는 속도를 보고 해당 방향 속도 감쇠
  * 3d 기준으로 terrain mesh마다 I항의 bias가 다를 수 있어서 Stanley 선택
 
-![](../res_wjdaksry/0805/53_PurePursuit_PID_Stanley_추종비교.png)
+![](../../res_wjdaksry/0805/53_PurePursuit_PID_Stanley_추종비교.png)
 
 * CTE 횡방향 오차 기준으로 비교해보았다
 
@@ -68,17 +68,17 @@ PID     : ω −= k·e + Ki·∫e dt + Kd·de/dt    ← 같은 e 에 I·D 를 �
 
 
 ## 3. Stanley 제어기 적용
-![](../res_wjdaksry/0805/01_sweep주행그리드_32씬.png)
+![](../../res_wjdaksry/0805/01_sweep주행그리드_32씬.png)
 * 일반 Purepursuit(0.357 m)
 
-![](../res_wjdaksry/0805/13_sweep주행그리드_32씬_개선레시피.png)
+![](../../res_wjdaksry/0805/13_sweep주행그리드_32씬_개선레시피.png)
 * tuned pure pursuit(pure pursuit + 고속 steering 제한 + 속도연동 lookahead (0.132 m))
 
-![](../res_wjdaksry/0805/18_sweep주행그리드_32씬_stanley.png)
+![](../../res_wjdaksry/0805/18_sweep주행그리드_32씬_stanley.png)
 * stanley (0.047 m)
 
 
-![](../res_wjdaksry/0805/49_stanley_recovery_스위칭_8조건.png)
+![](../../res_wjdaksry/0805/49_stanley_recovery_스위칭_8조건.png)
 * 스핀 8조건 중 복구 5/8. 
 
 
@@ -94,10 +94,10 @@ PID     : ω −= k·e + Ki·∫e dt + Kd·de/dt    ← 같은 e 에 I·D 를 �
 **결과.** **32/32 완주 전 그린**, 저속 평균 0.028 m, 고속 6~8 cm CTE
 
 
-![](../res_wjdaksry/0805/34_rlstnHS주행그리드_32씬.png)
+![](../../res_wjdaksry/0805/34_rlstnHS주행그리드_32씬.png)
 * 무외란 주행
 
-![](../res_wjdaksry/0805/50_31씬복구그리드_전진상한_spin+4.0at30.png)
+![](../../res_wjdaksry/0805/50_31씬복구그리드_전진상한_spin+4.0at30.png)
 * 외란 주행 성능
 
 
