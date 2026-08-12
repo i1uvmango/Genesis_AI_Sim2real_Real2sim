@@ -42,8 +42,8 @@
 
 **고속**씬에서 오차가 잘 나타남
 
-![](./z_vid/rl_scenes/0805/83_신규10씬_v1테이블_잔차650_RL.png)
-![](./z_vid/rl_scenes/0805/82_신규10씬_v1테이블_기존게인.png)
+![](../../res_wjdaksry/0805/83_신규10씬_v1테이블_잔차650_RL.png)
+![](../../res_wjdaksry/0805/82_신규10씬_v1테이블_기존게인.png)
 
 
 * 문제 확인: 빨강(cte>2 m)이 고속 씬에 집중 &rarr; 해결이 안되어 제어기 자체 성능만 평가해봤더니 발산
@@ -90,11 +90,11 @@ SDK 파일은 건드리지 않고 격자만 교체.
 
 | v1 tuned — 311 cm, 완주 8/10 | v2 tuned — 91 cm, 완주 10/10 |
 |:---:|:---:|
-| <img src="./z_vid/rl_scenes/0805/82_신규10씬_v1테이블_기존게인.png" width="480"> | <img src="./z_vid/rl_scenes/0805/87_신규10씬_v2테이블_KW램프_base.png" width="480"> |
+| <img src="../../res_wjdaksry/0805/82_신규10씬_v1테이블_기존게인.png" width="480"> | <img src="../../res_wjdaksry/0805/87_신규10씬_v2테이블_KW램프_base.png" width="480"> |
 | p178·p179 발산 (1034 / 1485 cm) | 두 씬 모두 완주 (262 / 341 cm) |
 
 
-![](./z_vid/rl_scenes/0805/86_32씬_v2테이블_KW램프_base.png)
+![](../../res_wjdaksry/0805/86_32씬_v2테이블_KW램프_base.png)
 
 * 기존 32씬
 
@@ -123,13 +123,13 @@ sweeptable freeze + Residual RL
 
 ### 무외란 주행 결과
 
-![](./z_vid/rl_scenes/0805/97_기존32씬_v2tuned_잔차it300_무외란.png)
+![](../../res_wjdaksry/0805/97_기존32씬_v2tuned_잔차it300_무외란.png)
 
 ---
 
 ## 6. 외란 복구 평가 (RL &lrarr; RL_recovery)
 
-![](./z_vid/rl_scenes/0805/98_외란32씬_v2tuned_잔차it300.png)
+![](../../res_wjdaksry/0805/98_외란32씬_v2tuned_잔차it300.png)
 
 주입 조건: 3D mesh 에 의한 노이즈를 막기 위해서, `평지`이거나 낮은 경사일 것, 외란 후 `복구할 경로`(프레임)이 많이 남아있을 것.
 
@@ -152,7 +152,7 @@ sweeptable freeze + Residual RL
 
 ### 복귀 실패 구간 분석
 
-![](./z_vid/rl_scenes/0805/91_p179_AB_궤적비교.png)
+![](../../res_wjdaksry/0805/91_p179_AB_궤적비교.png)
 
 * 해당 씬은 3D Mesh에 의해 차량이 지형을 밟고 점프하는 현상이 일어나 물리적으로 오차가 생길 수 밖에 없었음.
 
