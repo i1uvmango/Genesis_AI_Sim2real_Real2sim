@@ -47,7 +47,7 @@
 
 
 
-### 가설 : recovery &rarr; rl_stn 진입 시 understeer가 일어나서 cte가 벌어지고, 다시 recovery mode로 들어간다(반복
+### 가설 : recovery &rarr; rl_stn 진입 시 understeer가 일어나서 cte가 벌어지고, 다시 recovery mode로 들어간다(반복)
 
 ![](../../res_wjdaksry/0812/C3_p166_리밋사이클.gif)
 > RL_recovery -> RL_stn 스위치 과정에서 진동하는 현상, 무외란 주행 성능은 우수함
