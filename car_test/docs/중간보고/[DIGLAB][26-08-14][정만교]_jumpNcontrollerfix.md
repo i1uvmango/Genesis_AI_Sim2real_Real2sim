@@ -35,13 +35,12 @@
 
 #### 무외란 42씬 before / after (풀스택: v2 tuned + residual it300)
 
-| 감속 전 — **PASS 37/42** | 감속 후 — **PASS 41/42** |
+| 감속 전 | 감속 후 |
 |:---:|:---:|
 | <img src="../../res_wjdaksry/0812/A0_무외란42씬_승계it300.png" width="480"> | <img src="../../res_wjdaksry/0812/C1_무외란42씬_풀스택_JUMPSLOW.png" width="480"> |
-| FAIL p167·p169·p170·p178·p179 | FAIL **p167 뿐** |
 | 신규 10씬 평균 CTE 52.9 cm | 신규 10씬 평균 CTE **23.3 cm** |
 
-
+* 점프로 인한 오차 누적이 사라짐
 
 ## 3. Disturbance 복구 실패의 원인 분석
 
