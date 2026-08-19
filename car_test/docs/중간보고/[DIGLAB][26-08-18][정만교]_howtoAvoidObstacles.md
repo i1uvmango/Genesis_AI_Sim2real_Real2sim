@@ -31,6 +31,14 @@
 ---
 ## 차량 제어 pipeline
 
+* Detection
+* Prediction
+* Supervisor(Mode)
+* Pathplanner(Rule)
+* Spline Generator
+* Controller : Base Stanley(nominal) + RL_stn(Residual RL) &lrarr; RL_recovery(보상 기반 OOD복구용 RL)
+
+
 ```mermaid
 flowchart TD
 
@@ -95,17 +103,26 @@ flowchart TD
 ```
 
 
+### 장애물 감지 : Obstacle Detection
 
-### Rule 기반 장애물 회피
+* 현재 센서 몇m 까지 감지한다, 이런 제약은 없고, 시뮬레이터가 제공하는 장애물 상태를 그대로 받음
+* 장애물 소환은 랜덤, 시야에 보인 순간 **감지**하는 조건
+* 4Hz
+
+### 장애물 예측: Obstacle Path prediction
+* 동적 장애물일 경우, **등속도**가정
+* 방정식 기반 예측
+* 4Hz
+
+
+### Path Planner: Rule 기반 장애물 회피
 > Rule은 장애물 회피의 안전성, 물리적 가능성, 기본 회피 경로를 담당, 
 RL 로 더 나은 해를 결정하기 전, Rule 기반으로 1차적인 회피, 경로 수정 결정
 
-### Rule 기반 장애물 회피
+> 새로운 장애물이 있을때 마다 t,s(제어값)를 수정하는 것이 아닌, 새로운 경로 수정하여 이를 따라가게 함
 
-Rule은 장애물 회피의 **안전성·물리적 가능성·기본 회피 계획**을 결정한다.  
-RL이 회피 계획을 미세 조정하기 전에, 현재 상황에서 **안전하게 회피할 수 있는 기본 해**를 먼저 계산한다.
 
-#### 1. Rule이 판단하는 것
+#### Rule이 판단하는 것
 
 | 구분 | 판단 항목 | 의미 |
 |---|---|---|
@@ -123,19 +140,19 @@ RL이 회피 계획을 미세 조정하기 전에, 현재 상황에서 **안전�
 | 복귀 | Return Point | 장애물 통과 후 원래 경로로 복귀할 위치 |
 | 속도 | Target Speed | 회피 과정에서 유지하거나 낮춰야 할 속도 |
 
-#### 2. Rule의 최종 출력
+#### Rule의 최종 출력
 
 | 출력 | 의미 |
 |---|---|
 | `Side` | 장애물을 좌측 또는 우측 중 어느 방향으로 회피할지 |
 | `Lx*` | 회피에 필요한 최종 종방향 거리 |
 | `Ly*` | 회피에 필요한 최종 횡방향 이동량 |
-| `α*` | 회피 trajectory의 형상 파라미터 |
+| `α*` | 회피 trajectory의 spline 스무딩 파라미터 |
 | `Feasibility` | 해당 회피 계획이 차량의 물리적·거리 제약을 만족하는지 |
 | `Brake Requirement` | 회피를 위해 필요한 감속 수준 |
 | `Trajectory Constraints` | 곡률·횡가속도·조향 등 trajectory가 만족해야 하는 제약 |
 
-#### 3. Rule의 역할
+#### Rule의 역할
 
 > **Rule은 "이 상황에서 안전하게 어떻게 피할 것인가?"에 대한 기본 회피 계획을 결정한다.**  
 > 이후 Obstacle RL은 이 Rule 계획을 기준으로 `Lx`, `Ly`, `α`를 residual 방식으로 미세 조정한다.
@@ -198,6 +215,8 @@ Rule이 생성한 회피 trajectory가 **차량의 물리적 한계와 현재 �
 | EMERGENCY | 장애물이 갑자기 차량 앞에 튀어나왔을때 급브레이크 | throttle 0 / brake 1.0 직접 override (RL 무관) |
 | Supervisor (48 Hz) | 방금 만든 계획이 아직 안전한가? 를 지속 확인 &rarr; 위험 감지시, 더 보수적인(안전한) 정책으로 이동 | AVOID→AVOID+BRAKE→EMERGENCY |
 
+
+
 ### Rule base 주행 영상 
 
 **영상** (회색=GT, 파랑=수정 reference, 빨강 상자=정적, 주황 상자=이동 장애물, 우상단=모드):
@@ -205,7 +224,7 @@ Rule이 생성한 회피 trajectory가 **차량의 물리적 한계와 현재 �
 | 영상(썸네일 클릭 시 재생) | 상황 | 무엇을 보는가 |
 |---|---|---|
 | [![](../../res_wjdaksry/0819/thumb_H1.png)](https://github.com/user-attachments/assets/6fc44ea8-cca0-4c4b-990b-f3c41caa51eb) | 정적앞에 가만히 있는 장애물을 미리 보고 피하는 주행 | AVOID: 스플라인 진입→유지→복귀, 간격 1.17 m |
-| [![](../../res_wjdaksry/0819/thumb_H2.png)](https://github.com/user-attachments/assets/94758bfb-6e80-4edb-bd18-df2d93dc7922) | 16 m 앞 갑자기 등장 (v:7.6m/s) | AVOID+BRAKE: `v` * `α 0.5` 로 감속하며 회피, 간격 1.70m |
+| [![](../../res_wjdaksry/0819/thumb_H2.png)](https://github.com/user-attachments/assets/94758bfb-6e80-4edb-bd18-df2d93dc7922) | 16 m 앞 갑자기 등장 (v:7.6m/s) | AVOID+BRAKE: `α 0.5` 에 맞게 감속하며 회피, 간격 1.70m |
 | [![](../../res_wjdaksry/0819/thumb_H3.png)](https://github.com/user-attachments/assets/736616ff-3589-413a-a3a4-58630888e77a)  | 너무 가까워서 피할 시간이 부족한 상황 | EMERGENCY → 4.8 m 앞 정지 → BRAKE HOLD |
 | [![](../../res_wjdaksry/0819/thumb_H4.png)](https://github.com/user-attachments/assets/77e40eac-5469-4c24-a242-3018e8129cd2) | 느리게 가는 앞차를 만나서 추월하는 상황 | 만남 예측 → AVOID → 경로 재계획 2회 → 추월 복귀 |
 | [![](../../res_wjdaksry/0819/thumb_H5.png)](https://github.com/user-attachments/assets/225af600-e4f4-4951-b57a-7d9d67291369) | 앞차 급제동으로 기존 경로/예측이 틀어지는 위험한 상황 | 예측 깨짐 → AVOID→AVOID+BRAKE→EMERGENCY → 4.35 m 뒤 정지 |
@@ -220,7 +239,7 @@ Rule이 생성한 회피 trajectory가 **차량의 물리적 한계와 현재 �
 * `RL_obstacle`의 권한 : `AVOID`, `AVOID+BRAKE` 모드에서만 개입
 
 
-### 무엇을 학습 시키는가? 
+### RL_obstacle은 무엇을 학습 하는가? 
 
 > "Rule이 이렇게 계산했는데, 이 상황에서 조금 더 좋은 방법이 있나?"
 
@@ -231,6 +250,8 @@ Rule이 생성한 회피 trajectory가 **차량의 물리적 한계와 현재 �
 
 
 ### RL_obstacle 입력
+
+
 
 | 구분  | State      | 의미                      |
 | --- | ---------- | ----------------------- |
