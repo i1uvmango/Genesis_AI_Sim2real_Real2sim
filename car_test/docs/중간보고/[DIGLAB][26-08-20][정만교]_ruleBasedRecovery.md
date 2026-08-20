@@ -2,7 +2,11 @@
 
 ## Recovery 재설계 — 복귀 경로 생성 + 기존 추종 스택
 
+RL이 제어 입력(T/B/S)을 직접 내던 복구를, 룰 기반 '복귀 경로 생성 + 기존 추종 스택 재사용' 구조로 바꾼 설계와 검증 기록.
+
 ### 1. 설계 변경
+
+복구를 '제어 문제'에서 '경로 문제'로 바꾼 이유 — 경로만 갈아끼우면 CTE·heading 피드백이 OOD에서도 그대로 동작한다.
 
 | 구분 | 흐름 |
 |---|---|
@@ -17,7 +21,11 @@
 
 ### 2. Recovery Path Planner 설계
 
+이탈 상태에서 GT 경로로 되돌아오는 복귀 경로를 만드는 4단계 파이프라인(공간 제한 → 후보 생성 → 검증 → 비용 선택)의 정의.
+
 #### 2.1 전체 흐름
+
+플래너가 한 번 계획할 때 수행하는 4단계의 순서 요약.
 1. 1차 feasibility(후보 **공간** 설정)
 2. 공간 내에서 path 후보 생성
 3. 2차 feasibility(feasible path만 남김)
@@ -31,6 +39,8 @@
 > 경로 후보 생성 및 선택 과정
 
 #### 2.2 1차 Feasibility — 후보 공간 제한
+
+후보를 만들기 전에, 차량 물리(조향·제동)와 지형이 허용하는 복귀 가능 '공간'(Lx 범위·곡률 한계)을 먼저 좁힌다.
 
 | 검사 항목               | 내용                            |
 | ------------------- | ----------------------------- |
@@ -50,6 +60,8 @@
 
 #### 2.3 후보 생성
 
+좁혀진 공간 안에서 복귀 거리 × 감속률 × 생성기 조합으로 여러 후보 경로를 만든다.
+
 | 후보 요소     | 종류                      |
 | --------- | ----------------------- |
 | 기존 경로 복구 거리  | 가까움 / 중간 / 멂            |
@@ -59,6 +71,8 @@
 ---
 
 #### 2.4 2차 Feasibility — 완성 trajectory 검증
+
+완성된 후보 궤적 전체가 실제로 주행 가능한지 하드 제약(곡률·횡가속·조향률·제동·코리도·지형)으로 걸러낸다.
 
 생성된 trajectory 전체를 대상으로 **Hard Constraint**를 검사
 
@@ -82,6 +96,8 @@
 
 #### 2.5 Cost 평가
 
+하드 제약을 통과한 후보 중 빠르고 부드럽게 복귀하는 경로를 최소 비용으로 고른다.
+
 Feasible 후보만 대상으로 Cost를 계산한다.
 
 | Cost 항목         | 평가 목적       |
@@ -101,6 +117,8 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 #### 2.6 최종 Recovery Reference(경로)
 
+선택된 경로를 기존 Base Stanley + RL_STN이 그대로 추종할 수 있는 레퍼런스 슬롯 형식(RXY/V/HR/κ/ARC)으로 변환한다.
+
 최적 후보를 기존 추종 스택이 사용할 수 있는 Recovery Slot으로 변환한다.
 
 | 출력               | 내용                |
@@ -119,11 +137,15 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 #### 2.7 후보가 없는 경우
 
+모든 후보가 기각되면 제동 후 조건을 바꿔 재계획하는 fallback.
+
 * 브레이크 후 차선의 경로 재계산
 * 후보 생성
 ---
 
 ### 3. Path Generator
+
+이탈 크기·헤딩 오차에 따라 두 생성기(Frenet Quintic / Dubins CSC)를 골라 쓰는 기준.
 
 ![](../../res_wjdaksry/0820/quintic_dubins.png)
 
@@ -136,7 +158,11 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 ### 4. State Sheet
 
+플래너가 읽는 입력과 내보내는 출력 전체를 한 곳에 모은 명세.
+
 #### 4.1 Input
+
+차량 상태·GT 대비 오차·제어 제약·지형 정보 등 계획에 쓰이는 입력 목록.
 
 | 구분 | 항목 | 내용 |
 |---|---|---|
@@ -162,6 +188,8 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 #### 4.2 출력
 
+계획 결과로 복구 슬롯에 쓰는 경로 파라미터와 레퍼런스 항목.
+
 | 구분 | 항목 | 목적 |
 |---|---|---|
 | Recovery Path 파라미터 | s_merge, Lx, Ly, shape parameters, α(s), target speed V(s), feasibility | 경로 생성 |
@@ -173,9 +201,13 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 ### 5. SETTLE
 
+스핀 직후처럼 차량이 불안정할 때는 경로를 만들지 않고 먼저 차량을 세우는 단계.
+
 차량이 불안정한 상태에서는 Recovery Path를 생성하지 않는다.
 
 #### 5.1 SETTLE 진입 조건
+
+요레이트·횡속도 임계로 '지금은 계획보다 안정화가 먼저'인 상태를 판정한다.
 
 다음 조건 중 하나라도 만족하면 SETTLE로 진입한다.
 
@@ -193,7 +225,11 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 ### 6. Recovery Supervisor
 
+복구 상태기계를 48 Hz로 관리하고, 경로 재계획은 필요할 때만 8 Hz로 수행하는 관리자.
+
 #### 6.1 주기
+
+상태 관리(48 Hz)와 경로 재계획(8 Hz)의 주기를 분리해 불필요한 재계획을 막는다.
 
 | 기능 | 주기 |
 |---|---|
@@ -203,6 +239,8 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 Supervisor는 빠른 주기로 상태를 관리하고, Path Planner는 필요한 경우에만 새로운 Recovery Path를 생성한다.
 
 #### 6.2 Recovery Mode
+
+NORMAL → SETTLE → RETURN → MERGE(+BLOCKED)로 이어지는 복구 상태 정의.
 
 
 | 상태 | 역할 |
@@ -214,6 +252,8 @@ Supervisor는 빠른 주기로 상태를 관리하고, Path Planner는 필요한
 | BLOCKED | 후보가 없을 때 정지 hold 후 재시도 |
 
 #### 6.3 Recovery Path 재계획 조건
+
+현재 경로가 유효한 동안은 유지하고, 위반·이탈·환경 변화가 있을 때만 다시 계획한다.
 
 현재 경로를 계속 사용할 수 있는 동안에는 불필요하게 재계획하지 않는다. 다음 조건에서만 Path를 교체한다.
 
@@ -294,6 +334,8 @@ Obstacle Avoidance 중 차량이 크게 이탈하면 회피 플랜을 폐기하�
 
 ### 7. 외란 주입 결과 비교 : RL recovery vs Recovery Path Planner(Rule)
 
+외란 42씬(spin 3.5)에서 구 RL 복구와 신 룰 플래너(기하 한계/capacity)를 동일 조건으로 비교한 최종 결과.
+
 Recovery 최종 A/B (외란 42씬, spin 3.5 rad/s)
 
 | 항목 | 구 RL_recovery (T/B/S 직접) | 신 룰 복귀 경로 (기하 한계 플랜, 재계획 의존) | **신 룰 복귀 경로 (차량 capacity 반영 플랜)** |
@@ -312,9 +354,15 @@ Recovery 최종 A/B (외란 42씬, spin 3.5 rad/s)
 
 ### 주행 영상 (capacity, spin 3.5 — 클릭 재생)
 
+capacity 플랜의 복구 과정(SETTLE→RETURN→MERGE)을 씬별 영상으로 확인 (썸네일 클릭 시 재생).
+
 | p120 | p134 | p151 | p169 | p176 |
 |---|---|---|---|---|
 | <a href="https://github.com/user-attachments/assets/a528c63b-2278-4767-87f0-63afd5d9bf02"><img src="../../res_wjdaksry/0820/thumb_RC_p120.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/7ef7c61b-8e7c-497c-ab06-3950ef3339cc"><img src="../../res_wjdaksry/0820/thumb_RC_p134.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/96891405-dac1-45ab-b079-d55a3bc56e65"><img src="../../res_wjdaksry/0820/thumb_RC_p151.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/55abcda1-f367-4a19-be89-6f1832304d80"><img src="../../res_wjdaksry/0820/thumb_RC_p169.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/afff3987-1320-420a-b267-8bbab8644aa3"><img src="../../res_wjdaksry/0820/thumb_RC_p176.png" width="170"></a> |
+
+### SDK 1.3.0 DifferentiablePlant vs SweepTable
+
+스윕테이블(측정 기반 역모델)과 SDK 1.3.0의 autodiff 역플랜트를 개루프·폐루프에서 비교하고 스윕테이블 유지를 결정한 기록.
 
 
 
