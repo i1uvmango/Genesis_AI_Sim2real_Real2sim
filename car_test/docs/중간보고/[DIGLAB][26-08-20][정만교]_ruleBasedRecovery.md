@@ -1,5 +1,12 @@
 # Terrain & Recovery Planner
 
+### 요약
+
+- **Recovery 재설계**: RL이 T/B/S를 직접 출력하던 복구를 **룰 기반 Recovery Path Planner**(1차 feasibility → 후보 생성 → 2차 feasibility → cost 선택)로 교체하고, 만들어진 복귀 경로는 기존 Base Stanley + RL_STN이 그대로 추종한다.
+- **동작 흐름**: 외란 감지 → SETTLE(안정화) → RETURN(복귀 경로 추종) → MERGE(GT 복귀). Supervisor 48 Hz / 재계획 8 Hz, 경로가 유효하면 재계획하지 않음.
+- **결과 (외란 42씬, spin 3.5)**: 구 RL_recovery 41/42 → **룰 플래너 42/42** (기하 한계 플랜: 복구 319f·배율 1.19)
+
+
 ## Recovery 재설계 — 복귀 경로 생성 + 기존 추종 스택
 
 RL이 제어 입력(T/B/S)을 직접 내던 복구를, 룰 기반 '복귀 경로 생성 + 기존 추종 스택 재사용' 구조로 바꾼 설계와 검증 기록.
