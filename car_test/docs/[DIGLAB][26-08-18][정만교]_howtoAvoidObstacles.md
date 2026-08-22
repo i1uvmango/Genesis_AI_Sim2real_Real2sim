@@ -160,7 +160,7 @@ flowchart TD
 
 ### 파라미터
 
-![](../../res_wjdaksry/0819/rule2.png)
+![](../res_wjdaksry/0819/rule2.png)
 
 * lx : 종방향 거리
 * ly : 횡방향 이동/회피 거리
@@ -224,13 +224,13 @@ Rule이 생성한 회피 trajectory가 **차량의 물리적 한계와 현재 �
 
 | 영상(썸네일 클릭 시 재생) | 상황 | 무엇을 보는가 |
 |---|---|---|
-| [![](../../res_wjdaksry/0819/thumb_H1.png)](https://github.com/user-attachments/assets/6fc44ea8-cca0-4c4b-990b-f3c41caa51eb) | 정적앞에 가만히 있는 장애물을 미리 보고 피하는 주행 | AVOID: 스플라인 진입→유지→복귀, 간격 1.17 m |
-| [![](../../res_wjdaksry/0819/thumb_H2.png)](https://github.com/user-attachments/assets/94758bfb-6e80-4edb-bd18-df2d93dc7922) | 16 m 앞 갑자기 등장 (v:7.6m/s) | AVOID+BRAKE: `α 0.5` 에 맞게 감속하며 회피, 간격 1.70m |
-| [![](../../res_wjdaksry/0819/thumb_H3.png)](https://github.com/user-attachments/assets/736616ff-3589-413a-a3a4-58630888e77a)  | 너무 가까워서 피할 시간이 부족한 상황 | EMERGENCY → 4.8 m 앞 정지 → BRAKE HOLD |
-| [![](../../res_wjdaksry/0819/thumb_H4.png)](https://github.com/user-attachments/assets/77e40eac-5469-4c24-a242-3018e8129cd2) | 느리게 가는 앞차를 만나서 추월하는 상황 | 만남 예측 → AVOID → 경로 재계획 2회 → 추월 복귀 |
-| [![](../../res_wjdaksry/0819/thumb_H5.png)](https://github.com/user-attachments/assets/225af600-e4f4-4951-b57a-7d9d67291369) | 앞차 급제동으로 기존 경로/예측이 틀어지는 위험한 상황 | 예측 깨짐 → AVOID→AVOID+BRAKE→EMERGENCY → 4.35 m 뒤 정지 |
-| [![](../../res_wjdaksry/0819/thumb_H6.png)](https://github.com/user-attachments/assets/624c82b9-b3ff-47fb-9ba6-aacd08b1c2fb)  | 맞은편에서 오는 차를 피해 | 만남점 기준 22.5 m 전 AVOID, 교행 후 복귀 (간격 1.97) |
-| [![](../../res_wjdaksry/0819/thumb_H7.png)](https://github.com/user-attachments/assets/06a88cd1-1c8d-49aa-808d-b57e54ac790e)  | 옆에서 차량이 가로질러 들어와 충돌 가능 | 예측 충돌 → EMERGENCY 양보·정지 → 실제 통과 확인 후 재출발 (간격 4.6) |
+| [![](../res_wjdaksry/0819/thumb_H1.png)](https://github.com/user-attachments/assets/6fc44ea8-cca0-4c4b-990b-f3c41caa51eb) | 정적앞에 가만히 있는 장애물을 미리 보고 피하는 주행 | AVOID: 스플라인 진입→유지→복귀, 간격 1.17 m |
+| [![](../res_wjdaksry/0819/thumb_H2.png)](https://github.com/user-attachments/assets/94758bfb-6e80-4edb-bd18-df2d93dc7922) | 16 m 앞 갑자기 등장 (v:7.6m/s) | AVOID+BRAKE: `α 0.5` 에 맞게 감속하며 회피, 간격 1.70m |
+| [![](../res_wjdaksry/0819/thumb_H3.png)](https://github.com/user-attachments/assets/736616ff-3589-413a-a3a4-58630888e77a)  | 너무 가까워서 피할 시간이 부족한 상황 | EMERGENCY → 4.8 m 앞 정지 → BRAKE HOLD |
+| [![](../res_wjdaksry/0819/thumb_H4.png)](https://github.com/user-attachments/assets/77e40eac-5469-4c24-a242-3018e8129cd2) | 느리게 가는 앞차를 만나서 추월하는 상황 | 만남 예측 → AVOID → 경로 재계획 2회 → 추월 복귀 |
+| [![](../res_wjdaksry/0819/thumb_H5.png)](https://github.com/user-attachments/assets/225af600-e4f4-4951-b57a-7d9d67291369) | 앞차 급제동으로 기존 경로/예측이 틀어지는 위험한 상황 | 예측 깨짐 → AVOID→AVOID+BRAKE→EMERGENCY → 4.35 m 뒤 정지 |
+| [![](../res_wjdaksry/0819/thumb_H6.png)](https://github.com/user-attachments/assets/624c82b9-b3ff-47fb-9ba6-aacd08b1c2fb)  | 맞은편에서 오는 차를 피해 | 만남점 기준 22.5 m 전 AVOID, 교행 후 복귀 (간격 1.97) |
+| [![](../res_wjdaksry/0819/thumb_H7.png)](https://github.com/user-attachments/assets/06a88cd1-1c8d-49aa-808d-b57e54ac790e)  | 옆에서 차량이 가로질러 들어와 충돌 가능 | 예측 충돌 → EMERGENCY 양보·정지 → 실제 통과 확인 후 재출발 (간격 4.6) |
 
 
 

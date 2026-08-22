@@ -124,7 +124,7 @@ v_cap = √(4.0 / |κ|)
 
 ### 무외란
 
-![](../../res_wjdaksry/0812/F1_무외란42씬_최종스택.png)
+![](../res_wjdaksry/0812/F1_무외란42씬_최종스택.png)
 
 * **41 / 42 PASS**
 * 유일한 FAIL은 **p178**
@@ -132,7 +132,7 @@ v_cap = √(4.0 / |κ|)
 
 ### Disturbance (spin ±3.5)
 
-![](../../res_wjdaksry/0812/F3_외란42씬_최종_freshRec.png)
+![](../res_wjdaksry/0812/F3_외란42씬_최종_freshRec.png)
 
 * **41 / 42 PASS**
 * Recovery 구간이 크게 감소
@@ -158,16 +158,16 @@ Disturbance 이후 동일한 spin(±3.5)을 주입하여 비교하였다.
 
 | 씬 | before | after |
 |---|---|---|
-| p121 | ![](../../res_wjdaksry/0812/p121_b.gif) | ![](../../res_wjdaksry/0812/p121_a.gif) |
-| p142 | ![](../../res_wjdaksry/0812/p142_b.gif) | ![](../../res_wjdaksry/0812/p142_a.gif) |
-| p171 | ![](../../res_wjdaksry/0812/p171_b.gif) | ![](../../res_wjdaksry/0812/p171_a.gif) |
-| p166 | ![](../../res_wjdaksry/0812/p166_b.gif) | ![](../../res_wjdaksry/0812/p166_a.gif) |
-| p168 | ![](../../res_wjdaksry/0812/p168_b.gif) | ![](../../res_wjdaksry/0812/p168_a.gif) |
-| p169 | ![](../../res_wjdaksry/0812/p169_b.gif) | ![](../../res_wjdaksry/0812/p169_a.gif) |
-| p170 | ![](../../res_wjdaksry/0812/p170_b.gif) | ![](../../res_wjdaksry/0812/p170_a.gif) |
-| p178 | ![](../../res_wjdaksry/0812/p178_b.gif) | ![](../../res_wjdaksry/0812/p178_a.gif) |
-| p179 | ![](../../res_wjdaksry/0812/p179_b.gif) | ![](../../res_wjdaksry/0812/p179_a.gif) |
-| p176 | ![](../../res_wjdaksry/0812/p176_b.gif) | ![](../../res_wjdaksry/0812/p176_a.gif) |
+| p121 | ![](../res_wjdaksry/0812/p121_b.gif) | ![](../res_wjdaksry/0812/p121_a.gif) |
+| p142 | ![](../res_wjdaksry/0812/p142_b.gif) | ![](../res_wjdaksry/0812/p142_a.gif) |
+| p171 | ![](../res_wjdaksry/0812/p171_b.gif) | ![](../res_wjdaksry/0812/p171_a.gif) |
+| p166 | ![](../res_wjdaksry/0812/p166_b.gif) | ![](../res_wjdaksry/0812/p166_a.gif) |
+| p168 | ![](../res_wjdaksry/0812/p168_b.gif) | ![](../res_wjdaksry/0812/p168_a.gif) |
+| p169 | ![](../res_wjdaksry/0812/p169_b.gif) | ![](../res_wjdaksry/0812/p169_a.gif) |
+| p170 | ![](../res_wjdaksry/0812/p170_b.gif) | ![](../res_wjdaksry/0812/p170_a.gif) |
+| p178 | ![](../res_wjdaksry/0812/p178_b.gif) | ![](../res_wjdaksry/0812/p178_a.gif) |
+| p179 | ![](../res_wjdaksry/0812/p179_b.gif) | ![](../res_wjdaksry/0812/p179_a.gif) |
+| p176 | ![](../res_wjdaksry/0812/p176_b.gif) | ![](../res_wjdaksry/0812/p176_a.gif) |
 
 ---
 

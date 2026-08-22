@@ -37,7 +37,7 @@
 
 | 감속 전 | 감속 후 |
 |:---:|:---:|
-| <img src="../../res_wjdaksry/0812/A0_무외란42씬_승계it300.png" width="480"> | <img src="../../res_wjdaksry/0812/C1_무외란42씬_풀스택_JUMPSLOW.png" width="480"> |
+| <img src="../res_wjdaksry/0812/A0_무외란42씬_승계it300.png" width="480"> | <img src="../res_wjdaksry/0812/C1_무외란42씬_풀스택_JUMPSLOW.png" width="480"> |
 | 신규 10씬 평균 CTE 52.9 cm | 신규 10씬 평균 CTE **23.3 cm** |
 
 * 점프로 인한 오차 누적이 사라짐
@@ -49,7 +49,7 @@
 
 ### 가설 : recovery &rarr; rl_stn 진입 시 understeer가 일어나서 cte가 벌어지고, 다시 recovery mode로 들어간다(반복)
 
-![](../../res_wjdaksry/0812/C3_p166_리밋사이클.gif)
+![](../res_wjdaksry/0812/C3_p166_리밋사이클.gif)
 > RL_recovery -> RL_stn 스위치 과정에서 진동하는 현상, 무외란 주행 성능은 우수함
 관찰 1: stanley 제어기가 경로 진입 시 초반 진동하는 것을 확인 
 관찰 2: policy switch 과정에서 경로를 제대로 추종못하는 모습, understeer라고 생각함
@@ -69,7 +69,7 @@
 
 | before — residual 상시, **PASS 33/42** | after — 관측 클리핑 3σ, **PASS 34/42** |
 |:---:|:---:|
-| <img src="../../res_wjdaksry/0812/C2_외란42씬_풀스택_JUMPSLOW.png" width="480"> | <img src="../../res_wjdaksry/0812/C9_외란42씬_관측클립.png" width="480"> |
+| <img src="../res_wjdaksry/0812/C2_외란42씬_풀스택_JUMPSLOW.png" width="480"> | <img src="../res_wjdaksry/0812/C9_외란42씬_관측클립.png" width="480"> |
 
 > scene 166 대폭 품질 향상
 
@@ -85,7 +85,7 @@
 
 
 현재까지의 결과
-![](../../res_wjdaksry/0812/C11_외란42씬_풀조합.png)
+![](../res_wjdaksry/0812/C11_외란42씬_풀조합.png)
 
 
 #### next step / 방향

@@ -39,9 +39,9 @@ RL이 경험적으로 제어 입력(T/B/S)을 직접 내던 복구를, 룰 기�
 4. 각 후보 cost 평가
 
 
-![](../../res_wjdaksry/0819/S_p120_wide.gif) 
+![](../res_wjdaksry/0819/S_p120_wide.gif) 
 
-![](../../res_wjdaksry/0819/S_p120_contact.png)
+![](../res_wjdaksry/0819/S_p120_contact.png)
 
 > 경로 후보 생성 및 선택 과정
 
@@ -154,7 +154,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 이탈 크기·헤딩 오차에 따라 두 생성기(Frenet Quintic / Dubins CSC)를 골라 쓰는 기준.
 
-![](../../res_wjdaksry/0820/quintic_dubins.png)
+![](../res_wjdaksry/0820/quintic_dubins.png)
 
 | 상황                  | Generator          | 개념                      | 사용 조건 |
 | ------------------- | ------------------ | ----------------------- | --- |
@@ -357,7 +357,7 @@ Recovery 최종 A/B (외란 42씬, spin 3.5 rad/s)
 
 |이미지|구 RL_recovery|Rule-base|차량 capacity 반영 Rule base|
 |---|---|---|---|
-| 42씬 그리드 | <img src="../../res_wjdaksry/0819/R0_recovery_policy_외란42.png" width="260"> | <img src="../../res_wjdaksry/0819/R1_recovery_path_외란42.png" width="260"> | <img src="../../res_wjdaksry/0819/R1c_recovery_path_capacity_외란42.png" width="260"> |
+| 42씬 그리드 | <img src="../res_wjdaksry/0819/R0_recovery_policy_외란42.png" width="260"> | <img src="../res_wjdaksry/0819/R1_recovery_path_외란42.png" width="260"> | <img src="../res_wjdaksry/0819/R1c_recovery_path_capacity_외란42.png" width="260"> |
 
 ### 주행 영상 (capacity, spin 3.5 — 클릭 재생)
 
@@ -365,11 +365,9 @@ capacity 플랜의 복구 과정(SETTLE→RETURN→MERGE)을 씬별 영상으로
 
 | p120 | p134 | p151 | p169 | p176 |
 |---|---|---|---|---|
-| <a href="https://github.com/user-attachments/assets/a528c63b-2278-4767-87f0-63afd5d9bf02"><img src="../../res_wjdaksry/0820/thumb_RC_p120.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/7ef7c61b-8e7c-497c-ab06-3950ef3339cc"><img src="../../res_wjdaksry/0820/thumb_RC_p134.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/96891405-dac1-45ab-b079-d55a3bc56e65"><img src="../../res_wjdaksry/0820/thumb_RC_p151.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/55abcda1-f367-4a19-be89-6f1832304d80"><img src="../../res_wjdaksry/0820/thumb_RC_p169.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/afff3987-1320-420a-b267-8bbab8644aa3"><img src="../../res_wjdaksry/0820/thumb_RC_p176.png" width="170"></a> |
+| <a href="https://github.com/user-attachments/assets/a528c63b-2278-4767-87f0-63afd5d9bf02"><img src="../res_wjdaksry/0820/thumb_RC_p120.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/7ef7c61b-8e7c-497c-ab06-3950ef3339cc"><img src="../res_wjdaksry/0820/thumb_RC_p134.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/96891405-dac1-45ab-b079-d55a3bc56e65"><img src="../res_wjdaksry/0820/thumb_RC_p151.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/55abcda1-f367-4a19-be89-6f1832304d80"><img src="../res_wjdaksry/0820/thumb_RC_p169.png" width="170"></a> | <a href="https://github.com/user-attachments/assets/afff3987-1320-420a-b267-8bbab8644aa3"><img src="../res_wjdaksry/0820/thumb_RC_p176.png" width="170"></a> |
 
-### SDK 1.3.0 DifferentiablePlant vs SweepTable
 
-스윕테이블(측정 기반 역모델)과 SDK 1.3.0의 autodiff 역플랜트를 개루프·폐루프에서 비교하고 스윕테이블 유지를 결정한 기록.
 
 
 
