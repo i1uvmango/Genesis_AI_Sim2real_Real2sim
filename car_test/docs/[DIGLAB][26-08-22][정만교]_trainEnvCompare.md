@@ -23,7 +23,7 @@
 - 각 Env는 특정 (Path,state) 담당
 - Random : Spawn / 속도 / 오프셋 / 헤딩
 - 동일한 지형, 여러 경로 에서 속도/오프셋/헤딩 perturbation 을 주어서 학습
-
+> 많은 경험과 많은 path/spawn coverage만 주면 generalization이 생기는가?
 ### B. 3km Large Mesh
 
 > **다양한 환경과 경로에서 일반화 학습**
@@ -35,19 +35,20 @@
 - Random Spawn / 속도 / 오프셋 / 헤딩 / 외란
 - 지형·곡률·경사·Path 구조 자체의 **환경 다양성** 확보
 
-### A vs B 핵심 차이
+### A vs B 비교
 
 | 항목 | A (500m) | B (3km) |
 |---|---|---|
-| Path 샘플링 | O | X |
-| Spawn 샘플링 | O | X |
-| 외란 학습 | X | X |
-| Randomization | 동일 | 동일 |
-| Path 다양성 | O | O |
+| State Perturbation | O | X |
+| Spawn Perturbation | O | X |
+| Path 다양성 | 42개 | 99개 |
 | **Terrain 다양성** | 없음 | **높음** |
 | 핵심 차이 | 500×500 한정 | **3×3 km terrain 속 다양한 지형** |
 
-> path/spawn sampling : 병렬 env가 랜덤으로 (n 경로 , state(spawn)) 분포에서 샘플링 하여 residual RL 진행
+* A : 동일 terrain 내 여러 path와 perturbated state를 반복 학습해 한 환경 내부의 state/path coverage를 넓힘
+
+* B : 서로 다른 지형·경사·경로 구조에서 발생하는 environment-level trajectory diversity를 학습
+
 ## 2. 학습 효율
 
 ### 학습 시간 비교
