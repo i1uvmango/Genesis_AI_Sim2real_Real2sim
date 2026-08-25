@@ -202,7 +202,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 | 구분 | 항목 | 내용 |
 |---|---|---|
 | Recovery Path 파라미터 (경로 생성) | merge_point | GT 복귀 지점 |
-| | Lx / Ly | longitudinal / lateral 복귀량 |
+| | Lx / Ly | longitudinal / lateral 거리 |
 | | shape parameters | quintic coefficient / dubins steering angle |
 | | α(s) | 경로 방향 |
 | | V(s) | target speed |
