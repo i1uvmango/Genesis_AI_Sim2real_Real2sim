@@ -185,8 +185,8 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 | | he | 경로 대비 헤딩 오차 |
 | | κ | 전방 GT 곡률 |
 | | v(m/s) | 전방 GT 목표 속도 |
-| FeedForward | δ_max | 최대 조향각 |
-| | δ̇_max(steering limit) | 조향률 제한, 초기 1.5 rad/s |
+| FeedForward | δ_max(steer limit) | 최대 조향각 |
+| | δ̇_rate(steering rate limit) | 조향률 제한, 초기 1.5 rad/s |
 | | κ_max | 최대 허용 곡률 |
 | | a_lat_max | 최대 횡가속도, 초기 4.0 m/s² |
 | | Brake capability | sweeptable derived |
