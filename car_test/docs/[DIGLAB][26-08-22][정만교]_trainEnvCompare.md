@@ -5,7 +5,7 @@
 | 구분 | A (500m) | B (3km) |
 |---|---|---|
 | 학습 환경 | 500×500 m single env, multiple paths | 3×3 km Large Mesh grid(multiple env), multiple paths |
-| 핵심 | 단일 환경 상태 다양성 | 다중 환경 **지형 다양성** |
+| 핵심 | 단일 mesh 상태 다양성 | 다중 mesh **지형 다양성** |
 
 이후 본문에서는 **A (500m)**, **B (3km)** 으로 표기함.
 
@@ -22,7 +22,7 @@
 - 미리 구성된 여러 GT Path(경로)
 - 각 Env는 특정 (Path,state) 담당
 - Random : Spawn / 속도 / 오프셋 / 헤딩
-- 동일한 지형, 여러 경로 에서 **상태 변화**에 대한 강건성 확보
+- 동일한 지형, 여러 경로 에서 속도/오프셋/헤딩 perturbation 을 주어서 학습
 
 ### B. 3km Large Mesh
 
@@ -39,26 +39,29 @@
 
 | 항목 | A (500m) | B (3km) |
 |---|---|---|
-| Path 샘플링 | O | O |
-| Spawn 샘플링 | O | O |
+| Path 샘플링 | O | X |
+| Spawn 샘플링 | O | X |
 | 외란 학습 | X | X |
 | Randomization | 동일 | 동일 |
 | Path 다양성 | O | O |
 | **Terrain 다양성** | 없음 | **높음** |
 | 핵심 차이 | 500×500 한정 | **3×3 km terrain 속 다양한 지형** |
 
+> path/spawn sampling : 병렬 env가 랜덤으로 (n 경로 , state(spawn)) 분포에서 샘플링 하여 residual RL 진행
 ## 2. 학습 효율
 
 ### 학습 시간 비교
 
 | 항목 | A (500m) | B (3km) |
 |---|---:|---:|
-| Env × Horizon | 4096 × 128 | 96 × 1536 |
+| Env × rollout steps | 4096 × 128 | 96 × 1536 |
 | 총 경험량 | 157.3M | **44.2M** |
 | 학습 시간 | 4시간 08분 | **2시간 14분** |
 | Iter당 시간 | 49.6초 | **26.8초** |
 | 처리량 | 10.6k steps/s | 5.5k steps/s |
 | 42씬 CTE (A의 학습 환경) | 9.85 cm | **8.89 cm** (미학습) |
+
+> B의 경로 길이가 길어서 rollout step을 길게 가져감
 
 ### 해석
 
