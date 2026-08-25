@@ -158,9 +158,11 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 | 상황                  | Generator          | 개념                      | 사용 조건 |
 | ------------------- | ------------------ | ----------------------- | --- |
-| GT와 방향이 비슷하고 이탈이 작음 | **Frenet Quintic** | 옆으로 부드럽게 경로에 붙음 |  HE < 45° & |cte| < 8 m |
+| GT와 방향이 비슷하고 이탈이 작음 | **Frenet Quintic**(프레네 좌표계): (s,d) | 5차함수 기반 spline, 옆으로 부드럽게 경로에 붙음 |  HE < 45° & |cte| < 8 m |
 | 헤딩 오차가 크거나 이탈이 큼    | **Dubins CSC**     | 크게 회전해서 방향을 맞춘 뒤 GT에 붙음 | HE ≥ 45° & 큰 cte |
 
+* Frenet Quintic (s,d) : 경로 nearest point 기준으로 longitudinal s, lateral d 로 얼마나 떨어졌는가를 계산 후 quintic (5차함수)로 spline 복귀 경로를 그림
+* Dubins : 최대 조향각이 제한 되어 있는 상황에서, 최소한의 조향으로 목표점 복귀 &rarr; 조향 최소, 직선 최대 
 ---
 
 ### 4. State Sheet
@@ -184,7 +186,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 | | κ | 전방 GT 곡률 |
 | | v(m/s) | 전방 GT 목표 속도 |
 | FeedForward | δ_max | 최대 조향각 |
-| | δ̇_max | 조향률 제한, 초기 1.5 rad/s |
+| | δ̇_max(steering limit) | 조향률 제한, 초기 1.5 rad/s |
 | | κ_max | 최대 허용 곡률 |
 | | a_lat_max | 최대 횡가속도, 초기 4.0 m/s² |
 | | Brake capability | sweeptable derived |
@@ -197,12 +199,21 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 계획 결과로 복구 슬롯에 쓰는 경로 파라미터와 레퍼런스 항목.
 
-| 구분 | 항목 | 목적 |
+| 구분 | 항목 | 내용 |
 |---|---|---|
-| Recovery Path 파라미터 | s_merge, Lx, Ly, shape parameters, α(s), target speed V(s), feasibility | 경로 생성 |
-| Recovery Reference (복구 슬롯) | RXY, V, HR, κ, ARC | stanley 추종용 변환 |
-| 재샘플링 간격 | 0.125 m spacing | 경로의 해상도 |
+| Recovery Path 파라미터 (경로 생성) | merge_point | GT 복귀 지점 |
+| | Lx / Ly | longitudinal / lateral 복귀량 |
+| | shape parameters | quintic coefficient / dubins steering angle |
+| | α(s) | 경로 방향 |
+| | V(s) | target speed |
+| | feasibility | 주행 가능 여부 |
+| Recovery Reference (stanley 추종용 변환) | RXY | 복구 경로 위 목표 점 |
+| | V | RXY point 에서의 목표 속도 |
+| | Heading | 목표 헤딩 |
+| | κ | 목표 곡률 |
 
+
+  ![](../res_wjdaksry/0819/rule2.png)
 
 ---
 
@@ -226,13 +237,13 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 > SETTLE 중에는 Reference 추종보다 차량 안정화가 우선한다.
 
-* 이때는 브레이크 밟아서 pose 안정화
+* 이때는 브레이크 0.5 강도로 pose 안정화 (full brake: 1)
 
 ---
 
 ### 6. Recovery Supervisor
 
-복구 상태기계를 48 Hz로 관리하고, 경로 재계획은 필요할 때만 8 Hz로 수행하는 관리자.
+Recovery 여부를 48 Hz로 확인, 실제 recovery path planning 은 필요시 수행
 
 #### 6.1 주기
 
