@@ -45,18 +45,18 @@ RL이 경험적으로 제어 입력(T/B/S)을 직접 내던 복구를, 룰 기�
 
 > 경로 후보 생성 및 선택 과정
 
-#### 2.2 1차 Feasibility — 후보 공간 제한
+#### 2.2 1차 Feasibility — 합류 포인트 공간 제한
 
-후보를 만들기 전에, 차량 물리(조향·제동)와 지형이 허용하는 복귀 가능 '공간'(Lx 범위·곡률 한계)을 먼저 좁힌다.
+> 차량이 물리적으로 돌아갈 수 있는 최소 거리와 경로가 끝나는 상한선 지정
 
 | 검사 항목               | 내용                            |
 | ------------------- | ----------------------------- |
 | Available distance  | 전방 가용 거리 확인                   |
 | `κ_steer` / `R_min` | 조향/속도 한계로 가능한 최소 회전반경 계산         |
 | `κ_allow(v) = a_lat_max / v²`        | 현재 속도로 감당 가능한 최대 곡률/steering |
-| `Lx_min`            | 최소 복귀 거리(최대 조향으로 가장 빨리 복귀할 수 있는 거리)                      |
-| `Lx_max`            | 최대 복귀 거리(트랙 끝까지 남은 거리)  |
-| 제동거리                | 풀 브레이크로 언제 멈추나  |
+| `Lx_min`            | 최소 복귀 거리(최대 조향으로 가장 빨리 복귀할 수 있는 거리, 하한선)                      |
+| `Lx_max`            | 최대 복귀 거리(트랙 끝까지 남은 거리, 상한선)  |
+| d_brake                | 풀 브레이크로 언제 멈추나  |
 | Corridor            | 주행가능한 길의 여유(횡방향)|
 | Terrain             | 지형 여유(안전한 길)   |
 
@@ -77,27 +77,26 @@ RL이 경험적으로 제어 입력(T/B/S)을 직접 내던 복구를, 룰 기�
 
 ---
 
-#### 2.4 2차 Feasibility — 완성 trajectory 검증
+#### 2.4 2차 Feasibility — 차량 세팅으로 가능한 궤적인지 후보 경로 평가
 
-완성된 후보 궤적 전체가 실제로 주행 가능한지 하드 제약(곡률·횡가속·조향률·제동·코리도·지형)으로 걸러낸다.
+> 생성된 trajectory가 차량의 조향·제동 한계와 지형 제약 안에서 실제로 주행 가능한 궤적인가?
 
-생성된 trajectory 전체를 대상으로 **Hard Constraint**를 검사
+차량의 조향·제동 능력과 지형·주행 공간 제약을 만족하여 실제 주행 가능한 궤적인지 검증
 
 | 검사 항목 | 조건 |
 |---|---|
 | Curvature | `κ_max ≤ κ_allow(v(s))` (가능한 곡률) |
 | Lateral acceleration | `a_lat(s) ≤ 4.0 m/s²` 횡가속 |
 | Steering limit | 조향 한계 이내 |
-| Steering rate | 근사 이내 |
+| Steering rate | 너무 빠르게 핸들 틀진 않는지 |
 | Available distance | 가용 거리 이내 |
-| Braking | 제동거리 조건 만족 (`brake_capability.csv`) |
+| Braking | 제동거리 조건 만족 |
 | Corridor | 코리도 이탈 없음 |
 | Terrain slope | 경로 기준 slope 제한 |
 | Terrain roll | 경로 기준 roll 제한 |
 
 > Cost가 낮더라도 Hard Constraint를 위반한 후보는 사용할 수 없다.
 
-* "차량 최대 조향, 제어로 주행 가능한 궤적인가?" 를 평가
 
 ---
 
@@ -107,16 +106,14 @@ RL이 경험적으로 제어 입력(T/B/S)을 직접 내던 복구를, 룰 기�
 
 Feasible 후보만 대상으로 Cost를 계산한다.
 
-| Cost 항목         | 평가 목적       |
+| Cost 항목         | 의미       | 
 | --------------- | ----------- |
-| Path length     | 전체 복귀 경로 길이 |
-| Merge distance  | 빠른 복귀 여부    |
-| `∫κ² ds`        | 곡률 부담       |
-| Steering effort | 조향 부담       |
-| `max a_lat`     | 최대 횡가속도     |
-| Speed loss      | 속도 손실       |
-| `−progress`     | 진행도 보상      |
-| Smoothness      | 경로의 부드러움    |
+| Recovery Path length     | 복귀 경로 길이 |
+| Merge distance  | 현재 위치에서 merge 위치까지의 거리 |
+| band        | 곡률 부담       |
+| Steering effort | 조향 부담 : 얼마나 핸들을 많이 꺾어야하는가  |
+| Speed loss      | 속도 손실 : 얼마나 브레이크를 밟아야하는가       |
+| max_a_lat      |  최대 횡가속: 얼마나 차량 한계에 붙어 도는가    |
 
 * 최소 비용
 
@@ -124,7 +121,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 #### 2.6 최종 Recovery Reference(경로)
 
-선택된 경로를 기존 Base Stanley + RL_STN이 그대로 추종할 수 있는 레퍼런스 슬롯 형식(RXY/V/HR/κ/ARC)으로 변환한다.
+선택된 경로를 기존 Base Stanley + RL_STN이 그대로 추종할 수 있는 파라미터로(RXY/V/HR/κ/ARC) 변환한다.
 
 최적 후보를 기존 추종 스택이 사용할 수 있는 Recovery Slot으로 변환한다.
 
@@ -203,7 +200,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 |---|---|---|
 | Recovery Path 파라미터 (경로 생성) | merge_point | GT 복귀 지점 |
 | | Lx / Ly | longitudinal / lateral 거리 |
-| | shape parameters | quintic coefficient / dubins steering angle |
+| | shape parameters | 5차 다항식 계수(quintic)/ dubins 조향각 |
 | | α(s) | 경로 방향 |
 | | V(s) | target speed |
 | | feasibility | 주행 가능 여부 |
