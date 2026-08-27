@@ -155,7 +155,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 | 상황                  | Generator          | 개념                      | 사용 조건 |
 | ------------------- | ------------------ | ----------------------- | --- |
-| GT와 방향이 비슷하고 이탈이 작음 | **Frenet Quintic**(프레네 좌표계): (s,d) | 5차함수 기반 spline, 옆으로 부드럽게 경로에 붙음 |  HE < 45° & |cte| < 8 m |
+| GT와 방향이 비슷하고 이탈이 작음 | **Frenet Quintic**(프레네 좌표계): (s,d) | 5차함수 기반 spline, 옆으로 부드럽게 경로에 붙음 |  HE < 45° & cte < 8 m |
 | 헤딩 오차가 크거나 이탈이 큼    | **Dubins CSC**     | 크게 회전해서 방향을 맞춘 뒤 GT에 붙음 | HE ≥ 45° & 큰 cte |
 
 * Frenet Quintic (s,d) : 경로 nearest point 기준으로 longitudinal s, lateral d 로 얼마나 떨어졌는가를 계산 후 quintic (5차함수)로 spline 복귀 경로를 그림
