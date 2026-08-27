@@ -151,7 +151,7 @@ Feasible 후보만 대상으로 Cost를 계산한다.
 
 이탈 크기·헤딩 오차에 따라 두 생성기(Frenet Quintic / Dubins CSC)를 골라 쓰는 기준.
 
-![](../res_wjdaksry/0820/quintic_dubins.png)
+![](../res_wjdaksry/0824/quintic_dubins.png)
 
 | 상황                  | Generator          | 개념                      | 사용 조건 |
 | ------------------- | ------------------ | ----------------------- | --- |
