@@ -1,9 +1,13 @@
 # NVIDIA Instant NuRec RTX 4090 로컬 검증 요약
 
 작성일: 2026-09-04  
-실험 위치: `/home/diglab/workspace/workspace/wjdaksry/instant_nurec`
 
 ---
+
+
+![](../res_wjdaksry/0824/nurec.png)
+
+> instant nurec 데모를 로컬에서 실행 후 web 에서 결과 확인 한 것
 
 ## 결론 요약
 
@@ -11,7 +15,7 @@
 | ---: | --- |
 | 1 | **RTX 4090 24GB에서 Instant NuRec pretrained inference는 실제 성공했다.** |
 | 2 | **공식 sample NCore clip 기준 `pq-front`, `pa-front`, `pa-front merge`가 모두 OOM 없이 완료됐다.** |
-| 3 | **최대 GPU memory 실측은 `pa-front merge`에서 `nvidia-smi` 기준 18,818 MiB였다.** |
+| 3 | **최신 재측정 기준 `pa-front merge` 생성 시간은 16.41초, 최대 GPU memory는 19,317 MiB였다.** |
 | 4 | **RTX 4090 24GB는 공식 "more than 24GB" 조건의 경계선이라 공식 보장으로 표현하면 안 된다.** |
 | 5 | **Full NuRec training/refinement와 quantization은 이번 실험에서 검증하지 않았다.** |
 
@@ -82,23 +86,49 @@
 | --- | --- | --- | --- | --- | ---: | ---: | ---: |
 | 최소 smoke test | `pq-front` | 1 chunk, 약 13.5초 | No | **성공** | 728,967 | 10.73 GiB | 12,492 MiB |
 | front dense test | `pa-front` | 1 chunk, 약 13.5초 | No | **성공** | 1,741,403 | 9.58 GiB | 11,308 MiB |
-| 공식 README demo | `pa-front` | 전체 sample, 약 20초, 2 chunks | Yes | **성공** | 1,918,402 | 16.94 GiB | 18,818 MiB |
+| 공식 README demo | `pa-front` | 전체 sample, 약 20초, 2 chunks | Yes | **성공** | 1,918,402 | 16.94 GiB | 19,317 MiB |
 
 ---
 
-## 6. 실제 Inference GPU Memory
+## 6. 실제 생성 시간 및 GPU 자원
+
+| 항목 | 실측값 |
+| --- | ---: |
+| 전체 wall time | **16.41초** |
+| Python 내부 측정 시간 | **14.37초** |
+| chunk inference 시간 | 약 **2.8초** |
+| 처리 입력 길이 | 약 **20초 demo clip** |
+| 처리 chunk 수 | **2 chunks** |
+| merge 전 Gaussians | **3,178,040** |
+| voxelization 후 출력 Gaussians | **1,918,402** |
+| 출력 전체 크기 | **143 MB** |
+| PLY 파일 크기 | 약 **141 MB** |
+| `nvidia-smi` GPU memory peak | **19,317 MiB** |
+| PyTorch reserved peak | **16.94 GiB** |
+| PyTorch allocated peak | **6.63 GiB** |
+| GPU utilization peak | **100%** |
+| GPU power peak | **271.32 W** |
+| CPU 사용률 | **139%** |
+| Host RAM peak RSS | 약 **2.87 GiB** |
+| Swap 사용 | **0** |
+| 4090 VRAM total | 24,564 MiB |
+| peak 기준 남은 VRAM 여유 | 약 **5.2 GiB** |
+
+---
+
+## 7. 실제 Inference GPU Memory 요약
 
 | 기준 | 최대값 |
 | --- | ---: |
-| `nvidia-smi` sampled peak | **18,818 MiB** |
+| `nvidia-smi` sampled peak | **19,317 MiB** |
 | PyTorch reserved peak | **16.94 GiB** |
 | PyTorch allocated peak | **7.59 GiB** |
 | 4090 VRAM total | 24,564 MiB |
-| peak 기준 남은 여유 | 약 5.7 GiB |
+| peak 기준 남은 여유 | 약 5.2 GiB |
 
 ---
 
-## 7. 양자화 가능 여부
+## 8. 양자화 가능 여부
 
 | 항목 | 확인 결과 |
 | --- | --- |
@@ -111,7 +141,7 @@
 
 ---
 
-## 8. 학습/Refinement GPU Memory
+## 9. 학습/Refinement GPU Memory
 
 | 항목 | 판단 |
 | --- | --- |
@@ -124,7 +154,7 @@
 
 ---
 
-## 9. 미검증 항목
+## 10. 미검증 항목
 
 | 항목 | 상태 |
 | --- | --- |
