@@ -9,6 +9,7 @@ Instant Nurec : 실제 센서 데이터에 존재하는 장면을 재구성하�
 - 카메라: 영상 정보
 - LiDAR: ray를 쏘아 point cloud를 생성 -> depths 추정용
 - Ego pose: 센서가 각 순간 어디에 있었고 어느 방향을 보고 있었는지
+    >ego : 관측 주체/카메라 를 의미
 
 ```mermaid
 flowchart LR
