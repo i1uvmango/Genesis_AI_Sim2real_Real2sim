@@ -37,7 +37,7 @@ flowchart LR
 
 ![](../res_wjdaksry/0907/terrain.gif)
 
-> 특정 view 에서만 3D 이고 view를 돌리면 point
+> view 에 따라 정보가 불연속적/품질 저하 (현재 front view)
 
 ### 2.1 Scene 생성 과정
 
@@ -113,6 +113,7 @@ flowchart TD
 
     A --> B --> C --> D --> E --> F --> G --> H --> I
 ```
+> Delaunay triangulation : point들을 연결해서 Genesis Primitive인 삼각형을 만드는데, 3개의 점을 이어 삼각형을 만들었을때 그 외접원 속 다른 vertex 가 있으면 안됨
 
 | 단계 | 설명 |
 |---|---|
