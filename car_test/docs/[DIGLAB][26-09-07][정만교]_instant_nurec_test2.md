@@ -35,7 +35,7 @@ flowchart LR
 
 ## 2. Instant NuRec을 이용한 3D Scene 생성
 
-![](../res_wjdaksry/0907/terrain.gif)
+![](../res_wjdaksry/0907/terrain_github.gif)
 
 > view 에 따라 정보가 불연속적/품질 저하 (현재 front view)
 
@@ -143,7 +143,7 @@ flowchart TD
 
 ### Mesh와 Path를 적용한 Genesis 주행
 
-![](../res_wjdaksry/0907/genesis_nurec_bridge.gif)
+![](../res_wjdaksry/0907/genesis_nurec_bridge_github.gif)
 
 왼쪽 : instant nurec에서 생성한 3D Gaussian Scene에 Genesis 차량만 합성  
 오른쪽 : Genesis 시뮬레이션에서 mesh, path import 후 실제 주행
