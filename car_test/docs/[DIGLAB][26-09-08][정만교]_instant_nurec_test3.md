@@ -1,4 +1,4 @@
-# Instant Nurec vs Nurec 실행 
+# Nurec
 
 목적 : 3D gaussian scene을 physics foundation으로 올리기 위해 rendering layer를 actual collision/physics layer로 올리기 위한 framework
 
@@ -62,7 +62,7 @@ flowchart TD
 
 | 구간 | 일반 NuRec | Instant NuRec |
 |---|---|---|
-| 동일 시간대 0~20.01초<br/>160 frames | <img src="../res_wjdaksry/0909/nurec_gaussian_unobserved_views.gif" alt="일반 NuRec 0~20초 view 비교" width="360"> | <img src="../res_wjdaksry/0909/instant_nurec_gaussian_unobserved_views.gif" alt="Instant NuRec 0~20초 view 비교" width="360"> |
+| 동일 시간대 0~20.01초<br/>160 frames · 8 fps | <img src="../res_wjdaksry/0909/nurec_gaussian_unobserved_views.gif" alt="일반 NuRec 0~20초 view 비교" width="360"> | <img src="../res_wjdaksry/0909/instant_nurec_gaussian_unobserved_views.gif" alt="Instant NuRec 0~20초 view 비교" width="360"> |
 
 * nurec의 보행자는 동적 객체로 표현: 움직이는 보행자
 
@@ -80,13 +80,13 @@ flowchart TD
 
 #### 시도한 Mesh화 프레임워크
 
-| 프레임워크 | 쉬운 설명 | 실행 상태 | Genesis Mesh 렌더 | Genesis 주행 |
-|---|---|---|---|---|
-| GS2Mesh | Gaussian Scene을 여러 카메라에서 다시 보고 깊이를 만들어 TSDF mesh로 합침. | 실행 완료 | ![GS2Mesh 결과](../res_wjdaksry/0909/nurec_gs2mesh_genesis_zup.gif) 시각용 mesh 생성 성공, 끊긴 도로·가려진 영역이 남음. | ![GS2Mesh Genesis 주행](../res_wjdaksry/0909/gs2mesh_genesis_drive.gif) 시각용 mesh로 로딩. LiDAR 도로·ground plane을 물리용으로 분리함. |
-| DN-Splatter / AGS-Mesh | Gaussian의 위치·방향 정보를 표면으로 이어 Poisson mesh를 만듦. | 실행 완료 | ![DN/AGS 결과](../res_wjdaksry/0909/dn_splatter_agsmesh_genesis.gif) Poisson mesh 생성 성공. | ![DN/AGS Genesis 주행](../res_wjdaksry/0909/dn_splatter_agsmesh_genesis_drive.gif) 시각용 mesh로 로딩. LiDAR 도로·ground plane을 물리용으로 분리함. |
-| NCore Camera depth + LiDAR TSDF | Camera depth로 주변을 만들고 LiDAR로 도로 높이를 보강해 mesh를 만듦. | 실행 완료 | ![NCore TSDF Mesh 결과](../res_wjdaksry/0909/ncore_camera_lidar_tsdf_genesis.gif) Camera depth TSDF 주변 mesh와 LiDAR road mesh를 NCore world 좌표에서 결합함. | ![NCore TSDF Genesis 주행](../res_wjdaksry/0909/genesis_mesh.gif) 현재 적용 방식. |
-| MILo | Gaussian의 크기·방향을 이용해 물체 표면을 직접 찾아 mesh로 추출함. | 추출 단계 미실행 | 아직 미실행 | - |
-
+| 프레임워크 | 쉬운 설명 | 문제점 | 실행 상태 | Genesis Mesh 렌더 | Genesis 주행 |
+|---|---|---|---|---|---|
+| GS2Mesh | Gaussian Scene을 여러 카메라에서 다시 보고 깊이를 만들어 TSDF mesh로 합침. | 관측 센서의 view가 다양해질수록 겹치는 depth 정보가 늘어 mesh 품질을 개선할 수 있음. 현재는 관측하지 못한 측면·후면·가려진 곳이 끊김. | 실행 완료. 기존 24 pair에 이어 **48 stereo pair multi-view TSDF** 실행 완료. | ![GS2Mesh 결과](../res_wjdaksry/0909/nurec_gs2mesh_genesis_zup.gif) 기존 결과. ![GS2Mesh 48-view Genesis 결과](../res_wjdaksry/0909/gs2mesh_multiview_genesis.gif) 48 view·465,277 vertex·796,799 triangle로 생성한 결과. 도로 외곽·가려진 영역의 단절은 여전히 남음. | ![GS2Mesh Genesis 주행](../res_wjdaksry/0909/gs2mesh_genesis_drive.gif) 기존 시각용 mesh 주행. LiDAR 도로·ground plane을 물리용으로 분리함. |
+| DN-Splatter / AGS-Mesh | Gaussian의 위치·방향 정보를 표면으로 이어 Poisson mesh를 만듦. | Poisson Surface Reconstruction은 기본적으로 **3D 점의 위치 + 각 점의 Normal(표면 방향)**으로 표면을 복원함. 평평한 surface도 Normal·점 분포 오차에 따라 울퉁불퉁해질 수 있어 현재 물리용에는 부적합함. | 실행 완료 | ![DN/AGS 결과](../res_wjdaksry/0909/dn_splatter_agsmesh_genesis.gif) Poisson mesh 생성 성공. 도로의 과도한 메움·울퉁불퉁함이 남음. | ![DN/AGS Genesis 주행](../res_wjdaksry/0909/dn_splatter_agsmesh_genesis_drive.gif) 시각용 mesh로 로딩. LiDAR 도로·ground plane을 물리용으로 분리함. |
+| NCore Camera depth + LiDAR TSDF | Camera depth로 주변을 만들고 LiDAR로 도로 높이를 보강해 mesh를 만듦. | Camera depth mesh와 LiDAR road mesh를 분리해 사용해야 함. | 실행 완료 | ![NCore TSDF Mesh 결과](../res_wjdaksry/0909/ncore_camera_lidar_tsdf_genesis.gif) Camera depth TSDF 주변 mesh와 LiDAR road mesh를 NCore world 좌표에서 결합함. | ![NCore TSDF Genesis 주행](../res_wjdaksry/0909/genesis_mesh.gif) 현재 적용 방식. |
+| MILo | 3DGS 학습 중간중간 계속 Mesh를 만들고, 그 Mesh가 이상하면 그 정보가 다시 Gaussian 학습에 반영되는 구조 | 현재는 미학습 기능 추출만 완료되어 surface 품질 검증이 필요함. | **미학습 기능 추출 시험 완료** | ![MILo 미학습 결과](../res_wjdaksry/0909/milo_genesis_mesh.gif) Gaussian 6,000개에서 89,586 vertex·171,272 triangle 생성. 전체 MILo 학습 없이 proxy SDF로 추출해 2,144개 조각으로 분리됨. | - |
+ 
 #### 2. 현재 Genesis 주행 방식 : Ncore
 
 ```mermaid
@@ -107,7 +107,7 @@ flowchart LR
 
 그렇다면 instant nurec 이면 안되는가? 
 
- 시간 비교 : **2.7초** vs **약 8분** (RTX 4090 실측)
+ **2.7초** vs **약 8분** 차이
 
 | Instant NuRec mesh | 일반 NuRec mesh |
 |---|---|
