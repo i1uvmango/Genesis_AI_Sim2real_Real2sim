@@ -35,15 +35,28 @@ depth + 카메라 intrinsics·poses
 
 | 방법 | 결과 이미지 | 처리 방식 | 판정 |
 |---|---|---|---|
-| A | ![](../res_wjdaksry/0922/gs2mesh_lidar_fusion_v3_mesh.gif) | LiDAR 사용 | **사용 불가** |
-| B | ![](../res_wjdaksry/0924/export_depth_road_mesh.gif) | Gaussian depth + TSDF | **사용 가능** |
+| 원본 NuRec Gaussian 도로 | ![원본 road Gaussian 동일 시점 회전](../res_wjdaksry/0929/road_gaussian_synced.gif) | NuRec road Gaussian layer 렌더링 | 비교 기준 |
+| A | ![A mesh 동일 시점 회전](../res_wjdaksry/0929/road_mesh_A_synced.gif) | LiDAR 사용 | **사용 불가** |
+| B | ![Gaussian RGB를 투영한 B mesh 동일 시점 회전](../res_wjdaksry/0929/road_mesh_B_synced.gif) | Gaussian depth → TSDF → Mesh + Gaussian RGB 투영 | **사용 가능** |
+
+
+
+
+
+![원본 Gaussian·A·Gaussian RGB를 입힌 B의 동기 회전 비교](../res_wjdaksry/0929/road_threeway_rgb_synced.gif)
+* 순서대로 GT, lidar 사용, gaussian depth 방법
+
 
 ### Gaussian Depth 활용
 
-![](../res_wjdaksry/0924/export_depth_road_drive.gif)
+여러 시점의 Gaussian depth를 TSDF voxel에 가중 평균으로 누적한 뒤, TSDF = 0인 표면에서 mesh를 추출함. Gaussian RGB는 추출한 mesh의 색상으로 투영함.
+
+![정지 이미지 보기](../res_wjdaksry/0929/gaussian_depth_tsdf_process.png)
 
 
-#### 단계
+
+
+### Mesh 생성 과정
 1. gaussian scene 생성
 2. 여러 시점의 Gaussian depth 추출
 3. 카메라 pose·intrinsics로 각 depth가 3D 공간의 어디에 해당하는지 계산 &rarr;가상의 공간에 배치하는 카메라 이므로 정보를 알 수 있음
@@ -61,6 +74,8 @@ depth + 카메라 intrinsics·poses
 | **Gaussian Renderer Depth** | 화면 pixel 위치에서 가우시안까지의 거리를 측정하여 depth map 생성 | ![Gaussian depth 설명 GIF](../res_wjdaksry/0924/gaussian_depth_explained.gif) |
 | Stereo Depth | 두 이미지의 시차(u,v 좌표의 차이)와 카메라(가상에 우리가 배치하므로 pose를 안다) 간 거리(baseline)를 이용해 depth 계산(단 두 카메라 간 대응점 존재해야함)| ![](../res_wjdaksry//0924/stereo_depth.jpg) |
 
+### TSDF 에 대하여
+
 
 
 ### 결과 GIF
@@ -76,6 +91,9 @@ depth + 카메라 intrinsics·poses
 3. **도로 mesh만 Genesis에 적용한 주행**  
    ![Gaussian 도로 mesh Genesis 주행](../res_wjdaksry/0924/gaussian_road_only_genesis_drive.gif)
 
-4. **도로와 배경 mesh를 Genesis에 함께 적용한 주행**  
+4. **도로와 배경 합성 mesh를 Genesis에 함께 적용한 주행**  
    ![Gaussian 도로 및 배경 mesh Genesis 주행](../res_wjdaksry/0924/gaussian_road_background_genesis_drive.gif)
 
+
+
+> 잘되지 않은 이유는 배경 분리가 제대로 되지 않아서
