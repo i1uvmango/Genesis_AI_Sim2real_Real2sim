@@ -126,3 +126,19 @@ flowchart LR
 * 아직 3DGS 를 mesh화 하는 것에 대한 개념 이해가 부족
 * 개념/방법 공부 후 더 다양한 방법 시도해볼 예정
 * 현재까지는 instant nurec이 시간 비용적으로 더 효율적으로 보임
+
+### 0924 — Road Gaussian depth 기반 바닥 집중 복원
+
+NuRec의 **road Gaussian 101,606개**만 사용해 바닥 mesh를 생성함. 3개 카메라에서 각 30개 시점(총 90개)을 선택해 약 9.67초 구간을 렌더링하고, 각 시점의 Gaussian 렌더링 결과에서 depth map을 추출함. 이는 두 카메라 영상의 시차로 계산하는 **stereo depth가 아님**.
+
+1. 도로 Gaussian만 활성화해 depth를 렌더링하고, 전체 정적 scene 렌더와 비교해 다른 물체에 가려진 도로 픽셀을 제외함.
+2. 불투명도·거리 조건을 적용하고, 인접 시점의 depth가 서로 일치하는 관측만 남김.
+3. 남은 depth를 **5cm voxel TSDF**로 누적해 표면을 만들고, **10cm 높이 grid**로 mesh화함. 관측된 도로에서 30cm 이내의 작은 구멍만 보완하고, 큰 미관측 영역은 채우지 않음.
+4. mesh 생성에는 LiDAR 점군과 ego/camera pose의 Z 높이를 사용하지 않음. (NuRec scene 자체를 만들 때 사용한 원본 데이터와는 별개임.)
+
+| 생성한 도로 mesh | 같은 mesh로 Genesis 주행 |
+|---|---|
+| ![Road Gaussian depth TSDF mesh 회전 미리보기](../res_wjdaksry/0924/export_depth_road_mesh.gif) | ![Road Gaussian depth mesh Genesis 정면 주행](../res_wjdaksry/0924/export_depth_road_drive.gif) |
+
+- Genesis에서 같은 mesh를 화면 표시와 바퀴 RayWheel에 사용하고, 별도 ground plane 없이 24.8m 주행을 완료함. 4륜 접촉률 100%, 경로 오차(CTE) RMSE 4.14cm.
+- 이 결과는 해당 경로에서 주행 가능한 표면이 만들어졌다는 뜻이며, 실제 노면 높이·요철의 절대 정확도를 검증한 것은 아님. 넓은 미관측 영역, 도로 외 배경 mesh, 차체 장애물 충돌도 검증 범위 밖임.
