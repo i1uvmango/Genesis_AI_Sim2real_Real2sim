@@ -49,9 +49,10 @@ depth + 카메라 intrinsics·poses
 
 여러 시점의 Gaussian depth를 TSDF voxel에 가중 평균으로 누적한 뒤, TSDF = 0인 표면에서 mesh를 추출함. Gaussian RGB는 추출한 mesh의 색상으로 투영함.
 
-![정지 이미지 보기](../res_wjdaksry/0929/gaussian_depth_tsdf_process.png)
+![정지 이미지 보기](../res_wjdaksry/0924/gaussian_depth_explained.gif)
 
-
+#### Gaussian Depth + TSDF 
+![](../res_wjdaksry/0929/gaussian_depth_tsdf_process.png)
 
 
 ### Mesh 생성 과정
@@ -69,9 +70,10 @@ depth + 카메라 intrinsics·poses
 | 방식 | 설명 | 시각 자료 |
 |---|---|---|
 | Camera Depth | LiDAR depth, RGB-D depth,stereo depth, monocular depth estimation등 **camera depth \(Z\)**를 의미 | - |
-| **Gaussian Renderer Depth** | 화면 pixel 위치에서 가우시안(이미 pose를 알고있음)까지의 거리를 측정하여 depth map 생성 | ![Gaussian depth 설명 GIF](../res_wjdaksry/0924/gaussian_depth_explained.gif) |
+| **Gaussian Renderer Depth** | 화면 pixel 위치에서 가우시안(이미 pose를 알고있음)까지의 거리를 측정하여 depth map 생성 | ![Gaussian depth 설명 GIF](../res_wjdaksry/1001/gaussian_pixel_depth.gif) |
 | Stereo Depth | 두 이미지의 시차(u,v 좌표의 차이)와 카메라(가상에 우리가 배치하므로 pose를 안다) 간 거리(baseline)를 이용해 depth 계산(단 두 카메라 간 대응점 존재해야함)| ![](../res_wjdaksry//0924/stereo_depth.jpg) |
 
+>Gaussian rendering depth에서는 한 pixel \((u,v)\)에 여러 Gaussian이 기여할 수 있다. 각 Gaussian을 depth 순으로 정렬한 뒤, 앞선 Gaussian들의 \((1-\alpha)\)를 누적 곱하여 transmittance(가시율) \(T_i\)를 구한다. 여기에 현재 Gaussian의 opacity \(\alpha_i\)를 곱하여 해당 Gaussian의 contribution weight \(w_i=T_i\alpha_i\)를 계산한다. 이후 각 Gaussian의 camera-space depth \(z_i\)를 이 weight로 가중합/정규화하여 pixel의 expected depth를 얻는다.
 
 ### 단계별 생성과정
 
