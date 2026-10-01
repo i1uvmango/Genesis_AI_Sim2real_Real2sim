@@ -101,6 +101,9 @@ depth + 카메라 intrinsics·poses
 4. **도로와 배경 합성 mesh를 Genesis에 함께 적용한 주행**  
    ![](../res_wjdaksry/0929/gaussian_road_background_drive.gif)
 
+> 흰 부분은 관측 부족으로 인해 mesh를 제대로 생성하지 못함:  어떻게 채울 지 고민해야 할 부분
+---
+
 
 ### 결과 비교
 |구분|GT|Mesh|
