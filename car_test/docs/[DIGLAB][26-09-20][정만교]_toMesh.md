@@ -1,6 +1,6 @@
 # 3DGS to Mesh
 
-
+> 현재 Nurec Demo의 Gaussian Scene 은 1 epoch(1000step) 최적화한 결과임
 
 ### 문서 요약
 * **요약**: 3DGS의 Visual layer를 multi view Gaussian Rendering Depth를 사용하여 depth 추출 후 TSDF와 융합하여 mesh 생성하였다.
@@ -106,7 +106,7 @@ depth + 카메라 intrinsics·poses
 
 
 ### 결과 비교
-|구분|GT|Mesh|
+|구분|GT| Generated Mesh|
 | - | - | - |
 | terrain |![NuRec Gaussian 원본 동일 회전 시점](../res_wjdaksry/0929/gaussian_terrain_gt_synced.gif)|![](../res_wjdaksry/0929/gaussian_road_background_mesh.gif)|
 | drive |![](../res_wjdaksry/0907/nurec_baseline_render.gif)|![](../res_wjdaksry/0929/gaussian_road_background_drive.gif) |
