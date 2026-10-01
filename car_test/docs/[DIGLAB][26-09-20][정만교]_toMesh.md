@@ -1,8 +1,6 @@
 # 3DGS to Mesh
 > 목표: gaussian splatting으로 만들어진 씬을 mesh화
 
-- 여기서 제약조건: gaussian splatting은 visual scene이라서 뎁스 정보가 불분명하다 &rarr; 현재 nurec 데모 에서는 lidar 가 있기때문에 가능하다 라고 가정하고 진행
-
 
 
 ### mesh 자동화 과정: 3DGS는 visual layer이다
@@ -15,7 +13,7 @@
 > 다음은 mesh와 관련된 Nurec의 함수들이다
 
 * `export-depth` : 학습된 Gaussian 씬을 특정 카메라 시점에서 렌더링한 **Gaussian depth** : 굳이 nurec이 아니더라도 Gaussian Scene의 최적화가 잘 되어있으면 gaussian depth는 어떤 프레임워크이던 계산 가능함
-* `export-mesh` : LiDAR·카메라 관측을 점군으로 합치고, 점의 표면 방향(normal)을 추정한 뒤 Poisson Surface Reconstruction으로 삼각형 mesh를 만드는 기능 : Lidar 정보 사용, 시각 layer인 3DGS에선 **Lidar를 사용할 수 없는 가정이므로 기각**
+* `export-mesh` : LiDAR·카메라 관측을 점군으로 합치고, 점의 표면 방향(normal)을 추정한 뒤 Poisson Surface Reconstruction으로 삼각형 mesh를 만드는 기능 : Lidar 정보 사용, 시각 layer인 3DGS에선 **Lidar를 사용할 수 없는 가정이므로 기각**(nurec에서 LiDAR가 있는 이유는, 현실을 camera,LiDAR로 직접 찍은 장면)
 
 
 ```
@@ -71,7 +69,7 @@ depth + 카메라 intrinsics·poses
 | 방식 | 설명 | 시각 자료 |
 |---|---|---|
 | Camera Depth | LiDAR depth, RGB-D depth,stereo depth, monocular depth estimation등 **camera depth \(Z\)**를 의미 | - |
-| **Gaussian Renderer Depth** | 화면 pixel 위치에서 가우시안까지의 거리를 측정하여 depth map 생성 | ![Gaussian depth 설명 GIF](../res_wjdaksry/0924/gaussian_depth_explained.gif) |
+| **Gaussian Renderer Depth** | 화면 pixel 위치에서 가우시안(이미 pose를 알고있음)까지의 거리를 측정하여 depth map 생성 | ![Gaussian depth 설명 GIF](../res_wjdaksry/0924/gaussian_depth_explained.gif) |
 | Stereo Depth | 두 이미지의 시차(u,v 좌표의 차이)와 카메라(가상에 우리가 배치하므로 pose를 안다) 간 거리(baseline)를 이용해 depth 계산(단 두 카메라 간 대응점 존재해야함)| ![](../res_wjdaksry//0924/stereo_depth.jpg) |
 
 
