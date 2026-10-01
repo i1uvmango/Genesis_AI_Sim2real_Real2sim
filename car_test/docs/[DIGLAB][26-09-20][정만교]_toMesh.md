@@ -1,4 +1,4 @@
-# with LiDAR
+# 3DGS to Mesh
 > 목표: gaussian splatting으로 만들어진 씬을 mesh화
 
 - 여기서 제약조건: gaussian splatting은 visual scene이라서 뎁스 정보가 불분명하다 &rarr; 현재 nurec 데모 에서는 lidar 가 있기때문에 가능하다 라고 가정하고 진행
@@ -36,8 +36,8 @@ depth + 카메라 intrinsics·poses
 | 방법 | 결과 이미지 | 처리 방식 | 판정 |
 |---|---|---|---|
 | 원본 NuRec Gaussian 도로 | ![원본 road Gaussian 동일 시점 회전](../res_wjdaksry/0929/road_gaussian_synced.gif) | NuRec road Gaussian layer 렌더링 | 비교 기준 |
-| A | ![A mesh 동일 시점 회전](../res_wjdaksry/0929/road_mesh_A_synced.gif) | LiDAR 사용 | **사용 불가** |
-| B | ![Gaussian RGB를 투영한 B mesh 동일 시점 회전](../res_wjdaksry/0929/road_mesh_B_synced.gif) | Gaussian depth → TSDF → Mesh + Gaussian RGB 투영 | **사용 가능** |
+| LiDAR | ![A mesh 동일 시점 회전](../res_wjdaksry/0929/road_mesh_A_synced.gif) | LiDAR 사용 | **사용 불가** |
+| **Gaussian Depth + TSDF + Gaussian RGB** | ![Gaussian RGB를 투영한 B mesh 동일 시점 회전](../res_wjdaksry/0929/road_mesh_B_synced.gif) | Gaussian depth → TSDF → Mesh + Gaussian RGB 투영 | **사용 가능** |
 
 
 
@@ -74,11 +74,8 @@ depth + 카메라 intrinsics·poses
 | **Gaussian Renderer Depth** | 화면 pixel 위치에서 가우시안까지의 거리를 측정하여 depth map 생성 | ![Gaussian depth 설명 GIF](../res_wjdaksry/0924/gaussian_depth_explained.gif) |
 | Stereo Depth | 두 이미지의 시차(u,v 좌표의 차이)와 카메라(가상에 우리가 배치하므로 pose를 안다) 간 거리(baseline)를 이용해 depth 계산(단 두 카메라 간 대응점 존재해야함)| ![](../res_wjdaksry//0924/stereo_depth.jpg) |
 
-### TSDF 에 대하여
 
-
-
-### 결과 GIF
+### 단계별 생성과정
 
 앞 단계에서 생성한 mesh와 Genesis 적용 결과를 순서대로 정리한다.
 
@@ -92,8 +89,12 @@ depth + 카메라 intrinsics·poses
    ![Gaussian 도로 mesh Genesis 주행](../res_wjdaksry/0924/gaussian_road_only_genesis_drive.gif)
 
 4. **도로와 배경 합성 mesh를 Genesis에 함께 적용한 주행**  
-   ![Gaussian 도로 및 배경 mesh Genesis 주행](../res_wjdaksry/0924/gaussian_road_background_genesis_drive.gif)
+   ![](../res_wjdaksry/0929/gaussian_road_background_drive.gif)
 
 
+### 결과 비교
+|구분|GT|Mesh|
+| - | - | - |
+| terrain |![NuRec Gaussian 원본 동일 회전 시점](../res_wjdaksry/0929/gaussian_terrain_gt_synced.gif)|![](../res_wjdaksry/0929/gaussian_road_background_mesh.gif)|
+| drive |![](../res_wjdaksry/0907/nurec_baseline_render.gif)|![](../res_wjdaksry/0929/gaussian_road_background_drive.gif) |
 
-> 잘되지 않은 이유는 배경 분리가 제대로 되지 않아서
