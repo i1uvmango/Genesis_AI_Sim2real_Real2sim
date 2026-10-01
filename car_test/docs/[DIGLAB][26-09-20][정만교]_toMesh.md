@@ -1,9 +1,17 @@
 # 3DGS to Mesh
+
+
+
+### 문서 요약
+* **요약**: 3DGS의 Visual layer를 multi view Gaussian Rendering Depth를 사용하여 depth 추출 후 TSDF와 융합하여 mesh 생성하였다.
+
+* **미해결 문제**: 가상 센서로 관측/최적화 된 부분만 mesh화 되므려, 미관측 영역의 mesh 생성 방안 구체화 필요
+---
+
+
+
+## mesh 자동화 과정: 3DGS는 visual layer이다
 > 목표: gaussian splatting으로 만들어진 씬을 mesh화
-
-
-
-### mesh 자동화 과정: 3DGS는 visual layer이다
 
 * 3DGS 에선 lidar 정보가 없다 &rarr; **visual layer**이기때문
 * **전통 방식**에선 사람이 **수동으로 mesh를 직접 깔았음** &rarr; 이 부분을 **자동화**할 순 없을까?
@@ -14,6 +22,8 @@
 
 * `export-depth` : 학습된 Gaussian 씬을 특정 카메라 시점에서 렌더링한 **Gaussian depth** : 굳이 nurec이 아니더라도 Gaussian Scene의 최적화가 잘 되어있으면 gaussian depth는 어떤 프레임워크이던 계산 가능함
 * `export-mesh` : LiDAR·카메라 관측을 점군으로 합치고, 점의 표면 방향(normal)을 추정한 뒤 Poisson Surface Reconstruction으로 삼각형 mesh를 만드는 기능 : Lidar 정보 사용, 시각 layer인 3DGS에선 **Lidar를 사용할 수 없는 가정이므로 기각**(nurec에서 LiDAR가 있는 이유는, 현실을 camera,LiDAR로 직접 찍은 장면)
+
+결론 : 굳이 `Nurec`이 필요하진 않다, Gaussian Splatting의 최적화 품질이 중요
 
 
 ```
