@@ -310,6 +310,50 @@ flowchart TD
 - T가 개선되면 센서 융합 시 이중 표면·색 번짐·경계 불일치를 줄일 수 있음. 미관측 영역·LiDAR 희소성·Gaussian depth 불일치·Poisson 메움 문제는 별도로 남음.
 - 현재 단계는 **T 후보 추정 완료 → 물리 정확도 검증 필요**임. 메시가 생성되었다는 사실로 T가 정확하다고 판단하지 않음.
 
+## 7. 현재까지 최선의 T로 생성한 Mesh 결과(26.10.24)
+
+**현재 실험에 선택한 최신 다구간 T로 세 가지 mesh를 생성함. 시각적 연결성은 공식 NuRec `export-mesh`가 가장 양호해 보이지만, 정합 정확도·물리 주행 성능이 검증된 결과는 아님.**
+
+### 7.1. 사용한 T와 데이터
+
+| 항목 | 적용 내용 |
+|---|---|
+| T 후보 | 10/24 다구간 구조물·도로 표식 정합 + deskew 기반 추정값 |
+| T의 검증 상태 | 초기값 위치 차이 4.64cm. 구간 제외 시 최대 25.63cm·1.42° 변화 |
+| 공통 LiDAR 입력 | 151 keyframe·1,668,341점. 정적 semantic 선택 후 World 배치 |
+| Gaussian 입력 | 융합 경로에서만 NuRec 18,000 step 장면의 저장된 RGB·depth 320 view 사용 |
+| 생성 당시 시간 조건 | 공통 UTC + −0.37초 가설·발사 시각별 deskew |
+
+‘현재 선택한 T’는 모든 장면에서 가장 정확하다고 검증된 정답을 뜻하지 않음. 공식 Koide 1차 출력 그대로가 아니라 **C절의 자체 다구간 추정 후보**임.
+
+### 7.2. 동일 구도 Mesh 비교
+
+![최신 T의 공식 NuRec export-mesh·자체 Poisson·Gaussian LiDAR TSDF mesh 비교](../res_wjdaksry/1024/three_meshes_new_T_compare.gif)
+
+> **좌측: 공식 NuRec `export-mesh` / 가운데: 자체 LiDAR Poisson / 우측: Gaussian depth·LiDAR TSDF 안정화 결과.** 동일 카메라·회전 위상으로 실제 삼각형 mesh를 표시함. 3DGS 영상이나 Genesis 차량 주행 영상은 아님.
+
+| 방법 | 실제 입력·처리 | 삼각형 수 | 결과 해석 |
+|---|---|---:|---|
+| 공식 NuRec `export-mesh` | 공통 LiDAR → 새 T의 NCore → 공식 exporter | 1,586,959 | 상대적으로 매끈하고 큰 구조가 연결됨. 구멍·스캔 띠는 남음 |
+| 자체 LiDAR Poisson | 같은 LiDAR·normal → 5cm 목표 해상도 Poisson | 6,049,310 | 입력 점을 더 가깝게 따르지만 표면 요철·비정상 연결이 남음 |
+| Gaussian·LiDAR TSDF | Gaussian depth·LiDAR depth 융합 → 5cm TSDF | 14,566,579 | 주변 형상·색상을 포함하나 단절·작은 조각이 많음 |
+
+해상도·normal·후처리 조건이 달라 알고리즘 자체의 정확도 순위를 판정하는 대조 실험은 아님. **면 수가 많다고 더 정확한 mesh라는 뜻도 아님.**
+
+### 7.3. Gaussian RGB를 적용한 융합 Mesh
+
+![최신 T의 Gaussian RGB·depth 및 LiDAR TSDF 융합 mesh](../res_wjdaksry/1024/fusion_stable_new_T_rgb.gif)
+
+> Gaussian 렌더링 RGB를 반영한 TSDF mesh임. 색상이 표시되어도 geometry 단절이 해결된 것은 아니며, Gaussian 씬을 직접 표시한 영상과 구분함.
+
+### 7.4. 현재 판단과 시간 정렬 재검증의 관계
+
+- **다음 보완의 기준 mesh:** 시각적 연결성이 양호한 공식 NuRec `export-mesh`를 우선 검토할 수 있음.
+- **아직 미검증:** 실제 동일 구조물 기준의 형상 정확도, Genesis 충돌·차량 주행 가능성.
+- 위 GIF는 **10/24 생성 결과**임. 10/25 시간 정렬 재검증 후 mesh를 새로 생성한 결과가 아님.
+- 10/25에는 원본 기록 시계↔GPS 기준 VLP 시계 변환을 재현하고, AroundView 8,319·AVNView 16,634프레임의 공통 UTC 대응표를 생성함. 시계 offset 약 +0.834초·drift 6.51ppm은 기존 계산과 같았음.
+- 새 시간 대응표는 **추가 노출 offset을 0으로 두고 −0.37초 가설을 적용하지 않은 버전**임. 실제 노출 지연은 여전히 미확정이므로, 기존 mesh와 새 대응표의 시간 조건을 혼용하지 않아야 함.
+
 ## 근거·재현 기록
 
 | 자료 | 기록 |
