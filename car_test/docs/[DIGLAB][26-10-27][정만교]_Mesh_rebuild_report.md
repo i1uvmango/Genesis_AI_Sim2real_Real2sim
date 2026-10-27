@@ -6,12 +6,18 @@
 
 ## 요약
 
+
+
 **결과**
 - extrinsic T는 mesh 품질 저하의 원인이 아님. T에 이동 50cm, 회전 2도 오차를 넣어도 PSNR 변화 0.1dB 이하
 - LiDAR 지도 빈 공간 침범 18.0% &rarr; 8.0%
 - 그동안 동적 객체의 존재가 LiDAR 및 Camera 정보를 오염 시키고 있었음 &rarr; 제거 후 더 나은 mesh 해상도를 보임
 - 2DGS mesh와 LiDAR 교정 mesh를 결합해 사용
 - 결합 mesh는 LiDAR 일치 66.0%, 구멍 1.1%, 바퀴 지지 95%, 사진 덮임 93.9%
+
+![](../res_wjdaksry/1027/final_combined_drive.gif)
+
+* 위는 학습에 쓰지 않은 실제 전방 사진, 아래는 같은 위치에서 렌더한 결합 mesh임. holdout 31프레임을 이어 붙임.
 
 
 
