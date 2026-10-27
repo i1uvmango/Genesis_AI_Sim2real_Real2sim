@@ -306,13 +306,13 @@ class StaticFrictionLockLat(StabilityHook):
 
 before hook vs after hook : 15* slope
 
-![](../../res_wjdaksry/0519/slip.mp4)
+![](../res_wjdaksry/0519/slip.mp4)
 
 https://github.com/user-attachments/assets/85cf849b-16b2-4acb-9b04-79bca84f53bb
 
 * before vlat hook
 
-![](../../res_wjdaksry/0519/no_slip.mp4)
+![](../res_wjdaksry/0519/no_slip.mp4)
 
 https://github.com/user-attachments/assets/04022f2b-f8eb-415c-89bb-18151f1e35c3
 

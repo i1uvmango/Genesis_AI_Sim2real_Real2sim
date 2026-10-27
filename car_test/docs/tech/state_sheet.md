@@ -1,5 +1,5 @@
 # State Sheet
- ![](../../res_wjdaksry/0216/mlp.png)
+ ![](../res_wjdaksry/0216/mlp.png)
 
 
 #### Input Features (7 Dim)
