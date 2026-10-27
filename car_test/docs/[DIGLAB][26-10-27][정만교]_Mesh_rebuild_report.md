@@ -17,7 +17,7 @@
 
 ![](../res_wjdaksry/1027/final_combined_drive.gif)
 
-* 위는 학습에 쓰지 않은 실제 전방 사진, 아래는 같은 위치에서 렌더한 결합 mesh임. holdout 31프레임을 이어 붙임.
+* 위는 실제 전방 사진, 가운데는 결합 mesh의 collider 형상, 아래는 사진 색을 입힌 결합 mesh
 
 
 
