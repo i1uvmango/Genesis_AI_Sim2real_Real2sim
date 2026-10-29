@@ -9,11 +9,10 @@
 
 
 **결과**
-- extrinsic T는 mesh 품질 저하의 원인이 아님. T에 이동 50cm, 회전 2도 오차를 넣어도 PSNR 변화 0.1dB 이하
-- LiDAR 지도 빈 공간 침범 18.0% &rarr; 8.0%
-- 그동안 동적 객체의 존재가 LiDAR 및 Camera 정보를 오염 시키고 있었음 &rarr; 제거 후 더 나은 mesh 해상도를 보임
-- 2DGS mesh와 LiDAR 교정 mesh를 결합해 사용
-- 결합 mesh는 LiDAR 일치 66.0%, 구멍 1.1%, 바퀴 지지 95%, 사진 덮임 93.9%
+- extrinsic T는 mesh 품질 저하의 원인이 아님. (T:50cm, 회전 2도,&rarr; PSNR 변화 0.1dB 이하)
+- 동적 객체 &rarr; LiDAR 오염 &rarr; 제거 후 개선
+- 3DGS &rarr; 2DGS mesh와 LiDAR mesh를 결합해 사용
+- 최종 mesh는 LiDAR 일치 66.0%, 구멍 1.1%, 바퀴 지지 95%, 사진 덮임 93.9%
 
 ![](../res_wjdaksry/1027/final_combined_drive.gif)
 
@@ -161,6 +160,8 @@ T가 실제 mesh 품질의 병목인지 먼저 확인
 
 > PSNR : 생성한 이미지가 원본 이미지와 픽셀 단위로 얼마나 비슷한지 나타내는 지표
 
+>물론 Calibration 이 잘되면 더 나은 품질을 보이겠지만, 현재 센서간 extrinsic 이 추정 기반이므로, 현재까지의 best 기준으로 진행
+
 | T 오차 | 같은 방향 PSNR | 교차 방향 PSNR |
 |---|---:|---:|
 | 없음 | 16.66 | 14.41 |
@@ -245,9 +246,9 @@ LiDAR 궤적을 정제한 뒤 동적 물체를 제거함. 카메라 pose를 다�
 ## 4. LiDAR 교정 2DGS 학습
 
 
-#### 방법
+### 방법
 
-3단계에서 만든 world와 카메라 pose를 사용해 2DGS를 처음부터 학습함.
+LiDAR 정보(pose, 점, depth) 와 2DGS(이미지) 기반 mesh를 융합
 
 | 설정 | 값 |
 |---|---:|
@@ -259,9 +260,9 @@ LiDAR 궤적을 정제한 뒤 동적 물체를 제거함. 카메라 pose를 다�
 | 장비와 시간 | RTX 4090, 실측 약 20분 |
 | mesh 추출 | TSDF, 전체 학습 시점, 30m 이내, 불투명도 0.3 이상 |
 
-LiDAR 거리를 사용해 2DGS를 학습함. 조밀한 depth를 만든 뒤 TSDF 표면을 추출함.
+LiDAR depth를 사용해 2DGS를 학습함. 조밀한 depth를 만든 뒤 TSDF 표면을 추출함.
 
-#### 왜 2DGS인가?
+### 왜 2DGS인가?
 
 | 항목 | 2DGS | 3DGS |
 |---|---|---|
@@ -345,7 +346,7 @@ LiDAR 교정 mesh는 그대로 유지함. 2DGS mesh의 면은 다음 조건으�
 
 ## mesh 별 결과 비교
 
-| mesh | LiDAR 일치 | 가짜 면 | 구멍 | 바퀴 지지 | 사진 덮임 |
+| mesh | LiDAR 일치 | 가짜 면 | 구멍 | 바퀴 지지(collider) | 사진 덮임(visual) |
 |---|---:|---:|---:|---:|---:|
 | 기존 Gaussian depth mesh | 16.6% | 39.9% | 24.9% | 74% | 68.4% |
 | 기존 LiDAR mesh | 56.8% | 34.2% | 1.4% | 90% | 82.5% |
