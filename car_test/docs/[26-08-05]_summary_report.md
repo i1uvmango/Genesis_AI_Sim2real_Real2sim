@@ -48,7 +48,7 @@
 
 | reference 차량 (Blender) | 초기 box URDF | 현재 차량 (Genesis 이식) |
 | - | - | - |
-| <img src="../res_wjdaksry/0805/refcar.png" width="240"> | <img src="../res_wjdaksry/1014/car_img.png" width="240"> | <img src="../res_wjdaksry/0805/08_차량스냅샷_plane.png" width="240"> |
+| <img src="../res_wjdaksry/0726/0805/refcar.png" width="240"> | <img src="../res_wjdaksry/25_1014/car_img.png" width="240"> | <img src="../res_wjdaksry/0726/0805/08_차량스냅샷_plane.png" width="240"> |
 
 *좌: Blender reference 차량 / 중: URDF 차체+바퀴+Joint 구조 검증용 box 차량 / 우: 차량 mesh 를 URDF 로 변환해 Genesis 에 이식한 현재 차량*
 
@@ -64,7 +64,7 @@
 
 | 초기 URDF 주행 테스트 | 현재 차량 주행 (PathFollower) |
 | - | - |
-| <img src="../res_wjdaksry/1014/car_test_drive.gif" width="360"> | <img src="../res_wjdaksry/0805/09_주행스냅샷_p120.png" width="360"> |
+| <img src="../res_wjdaksry/25_1014/car_test_drive.gif" width="360"> | <img src="../res_wjdaksry/0726/0805/09_주행스냅샷_p120.png" width="360"> |
 
 *좌: box URDF 의 Genesis 주행 테스트 / 우: 현재 차량의 경로 추종 주행 — 빨간 선 = reference 경로, 노란 마커 = lookahead*
 
