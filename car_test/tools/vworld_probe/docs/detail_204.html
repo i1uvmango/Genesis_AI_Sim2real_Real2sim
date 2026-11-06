@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>브이월드</title>
+
+	<meta property="og:url" content="https://www.vworld.kr"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="브이월드"/>
+<meta property="og:description" content="공간정보 오픈플랫폼은 국가가 보유하고 있는 공개 가능한 공간정보를 모든 국민이 자유롭게 활용할 수 있도록 다양한 방법을 제공합니다."/>
+<meta property="og:image" content="https://www.vworld.kr/img/logo.png">
+<meta name="description" content="공간정보 오픈플랫폼은 국가가 보유하고 있는 공개 가능한 공간정보를 모든 국민이 자유롭게 활용할 수 있도록 다양한 방법을 제공합니다."/>
+<meta name="naver-site-verification" content="1f678c125bac40f073e2a87032b197c87cde5ab0" />
+<link rel="canonical" href="https://www.vworld.kr/v4po_main.do" /> 
+
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/css/slick.css" />
+<link rel="stylesheet" type="text/css" href="/css/syntaxhighlighter_3.0.83/shCore.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/syntaxhighlighter_3.0.83/shThemeDefault.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/spectrum.min.css" />
+
+<link rel="stylesheet" type="text/css" href="/css/common.css?ver=20260102101" />
+<link rel="stylesheet" type="text/css" href="/css/content.css" />
+<link rel="stylesheet" type="text/css" href="/css/responsive.css?var=20240710" />
+<script type="text/javascript">
+var cmAppUrl = {
+	po : "https://www.vworld.kr"
+	, data : "https://www.vworld.kr"
+	, dev : "https://www.vworld.kr"
+	, user : "https://www.vworld.kr"
+	, desk : "https://www.vworld.kr"
+	, eng : "https://www.vworld.kr"
+	, map : "https://map.vworld.kr"
+	, apis : "https://apis.vworld.kr"
+	, api : "https://api.vworld.kr"
+}
+</script>
+<script type="text/javascript" src="/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/dayjs/dayjs.min.js"></script>
+<script type="text/javascript" src="/js/dayjs/ko.js"></script>
+<script type="text/javascript" src="/js/dayjs/utc.js"></script>
+<script type="text/javascript" src="/js/slick.min.js"></script>
+<script type="text/javascript" src="/js/vue.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/common_fnc.js?var=20261022"></script>
+<script type="text/javascript" src="/js/common_login.js?var=20260622"></script>
+<script type="text/javascript" src="/js/common_msg.js"></script>
+<script type="text/javascript" src="/js/common_valid_msg.js"></script>
+<script type="text/javascript" src="/js/common_valid.js"></script>
+<script type="text/javascript" src="/js/common_menu.js?var=20260901"></script>
+<script type="text/javascript" src="/js/common_file.js"></script>
+<script type="text/javascript" src="/js/spectrum.min.js"></script>
+
+<script type="text/javascript" src="/js/wcslog.js"></script>
+<script type="text/javascript">
+var depth1=0
+var depth2=0
+var depth3=0
+var depth4=0
+var depth5=0
+
+$(window).on("load",function() {
+	if(!wcs_add) var wcs_add = {}; wcs_add["wa"] = "811b38780a3a60"; wcs_do();
+});
+
+// dayjs 플러그인 적용
+dayjs.extend(window.dayjs_plugin_utc);
+</script>
+
+
+</head>
+
+<body>
+	<div class="blind">
+		<a href="#sitemapMenu">전체메뉴 바로가기</a>
+		<a href="#headerMenu" class="mHide">메인메뉴 바로가기</a>
+		<a href="#section">본문 바로가기</a>
+	</div>
+	<div id="app" class="container">
+		<div class="template sub">
+			<header class="header">
+				﻿﻿<!-- 공장인허가 수정 소스 시작-->
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var anyidAdaptor = anyidAdaptor || {};
+        
+        /*이용기관 수정 영역 Start*/
+        anyidAdaptor.orgLogin = function(data){
+        	urlFnc.goLogin();
+            //window.location.href = "/dtkmap/vworldLogin.do";
+          //정부 통합인증SDK_연계가이드 4.4.1.3 이용기관 로그인(토글 off) 참조
+            //제공되는 라이브러리 메소드로 인증데이터 decrypt 이후 자체 로그인 로직 개발
+        }
+        /*이용기관 수정 영역 End*/
+        
+        
+        /*이용기관 문구수정 영역 Start*/
+        anyidAdaptor.JoinConfirm = function(portalJoinUri, memberData){
+            if(!confirm('Any-ID 사용자등록 하시겠습니까?')) {
+                anyidAdaptor.orgLogin();
+                return;
+            }else{
+                anyidAdaptor.receiveAnyIdJoin(portalJoinUri, memberData);
+            }
+        }
+        /*이용기관 문구수정 영역 End*/
+        
+        
+        anyidAdaptor.portalJoinUri = "null";
+        anyidAdaptor.certData = null;
+        anyidAdaptor.ssoByPass = "0";
+        anyidAdaptor.niRegYn = "null";
+        anyidAdaptor.agencyContextPath = "";
+        anyidAdaptor.anyIdSsoOn ="true";
+        if(!anyidAdaptor.anyIdSsoOn){
+        	anyidAdaptor.ssoByPass = 1;
+        }
+
+        anyidAdaptor.success = function(data){
+            if(anyidAdaptor.ssoByPass != 0 || !data.useSso) {
+                anyidAdaptor.orgLogin(data);
+            } else {
+                anyidAdaptor.certData = data;
+                anyidAdaptor.userCheck();
+            }  
+        }
+        
+        anyidAdaptor.userCheck = function(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", anyidAdaptor.agencyContextPath + "/oidc/userCheck", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        anyidAdaptor.ssoLogin();
+                    } else {
+                        setTimeout(function() {
+                            anyidAdaptor.receiveAnyIdJoin(response.uri, response.data);
+                        }, 100);  
+                    }
+                }
+            };
+
+            let jsonObject = new Object();
+            jsonObject.txId = anyidAdaptor.certData.txId;
+            jsonObject.ssob = anyidAdaptor.certData.ssob;
+            jsonObject.userSeCd = anyidAdaptor.certData.userSeCd;
+            let jsonStr = JSON.stringify(jsonObject);
+            let encodedString = btoa(jsonStr);
+            
+            var data = "data=" + encodedString + "&txId=" + anyidAdaptor.certData.txId;
+            xhr.send(data);
+            
+        }
+
+
+      //anyid가입
+        anyidAdaptor.receiveAnyIdJoin = function(portalJoinUri, memberData){
+        
+            var url = portalJoinUri+encodeURIComponent(memberData);
+            anyidAdaptor.popup(url,"openAnyIdRegistUserIdv",700,740);
+
+            window.addEventListener("message", function(event) {
+                var result;
+                try {
+                    result = JSON.parse(event.data);
+                } catch (error) {
+                    console.error("Received message is not valid JSON:", error);
+                    return;
+                }
+                
+                if(!result.funcName || (result.funcName !== "trmsAgreComplete" && result.funcName !== "registUserComplete")) {
+                    return;
+                }
+                if(result.status === "success") {
+                    if(result.trmsAgreYn == "Y"){
+                        anyidAdaptor.ssoLogin();
+                    }else{
+                        anyidAdaptor.orgLogin();
+                    }
+                }else{
+                    
+                    anyidAdaptor.orgLogin();
+                }
+
+            }, false);
+        }
+
+     // 팝업 호출
+        anyidAdaptor.popup = function(url, name, width, height){
+            let left = (screen.width) ? (screen.width-width)/2 : 0;
+            let top = (screen.height) ? (screen.height-height)/2 : 0;
+            let popup=window.open(url, name ,"resizable=yes,toolbar=no,scrollbars=yes,location=no,top="+top+"px,left="+left+"px,width="+width+"px,height="+height+"px");
+            if(popup){
+                popup.focus();
+            }
+        }
+
+        anyidAdaptor.ssoLogin = function(){
+            let jsonObject = new Object();
+            jsonObject.txId = anyidAdaptor.certData.txId;
+            jsonObject.ssob = anyidAdaptor.certData.ssob;
+            jsonObject.userSeCd = anyidAdaptor.certData.userSeCd;
+            jsonObject.afData = anyidAdaptor.certData.afData;
+            let jsonStr = JSON.stringify(jsonObject);
+            let encodedString = btoa(jsonStr);
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/ssoLogin";
+            var urlWithParams = baseUrl + "?data=" + encodedString;
+            window.location.href = urlWithParams;
+            
+        }
+        
+        anyidAdaptor.ssoLoginPageSub = function(baseUrl, endPoint, acrValues){
+            var subUrl = "";
+            
+            if (endPoint && endPoint.trim() !== "") {
+                subUrl = "?endPoint=" + encodeURIComponent(endPoint);
+            }
+            
+            if (!acrValues && acrValues.trim() == "") {
+            	acrValues = "3";
+            }
+            
+            if (acrValues && acrValues.trim() !== "") {
+                if(subUrl == ""){
+                    subUrl = "?";
+                }else{
+                    subUrl = subUrl + "&";
+                }
+                subUrl = subUrl + "acrValues=" + acrValues;
+            }
+            
+            window.location.replace(baseUrl+subUrl);
+        }
+        
+        /**/
+        anyidAdaptor.ssoLogout = function(endPoint) {
+            var subUrl = "";
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/ssoLogout";
+            
+            if (endPoint && endPoint.trim() !== "") {
+                subUrl = "?endPoint=" + encodeURIComponent(endPoint);
+            }
+            baseUrl = baseUrl + "?endPoint=" + encodeURIComponent(endPoint);
+// 			if(baseUrl.includes("%26")){ baseUrl = baseUrl.replaceAll("%26","%2526"); }
+            window.location.replace(baseUrl);
+        }
+        /**/
+        anyidAdaptor.reAuthLevel = function(endPoint, acrValues){
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/reAuthLevel";
+            anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues);
+
+        }
+        /**/
+        anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
+            anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues);
+        }
+        
+        /**/
+        anyidAdaptor.ssoSvcToSvc = function(url, endPoint){
+            /* var baseUrl = url + "/oidc/svcToSvc?endPoint=" + encodeURIComponent(endPoint);
+            window.open(baseUrl, "_blank"); */
+        	var baseUrl = url + "/oidc/svcToSvc?endPoint=" + encodeURIComponent(endPoint);
+        	var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+        	window.open(baseUrl, "popup", options);
+        }
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+<!-- 공장인허가 수정 소스 끝 -->
+<script type="text/javascript">
+$(document).ready(function() {
+// 	2025-04-10 anyId login connect
+	var queryString = window.location.search;
+	var params = new URLSearchParams(queryString);
+	if(params.get('goMap')!=null){
+		var lcode = params.get('goMap');
+		if(lcode == 'Y'){ 
+// 			window.location.replace('http://localhost:8280/map/dtkmap.do');
+			window.location.replace('https://map.vworld.kr/map/dtkmap.do');
+		}
+	}
+	
+	
+	srchFnc.init("header_searchIdw", "header_searchBtn");
+	menuFnc.set();
+});
+</script>
+
+
+<h1 class="logo"><a href="javascript:urlFnc.goMain();" title="메인화면으로 이동" ><strong>V-world</strong>디지털트윈국토</a></h1>
+
+<nav class="gnb mHide" id="headerMenu">
+	
+</nav>			
+
+<div class="btns">
+	<div class="toggle one">
+			<button type="button" class="bt max ico only find" title="통합검색">통합검색</button>
+			<!-- 2023-11-28 -->
+			<div class="overbox rt">
+				<div class="set find">
+					<label for="header_searchIdw" class="blind">통합검색</label>
+					<input type="text" class="input validate[required]" id="header_searchIdw" name="searchIdw" value="" placeholder="통합검색" title="검색어">
+					<a href="javascript:void(0);" class="bt ico only find" id="header_searchBtn" >검색</a>
+					<button type="button" class="bt ico only close">취소</button>
+				</div>
+			</div>
+			<!--// 2023-11-28 -->
+		</div>
+	<div class="toggle one" id="login-before">
+		<button type="button" id="btLogin" class="bt max ico only lock customToggle" title="로그인" onclick="loginFnc.def(undefined,'Y');">로그인/회원가입</button>
+		<div class="dropbox">
+			<div class="headline">
+				<h4 class="title">로그인</h4>
+				<button type="button" class="bt ico only close">닫기</button>
+			</div>
+			<form class="field">
+				<label for="loginUsrIde" class="blind">아이디</label>
+				<input type="text" id="loginUsrIde" class="input validate[required]" placeholder="아이디" title="아이디" maxlength="18">
+				<label for="loginUsrPwd" class="blind">비밀번호</label>
+				<input type="password" id="loginUsrPwd" class="input validate[required]" placeholder="비밀번호" title="비밀번호" autocomplete="on" maxlength="18">
+				<div class="check"><input type="checkbox" id="chkUsrIde"><label for="chkUsrIde">아이디저장</label></div>
+			</form>
+			<div class="btns col">
+				<button type="button" class="bt bg primary" onClick="loginFnc.login('loginUsrIde','loginUsrPwd','chkUsrIde');">로그인</button>
+				<button type="button" class="bt bd primary" onClick="urlFnc.goJoin();">회원가입</button>
+			</div>
+			<div class="btns fs">
+				<a class="linktxt" onClick="urlFnc.goFindId();">아이디찾기</a>
+				<a class="linktxt" onClick="urlFnc.goFindPwd();">비밀번호찾기</a>
+			</div>
+		</div>
+	</div>
+	<button type="button" class="bt max ico only menu" title="전체메뉴" aria-haspopup="dialog" aria-controls="pop-sitemap">전체메뉴열기</button>
+</div>
+</header>
+			<article class="sitemap hide" aria-hidden="true" id="pop-sitemap">
+	<div class="conWrap">
+		<div class="conHead">
+			<h2 class="blind">전체메뉴</h2>
+			<button type="button" class="bt max ico only home" title="메인화면 바로가기" onclick="urlFnc.goMain();">홈</button>
+			<!-- 로그인 전  -->
+			<p class="infotxt">로그인 후 디지털트윈국토의 모든 서비스를 이용해 보세요.</p>
+			<div class="btns ml">
+				<!-- 공장인허가 수정 소스 시작 -->
+<!-- 				 <a class="bt bd" href="javascript:urlFnc.goLogin();">로그인</a>  -->
+				<a class="bt bd" href="javascript:anyidAdaptor.ssoLoginPage(window.location.pathname+window.location.search,'3');">로그인</a>
+				<!-- 공장인허가 수정 소스 끝 -->
+				<a class="bt bd" href="javascript:urlFnc.goJoin();">회원가입</a>
+			</div>
+			<!--// 로그인 전 -->
+			<button type="button" class="bt max ico only close" title="전체메뉴 닫기">전체메뉴 닫기</button>
+		</div>
+		<div class="conBody">
+			<nav class="gnb" id="sitemapMenu">
+				
+			</nav>
+			<div class="note bg">
+				<ul>
+					<li><p class="bt ico bookmark on min">관심메뉴 설정</p> : 클릭 시 관심메뉴로 등록되어 마이포털에서 바로가기를 제공합니다. 지도메뉴의 관심설정은 지도 전체메뉴에서 설정해 주세요.</li>
+					<li><p class="bt ico lock min">회원전용 메뉴</p> : 자물쇠 표시가 있는 메뉴(하위 메뉴 포함)는 로그인 후 이용가능합니다.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</article><!--// sitemap --><section class="section" id="section">
+				<nav class="lnb">
+					<script type="text/javascript">
+$(document).ready(function() {
+	menuFnc.locationYn = "Y";
+});
+</script>
+<div class="inner" id="lnbMenu" >
+	
+</div></nav>
+				<aside class="location">
+					<div class="inner">
+	<div class="path" id="locationMenu"><span>홈</span></div>
+</div></aside>
+				<script type="text/javascript">
+
+$(document).ready(function() {
+	
+
+	
+	
+	$("#fileErr").fileUpload({
+		setFile : [
+			{name : "file_err1"}
+		]
+	});
+	
+	qnaFnc.reload("DT", "DAT_0000000000000204");
+
+	
+});
+
+$(function(){
+	//질문 제목 클릭시 펼치기 기능
+	$('#qnaDiv').on('click', ".tit", function(){
+// 		$(this).parent().next().trigger("click");
+		if($(this).parents().children().hasClass('lock')){
+			let qDiv = $(this);
+			let brdIde = $(this).parent().parent().find('input[id*=qid_]').val();
+			cmFunction.ajaxSubmit(
+					"/v4po_secret_bod.do"
+					, [{name : "brdIde", value : brdIde}]
+					, function(data){
+						if(data.status == 'false'){
+			 					msgFnc.alert({
+		 						text : "이 게시글은 비밀글입니다."
+		 						, callBackConfirmFnc : function(){}
+		 					});
+						}else{
+							qDiv.parent().next().trigger("click");
+						}
+					}
+				);
+		}else{
+			$(this).parent().next().trigger("click");
+		}
+	});
+
+});
+
+var detailFnc = {
+		params : [{ name : 'datIde' , value : 'DAT_0000000000000204'},{ name : 'indIde' , value : 'IND_0000000000000178'},{ name : 'dsId' , value : 'DAT_0000000000000204'},{ name : 'pageIndex' , value : '1'},{ name : 'pageSize' , value : '10'},{ name : 'svcCde' , value : 'DT'}]	
+			
+		// 목록화면으로 이동
+		, goList : function(){
+			if(detailFnc.params.find(v => v.name == 'pageIndex') != undefined && detailFnc.params.find(v => v.name == 'listPageIndex')){
+				detailFnc.params.find(v => v.name == 'pageIndex').value =  detailFnc.params.find(v => v.name == 'listPageIndex').value;	
+			}else{
+				detailFnc.params.find(v => v.name == 'pageIndex').value = 1;
+			}
+			
+			
+			cmFunction.submit("/dtmk/dtmk_ntads_s001.do", detailFnc.params);
+		}
+		//데이터 존재 여부 확인
+		, emptyMsg : function(){
+			msgFnc.alert({text : "해당 데이터는 삭제되었거나 존재하지 않습니다."
+				, callBackConfirmFnc : function(){
+					detailFnc.goList();
+				}
+			});
+		}
+		, setPage : function(page){
+			cmFunction.submit("/dtmk/dtmk_ntads_s002.do", detailFnc.clone, "get", {svcCde : "DT", dsId : "DAT_0000000000000204", pageIndex : page});
+		}
+		, goUrlPopup : function(url) {
+			var txtUrl='';
+			if(url.indexOf('http') != 0){
+				txtUrl = 'http://'+url;
+			}else{
+				txtUrl = url;
+			}
+			window.open(txtUrl, '_blank');
+		}
+}
+
+//오류신고
+var errFnc = {
+		save : function(type, dsId){
+			if($("#errForm").valid()){
+				cmFunction.ajaxSubmit(
+						"/v4po_badWordsFiltering.do"
+						,"errForm"
+						, function(data){
+							if(data.status == 'false'){
+				 					msgFnc.alert({
+			 						text : "이 게시글에는 금칙어 "+ data.badWrd +"이(가) 포함되어 있습니다."
+			 						, callBackConfirmFnc : function(){}
+			 					});
+							}else{
+								msgFnc.confirm({text : cmMsg.cfm.secretSave
+									, callBackConfirmFnc : function(){
+										msgFnc.confirm({text : cmMsg.cfm.save
+											, callBackConfirmFnc : function(){
+												cmFunction.submit("/dtmk/dtmk_errreport_a001.do","errForm", "post", {svcCde : "DT", dsId : "DAT_0000000000000204"});
+											}
+										});
+									}
+								});
+							}
+					});	
+
+			}
+		}
+		, cancel : function(){
+			cmFunction.formClear("errForm");
+			$("#pop-mistake--add").attr('aria-hidden','true').removeAttr('tabindex').addClass('hide');
+			$("button[aria-controls='pop-mistake--add']").focus();
+			$("#errReportCnt").text("0");
+			
+		}
+}
+
+var qnaFnc = {
+		setPage : function(page){
+			cmFunction.ajaxLoad("qnaDiv", "/dtmk/dtmk_qna_s001.do", {svcCde : "DT", dsId : "DAT_0000000000000204", qnaPageIndex : page});			
+		}
+		,reload : function(){
+			cmFunction.ajaxLoad("qnaDiv", "/dtmk/dtmk_qna_s001.do", {svcCde : "DT", dsId : "DAT_0000000000000204"});
+		}
+		// 문의등록
+		, regQna : function(){	
+			if($("#qnaForm").valid()){
+				msgFnc.confirm({text : cmMsg.cfm.save
+					, callBackConfirmFnc : function(){
+						cmFunction.submit("/dtmk/dtmk_ntads_a001.do","qnaForm", "post", {svcCde : "DT", dsId : "DAT_0000000000000204"});
+					}
+				});
+			}
+		}
+		// 문의삭제
+		, delQna : function(brdIde) {
+			cmFunction.submit("/dtmk/dtmk_ntads_d001.do",  "qnaForm", "get", {svcCde : "DT", dsId : "DAT_0000000000000204", brdIde : brdIde});
+		}
+		// 문의수정
+		, modQna : function(brdIde){
+			var title = document.getElementById("modSub").value;
+			var txtDes = document.getElementById("modDes").value;
+
+			if(title == ''){
+				msgFnc.confirm({text : "데이터 문의 제목을 입력하십시요."
+					, callBackConfirmFnc : function(){
+						document.getElementById("modSub").focus();
+					}
+				});
+				return;
+			}
+			if(txtDes == ''){
+				msgFnc.confirm({text : "데이터 문의 내용을 입력하십시요."
+					, callBackConfirmFnc : function(){
+						document.getElementById("modDes").focus();
+					}
+				});
+				return;
+			}
+			
+			if($("#modForm").valid()){
+				msgFnc.confirm({text : cmMsg.cfm.save
+					, callBackConfirmFnc : function(){
+						cmFunction.submit("/dtmk/dtmk_ntads_u001.do","modForm", "post", {svcCde : "DT", dsId : "DAT_0000000000000204"});
+					}
+				});
+			}
+		}
+}
+
+function fn_insertItrstData(obj){
+	var msg = "관심 공간정보가 등록되었습니다.";
+	var url = "/mypo/mypo_data_i001.do";
+	
+	if(obj.hasClass("on")){
+		msg = "관심 공간정보가 해제되었습니다.";
+		url = "/mypo/mypo_data_d001.do";
+	}
+	
+	cmFunction.ajaxSubmit(
+		url
+		, {'svcCde':'DT','dsId':'DAT_0000000000000204'}
+		, function(data){
+			msgFnc.alert(msg);
+			menuFnc.setItrst();
+		}
+	);
+}
+
+function fn_lyrMapPopup(lyrIde,map){
+	//20140116 이영규 - 미리보기시 map.vworld.kr 에서 로딩 		
+	// 운영서버 반영시.
+	if(map == '2D'){
+		var url = "https://map.vworld.kr/map/dtkmap.do?initTab=layer&initMode=2D&lyrIde=" + lyrIde;
+		var map2DPopup = window.open(url,'_blank'/*,'height=650,width=1290,left=30,top=30,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no'*/);
+		map2DPopup.focus();
+	}else if(map == '3D'){
+		var url = "https://map.vworld.kr/map/dtkmap.do?initTab=layer&initMode=3D&lyrIde=" + lyrIde;
+		var map3DPopup = window.open(url,'_blank'/*,'height=650,width=1290,left=30,top=30,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no'*/);
+		map3DPopup.focus();
+	}
+}
+
+function checkLength(type, obj){
+	var maxlength = 0;
+	var curlength = null;
+	
+	if(type == 'qna'){
+		maxlength = 1500;
+		curlength = $("#brdDes").val().length;
+		
+		document.getElementById("qnaCnt").innerHTML = curlength;
+		
+	}else if(type == 'err'){
+		maxlength = 3000;
+		curlength = $("#errReportDes").val().length;
+		
+		document.getElementById("errReportCnt").innerHTML = curlength;
+	}else if(type == 'mod'){
+		maxlength = 1500;
+		curlength = $("#modDes").val().length;
+		
+		document.getElementById("modCnt").innerHTML = curlength;
+		
+	}
+}
+</script>
+<article class="article space download">
+		
+	<h3 class="blind">공간정보 다운로드</h3>
+	
+	<div class="headline fix">
+		<div class="inner">
+			<div class="item bd">
+				<div class="path bg"><span>지도</span><span>3차원</span></div>
+				<h4 class="title">
+					3차원 시설물(LoD1)</h4>
+				<a href="javascript:detailFnc.goList();" class="bt ico back only ml">이전화면</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="inner">
+		<div class="item bg toggle">
+			<div class="txt">
+				<span>유형<em>지도조회</em></span>
+				<span>기관<em>국토지리정보원</em></span>
+				<span>문의<em>7</em></span>
+				<span>조회<em>5,805</em></span>
+</div>
+			<button type="button" class="bt ico arrow bg min">상세</button>
+			<div class="slipbox">
+				<div class="note">
+					<ul>
+						<li class="dot"><b>소개</b>http://www.vworld.kr/v4po_brdfaq_s001.do</li>
+						<li class="dot"><b>서비스 범위</b><ul><li><b><font size="4">구축지역</font></b>　</li></ul><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><img src="/utl/web/imageSrc.do?path=JLJX22YybfhCntnR5qHOGQ%3D%3D&physical=kBj7IQ6ioAt2UHFLz0kLbg1U5X%2B9pTUQtfo27xcjwgUH5ub4m7ANnIYO%2FdNADwXL&contentType=p0AeSYTDwjom3vOaazbd%2Fg%3D%3D" /></blockquote></li>
+							<li class="dot"><b>서비스 화면</b><ul><li><b><font size="4">전국</font> (일부 지역 제외)</b></li></ul><br /><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><img src="/utl/web/imageSrc.do?path=qljgNY%2Be8j9feFAd674TYA%3D%3D&physical=bR7XkVmr7WH58dm8c6DEhfJ3B%2B2IOStweN8bKWpZsOtLG6uKhmNcAcfFf2YBo%2B8E&contentType=bse5MDNe16R0iBZNRFjdLg%3D%3D" /></blockquote></li>
+							<li class="dot"><b>구축 방식</b><ul><li><b><font size="4">구축방식</font></b></li>&quot;LoD1&quot;은 수치지형도 건물레이어의 층수 속성정보에 일정 높이값(3m)을 곱하여 구축하였습니다.</ul><ul><p /></ul><font size="4">　<font color="#ffffff">.</font></font><ul><li><b style="font-size: large;"><b></b>참고사항</b></li>&quot;LoD1&quot;은 건물 형태 및 높이정보가 정확하지 않으니 참고용으로만 사용하시기 바랍니다.<div></div></ul><ul><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><font size="2"></font></blockquote></ul></li>
+							<li class="dot"><b>세밀도란?</b> <span style="color: rgb(255, 255, 255); font-size: large; font-family: NanumGothic, 나눔고딕, sans-serif;">　.</span><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><p style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgba(0, 0, 0, 0.7); font-family: NanumGothic, 나눔고딕, sans-serif;"><font style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;"><a href="http://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/3%EC%B0%A8%EC%9B%90%EA%B5%AD%ED%86%A0%EA%B3%B5%EA%B0%84%EC%A0%95%EB%B3%B4%EA%B5%AC%EC%B6%95%EC%9E%91%EC%97%85%EA%B7%9C%EC%A0%95" target="_blank" title="3차원 국토공간정보 구축 작업규정" style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;"> 「3차원 국토공간정보 구축작업 규정」</a> 에서는 3차원 국토공간정보 구축을 위한 작업방법 및 기준 등이 규정어있습니다.</font></p></blockquote><p style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgba(0, 0, 0, 0.7); font-family: NanumGothic, 나눔고딕, sans-serif;"><span style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgb(255, 255, 255);">　.</span></p><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><p style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgba(0, 0, 0, 0.7); font-family: NanumGothic, 나눔고딕, sans-serif;"><font style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;">그 중 세밀도(LoD, Level of Detail)는 3차원 국토공간정보의 제작하고 표현되는 한계를 뜻합니다.</font></p></blockquote><p style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgba(0, 0, 0, 0.7); font-family: NanumGothic, 나눔고딕, sans-serif;"><font style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;"></font></p><p style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgba(0, 0, 0, 0.7); font-family: NanumGothic, 나눔고딕, sans-serif;"><span style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgb(255, 255, 255);">　.</span></p><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><p style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none; color: rgba(0, 0, 0, 0.7); font-family: NanumGothic, 나눔고딕, sans-serif;"><font style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;">규정의 <b style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;">별첨 5</b>에서는 &quot;<b style="margin: 0px; padding: 0px; box-sizing: inherit; text-size-adjust: none;">3차원 건물데이터 세밀도 및 가시화정보 제작기준</b>&quot; 에 대해 아래와 같이 정의하였습니다.</font></p></blockquote><span style="color: rgb(255, 255, 255); font-family: NanumGothic, 나눔고딕, sans-serif;">　.</span><div align="baseline"><span style="color: rgb(255, 255, 255); font-family: NanumGothic, 나눔고딕, sans-serif;">　.</span></div><div><blockquote style="margin: 0px 0px 0px 40px; border: none; padding: 0px;"><div><img src="/utl/web/imageSrc.do?path=qljgNY%2Be8j9feFAd674TYA%3D%3D&physical=upoUq71JmgX9FAz8NcrbTBGBAm9yHF%2FCmy35E76hmaEH5ub4m7ANnIYO%2FdNADwXL&contentType=p0AeSYTDwjom3vOaazbd%2Fg%3D%3D" /></div></blockquote></div></li>
+							</ul>
+				</div>
+				<div class="btns fe">
+</div>
+			</div>
+		</div>
+	</div>	
+
+	<article class="content">
+		<div class="inner">
+
+			<div class="headline">
+				<h5 class="title">구축 레이어 정보</h5>
+				<div class="count"><span>총<b>1</b>건</span></div>
+			</div>
+			<div class="list card">
+				<ul>
+					<li>
+						<div class="item">
+							<div class="tit br">3차원 입체모형(LoD1)</div>
+							<span class="state ok">
+								서비스중</span>
+							<div class="btns br fs">
+								<button type="button" class="bt ico next bg min primary" onclick="fn_lyrMapPopup('LYRIDE_0000000000320','3D');">3D</button>
+								</div>
+						</div>
+					</li>
+					</ul>
+				</div>
+			
+			<div class="headline">
+				<h5 class="title">메타 정보</h5>
+			</div>
+			
+			<nav id="tabs" class="tabs min fix">
+				<ul>
+			<li><a href="#tab1" title="선택된 탭" class="tab on">3차원 시설물(LoD1)</a></li>
+			</ul>
+			</nav>
+			
+			<div id="tab1" class="tabcon noO view1" tabindex="0">
+				<h5 class="blind">3차원 시설물(LoD1)</h5>
+				<div class="field">
+					<div class="headline">
+						<h6 class="title">원본데이터 정보</h6>
+					</div>
+					<dl class="bd bg">
+						<dt>데이터 종류</dt>
+						<dd class="min">3D Model</dd>
+						<dt>데이터 포맷</dt>
+						<dd class="min">shp</dd>
+						<dt>파일크기</dt>
+						<dd class="min">-</dd>
+						<dt>축척</dt>
+						<dd class="min">-</dd>
+						<dt>해상도</dt>
+						<dd class="min">-</dd>
+						<dt>URL</dt>
+						<dd class="min" >
+						-</dd>
+					</dl>
+					<div class="headline">
+						<h6 class="title">데이터 제공정보</h6>
+					</div>
+					<dl class="bd bg">
+						<dt>데이터 구축기관</dt>
+						<dd class="min">국토지리정보원</dd>
+						<dt>데이터 제공기관</dt>
+						<dd class="min">국토지리정보원</dd>
+						<dt>데이터 확보방식</dt>
+						<dd class="min">구축 기관에 문의</dd>
+						<dt>대외제공 가능여부</dt>
+						<dd class="min">Y</dd>
+						<dt>대외제공 가능기관</dt>
+						<dd class="min">구축 기관에 문의</dd>
+						<dt>대외제공 세부내역</dt>
+						<dd class="min">-</dd>
+					</dl>
+					<div class="headline">
+						<h6 class="title">데이터 구축정보</h6>
+					</div>
+					<dl class="bd bg">
+						<dt>구축년도</dt>
+						<dd class="min">2016</dd>
+						<dt>구축지역</dt>
+						<dd class="min">전국(일부 지역 제외)</dd>
+						<dt>구축면적</dt>
+						<dd class="min">-</dd>
+						<dt>구축갱신주기</dt>
+						<dd class="min">-</dd>
+						<dt>관련시스템</dt>
+						<dd class="min">-</dd>
+						<dt>관련법령</dt>
+						<dd class="min">-</dd>
+						<dt>구축방식</dt>
+						<dd>-</dd>
+					</dl>
+					<div class="headline">
+						<h6 class="title">서비스 데이터정보</h6>
+					</div>
+					<dl class="bd bg">
+						<dt>서비스 포맷</dt>
+						<dd class="min">xdo (객체)</dd>
+						<dt>서비스 데이터 크기</dt>
+						<dd class="min">-</dd>
+						<dt>최초 서비스 제공시기</dt>
+						<dd class="min">2018-11-29</dd>
+						<dt>최근 서비스 갱신시기</dt>
+						<dd class="min">2023-12-08</dd>
+						<dt>서비스 갱신주기</dt>
+						<dd class="min">-</dd>
+						<dt>서비스 연계여부</dt>
+						<dd class="min">Y</dd>
+					</dl>
+				</div>
+				<p class="infotxt pg">수치지형도 건물레이어에 일정 높이값을 부여한 값으로 LoD1의 2.5D 서비스</p>
+				</div>
+			<div id="qnaDiv"></div>
+
+			<div class="btns fe">
+				<a href="javascript:detailFnc.goList();" class="bt bd ml">목록</a>
+			</div>
+
+		</div>
+	</article><!--// content -->
+	
+	<!-- [popup] 오류신고 -->
+	<article class="popup hide" aria-hidden="true" id="pop-mistake--add">
+		<div class="conWrap">
+			<div class="conHead">
+				<h5 class="title">오류신고</h5>
+				<button type="button" class="bt ico close only">닫기</button>
+			</div>
+			<div class="conBody">
+			<div class="note bg">
+				<ul class="bd">
+					<li class="dot">운영에 부적합하다고 판단되는 글은 임의로 삭제처리 되며, 게시글 내용에 따라 삭제처리 될 수 있음을 알려 드립니다.</li>
+					<li class="dot">게시글 내용 입력 시 주민등록번호, 연락처 등 개인정보가 노출되지 않도록 주의하시기 바랍니다.</li>
+				</ul>
+			</div>
+				<form class="field br" id="errForm" name="errForm">
+					<input type="hidden">
+					<ul>
+						<li>
+							<label class="blind" for="errReportTit">제목</label>
+							<input type="text" class="input validate[required, maxSize[80]]" placeholder="제목" value="" id="errReportTit" name="errReportTit" title="오류신고 제목">
+							<dd>
+							<div class="set radio">
+								<div class="check"><input type="radio" name="sctChk" id="sctChk1" value="Y" checked=""><label for="sctChk1">공개</label></div>
+								<div class="check"><input type="radio" name="sctChk" id="sctChk2" value="N"><label for="sctChk2">비공개</label></div>
+							</div>
+							</dd>
+						</li>
+						<li>
+							<div class="set text">
+								<label class="blind" for="errReportDes">내용</label>
+								<textarea class="textarea validate[required, maxSize[3000]]" placeholder="3,000자 이내 내용입력" id="errReportDes" name="errReportDes" maxlength="3000" onkeyup="javascript:checkLength('err', this);" title="요류신고 내용"></textarea>
+								<span class="byte"><b id="errReportCnt">0</b>/3000</span>
+							</div>
+						</li>
+						<li>
+							<div class="attach">
+								<label class="blind" for="file_1">첨부파일</label>
+								<dd id="fileErr">
+								
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</form>
+			</div>
+			<div class="conFoot">
+				<div class="btns">
+					<a href="javascript:errFnc.cancel();" class="bt bg max">취소</a>
+					<a href="javascript:errFnc.save('DT', 'DAT_0000000000000204');" class="bt bg primary max">저장</a>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!--// [popup] 오류신고 -->
+	
+</article><!--// article --></section>
+			<footer class="footer">
+				<script type="text/javascript">
+var footerObj = {
+		move : function(){
+			if($("#footerPageMove").val() == ""){
+				msgFnc.alert({text : "이동할 사이트를 선택해주세요."
+					, callBackConfirmFnc : function(){
+						$("#footerPageMove").focus();
+					}
+				});
+				return;
+			}
+			window.open($("#footerPageMove").val(), '_blank');
+		}
+}
+</script>
+
+<nav class="nav">
+	<ul>
+		<li><a href="javascript:urlFnc.goAgree();" class="menu">이용약관</a></li>
+		<li><a href="javascript:urlFnc.goPrivacy();" class="menu"><strong>개인정보처리방침</strong></a></li>
+		<li><a href="javascript:urlFnc.goUnauthEmail();" class="menu">이메일무단수집거부</a></li>
+		<li><a href="javascript:urlFnc.goCpyrht();" class="menu">저작권정책</a></li>
+		<li><a href="javascript:urlFnc.goIntrcn();" class="menu">브이월드소개</a></li>
+		<li><a href="https://data.molit.go.kr/systemQuality/list?system_id=S0023" onclick="window.open(this.href, '품질오류신고 및 확인'); return false;" class="menu">품질오류신고 및 확인</a></li>
+	</ul>
+</nav>
+<div class="cscenter">
+<!-- 2024-08-30 국토부 요청으로  footer style 변경 -->
+<!-- 	<h6 class="title">고객센터<em>평일 09:00 ~ 18:00 (중식 12:00 ~ 13:00) / 주말 및 공휴일 휴무</em></h6> -->
+<!-- 	<p class="infotxt">※ 공간정보 오픈플랫폼(V-World) 서비스 관련 궁금한 사항은 공간정보산업진흥원 고객센터로 문의해주시기 바랍니다.</p> -->
+<!-- 	<div class="btns"> -->
+<!-- 		<a href="tel:16610115" class="bt ico call bg">1661 - 0115</a> -->
+<!-- 		<a href="mailto:vworld@spacen.or.kr" class="bt ico mail bg">vworld@spacen.or.kr</a> -->
+<!-- 	</div> -->
+	<h6 class="title">고객센터
+	<em>
+		<div class="btns">
+			<a href="tel:16610115" class="bt ico call bg">1661 - 0115</a>
+			<a href="mailto:vworld@spacen.or.kr" class="bt ico mail bg">vworld@spacen.or.kr</a>
+			<a href="javascript:urlFnc.goDtidFAQ();" class="bt ico help bg">부동산 중개업 문의</a>
+		</div>
+	</em>
+	</h6>
+	<div class="btns"><em>평일 09:00 ~ 18:00 (중식 12:00 ~ 13:00) / 주말 및 공휴일 휴무</em></div>
+	<div class="spacen">
+		<div class="logo"><strong>공간정보산업진흥원</strong></div>
+		<p class="address">[14055] 경기도 안양시 동안구 부림로170번길 41-4(디에스세미콘) 3층 공간정보산업진흥원</p>
+	</div>
+<!-- 2024-08-30 국토부 요청으로  footer style 변경 -->
+</div>
+<div class="organizer">
+	<div class="logo"><strong>V-world</strong>디지털트윈국토</div>
+	<p class="address">[30103] 세종특별자치시 도움6로 11 국토교통부</p>
+	<p class="copyright">Copyright (C) Ministry of Land, Infrastructure and Transport 2023. All Rights Reserved.</p>
+</div>
+<div class="set">
+	<label for="footerPageMove" class="blind">사이트 바로가기</label>
+	<select class="select" id="footerPageMove">
+		<option value="" selected>사이트 바로가기</option>
+		<option value="https://www.molit.go.kr/">국토교통부</option>
+		<option value="https://www.ngii.go.kr/">국토지리정보원</option>
+		<!-- option value="https://www.nsdi.go.kr/">국가공간정보포털</option-->
+		<option value="http://spacen.or.kr/">공간정보산업진흥원</option>
+		<option value="https://www.spacein.kr/">공간정보교육포털</option>
+		<option value="https://www.lx.or.kr/kor.do">한국국토정보공사</option>
+		<option value="http://www.siqms.or.kr">공간정보품질관리원</option>
+		<option value="https://www.kasm.or.kr">공간정보산업협회</option>
+		<option value="https://gsqm.lx.or.kr/index.do">공간정보표준통합지원시스템</option>
+	</select>
+	<button class="bt bg" onclick="footerObj.move();">이동</button>
+</div>
+<a href="#top" class="bt ico go only">맨위로 이동</a>
+</footer>
+		</div><!--//template-->
+	</div><!--//container-->
+</body>
+</html>

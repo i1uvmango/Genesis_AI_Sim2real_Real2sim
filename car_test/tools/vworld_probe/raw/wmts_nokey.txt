@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExceptionReport xmlns="http://www.opengis.net/ows/1.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.opengis.net/ows/1.1.0/owsExceptionReport.xsd"
+	version="1.1.0" xml:lang="kor">
+	<Exception exceptionCode="InvalidParameterValue" locator="key">
+		<ExceptionText><![CDATA[등록되지 않은 인증키입니다.]]></ExceptionText>
+	</Exception>
+</ExceptionReport>

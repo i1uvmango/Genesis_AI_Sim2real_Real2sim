@@ -1,0 +1,2853 @@
+
+
+
+
+
+
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta property="og:url" content="https://vworld.kr"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="브이월드"/>
+<meta property="og:description" content="공간정보 오픈플랫폼은 국가가 보유하고 있는 공개 가능한 공간정보를 모든 국민이 자유롭게 활용할 수 있도록 다양한 방법을 제공합니다."/><!-- 25.11.09 수정 -->
+<meta property="og:image" content="https://www.vworld.kr/img/logo.png"><!-- 25.11.09 수정 -->
+<meta name="description" content="공간정보 오픈플랫폼은 국가가 보유하고 있는 공개 가능한 공간정보를 모든 국민이 자유롭게 활용할 수 있도록 다양한 방법을 제공합니다."/><!-- 25.11.09 수정 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="naver-site-verification" content="1de4d628cea72364e95f931f490a9f85b54f5aea" />
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://www.vworld.kr/v4po_main.do" />
+
+<title>브이월드 지도서비스</title>
+<!--[CSS]-->
+
+<link rel="preload" href="/fonts/dtkmap/S-CoreDream-4Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/dtkmap/basic.css?ver=2023082401"/>
+<link rel="stylesheet" href="/css/dtkmap/basic_2025.css"/>
+<link rel="stylesheet" href="/css/dtkmap/style.css?ver=2026081101"/>
+<link rel="stylesheet" href="/css/dtkmap/jquery-ui.css?ver=2026101501"/>
+<link rel="stylesheet" href="/css/dtkmap/slick.css?ver=2023081001"/>
+<link rel="stylesheet" href="/css/dtkmap/styleMngFont.css?ver=2024061401"/>
+
+<link rel="stylesheet" href="/css/dtkmap/customize.css"/> <!-- ggalo 추가 -->
+<link rel="stylesheet" href="/css/dtkmap/dark.css"/> <!-- 김현문 추가 -->
+<link rel="stylesheet" href="/css/dtkmap/dark_2025.css"/> 
+
+<!--[JS]-->
+<script src="/js/webglMapInit.js.do?version=3.5&apiKey=$$BSnUHrxAUjrC0ExuPIS2-GG55vVlb5jsbTrCPBz-NKN4iwOiBweQrVc3qu6iojG1"></script>
+<script src="/js/dtkmap/slick.min.js"></script>
+<script src="/js/dtkmap/vue.min.js"></script>
+
+
+
+<!-- 공통 -->
+<script src="/js/dtkmap/login.js?ver=2025010501"></script>
+<script src="/js/base64.js?ver=2023033001"></script>
+<script src="/js/cookie.js?ver=2023033001"></script>
+<script src="/js/mapRegionDatas_min.js?ver=2023083101"></script>
+<script src="/js/dtkmap/maps.print.js?ver=2024022701"></script>
+<script src="/js/comm/browser_information.js?ver=2023033001"></script>
+
+<link rel="stylesheet" href="/js/map/ol-ext/ol-ext.min.css"/> <!-- ggalo 추가 -->
+<script src="/js/map/ol-ext/ol-ext.min.js"></script>
+
+
+<!--  20251013 추가 -->
+<!-- <script src="/js/dtkmap/ValidationScript.js?ver=3"></script> -->
+<!-- <script src="/js/dtkmap/tool3d/tool3d.viewfunction.js?ver=1"></script> -->
+
+<script src="/js/dtkmap/tool3d/lib/turf/turf.min.js"></script> 
+
+<!-- 20250917 추가 -->
+<!-- <script src="/js/ws3dmap/WS3DRelease3/WS3DExtension/modeler.js"></script> -->
+<!-- <script src="/js/dtkmap/tool3d/lib/measureAdvanced.js"></script> -->
+<!-- <script src="/js/dtkmap/tool3d/lib/terrainVolume_analysis2.js"></script> -->
+
+<style>
+/* 2024-06-26 어드레스맵 팝업 */
+.wsPoiHtmlPopupCloseButton{
+	display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0;
+    z-index: 400;
+    background: url(/images/dtkmap/ico_x.svg) center 50% no-repeat;
+    transition: all 0.3s;
+     top: 5px;
+    }
+#api-btClose{
+	display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0;
+    z-index: 400;
+    transition: all 0.3s;
+    margin-top:-25px;
+    background: url(/images/dtkmap/ico_x.svg) center 50% no-repeat;
+    transition: all 0.3s;
+    position:absolute;
+    right: 0;
+    top: 5px;
+}
+/* 2024-02-26 임시 오른쪽 클릭 팝업 */
+
+.menuItem {
+	padding: 8px 10px;
+	background-color:#ffffff;
+}
+.highlightItem{
+	padding: 8px 10px;
+	background-Color: #e2eefe;
+	color:#0a6e70;
+}
+
+.dropboxRight{
+	position: absolute;
+    left: 110px;
+    top: 32.8px;
+    z-index: 500;
+    display: none;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: var(--style-shadow);
+    padding: 8px;
+  }
+.dropboxRight > li{
+	display: block;
+    width: 100%;
+    height: 100%;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: left;
+    border-radius: 4px;
+    padding: 6px;
+  }
+.dropboxRight > li.on{
+    color: #fff;
+    background-color: var(--color-primary);
+    width: 100%;
+    text-align: left;
+    border-radius: 4px;
+    height: 100%;
+  }
+.dropboxRight > li.on .menu{
+  	color: #fff;
+    background-color: var(--color-primary);
+    }
+</style>
+<script>
+var vwApiKey = "$$BSnUHrxAUjrC0ExuPIS2-GG55vVlb5jsbTrCPBz-NKN4iwOiBweQrVc3qu6iojG1";
+<!-- 23.08.17 지도 네비게이션 js -->
+window._mapRegion = mapRegion;
+<!-- 모바일로 분기 -->
+var isMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|windows ce|sonyericsson|samsung|mot|lg/i.test(navigator.userAgent.toLowerCase()));
+</script>
+<!-- 네이버,페이스북 연관채널설정 -->
+<script type="application/ld+json">
+	{
+		"@context": "http://schema.org",
+		"@type": "Person",
+		"name": "브이월드",
+		"url": "map.vworld.kr",
+		"sameAs": [
+			"http://www.facebook.com/spacenvworld",
+			"http://blog.naver.com/v-world"
+		]
+	}
+</script>
+<script src="//wcs.naver.net/wcslog.js"></script>
+<script>
+if(!wcs_add) var wcs_add = {}; wcs_add["wa"] = "811b244a98c558"; wcs_do();
+
+var map3d;
+var map2d;
+var curMapMode = 2;
+var lineDrawingFlag; 
+/* 헤더 팝업 로그인 */
+var ide = "";
+
+
+var mapController;
+var mapName = '3d';
+var mapmode = '';
+var mtype="";
+var isClickEventLoaded = false;
+var linkType= "";
+var plon= "";
+var plat= "";
+var palt= "";
+var alt= "";
+var tilt= "";
+var direct= "";
+var plabel= "";
+var osmIde= "";
+var initTab= "";
+var lyrIde= "";
+var initMode = "" == "" ? "3D" :  "";
+/*메인화면 시작팝업, 쿠키 체크*/
+var initX = '';
+var initY = '';
+
+
+var isUserLogin = false;
+var reload = false;
+var isAnyUserLogin = false; //25.11.09 수정
+let eawk2FacAnlDt = new Date();
+var duringBoundSearch = false; //26.06.09
+let isSafeEvActive = false;
+
+/*  */
+//25.11.09 수정 시작
+
+//25.11.09 수정 끝
+
+window.name='old';
+var checkmapmode = null;
+var domainGroup = '';
+var SEARCH_URL = 'http://apis.vworld.kr/unifiedSearch2.do';
+var usrIde = '';
+
+var lonmode = '';
+var latmode = '';
+var zoommode = '';
+var altmode = '';
+var dismode = '';
+var tilmode = '';
+var dirmode = '';
+//console.log( " USR_IDE : ", "", "");
+
+
+/* 2023-04-05 */
+/* <--2023-04-05 */
+var depth1=1;
+var depth2=0;
+/* 2023-04-05--> */
+$(document).ready(function() {
+	try{
+
+		setTimeout(function(){
+			$('#mapsLoading').addClass('hide');
+		}, 3000);
+		// 지도 로딩.
+
+		initLoad();
+		setInitViewByMobile();
+
+		/* DATE PICKER */
+		$('.input.date').datepicker({
+			dateFormat: "yy-mm-dd"
+		});
+		$.datepicker.setDefaults({
+			dateFormat: 'yyyy-mm-dd',
+			monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'],
+			dayNamesMin: ['일','월','화','수','목','금','토'],
+			showMonthAfterYear: true,
+		});
+	} catch( e ) {
+		//console.log("common.js error :", e);
+	}
+	$("#vwConfirmAlert").append(vConfirm);
+	$("#vwAlert").append(vAlert);
+	$("#vAlertRed").append(vAlertRed);
+	$('.detail.move:not(.paper)').draggable({cancel:'.content, .btns'});
+
+
+	jsNaviGetList_js('city', '');
+	
+});
+
+var initYn = true; //ggalo 추가(수치지형도)
+var dgDrawYn = false; //ggalo 추가(수치지형도)
+var reportMode = false; //ggalo 추가(오류신고)
+var rtMeasure = true; //mokujin0 추가(실시간다운로드)
+</script>
+
+</head>
+<body>
+<div class="blind"><a href="#gnb">메뉴바로가기</a><a href="#section">본문바로가기</a></div>
+<div id="app" class="container">
+
+<header class="header" id="header"></header>
+<aside class="banner hide" role="dialog" id="banner"></aside>
+<section class="section theme" id="section">
+	<h2 class="blind">주제도</h2> <!-- 기존 : 지도선택 -->
+	<!-- 선택한 지도 -->
+	<aside class="theme" id="themeNew">
+		<button type="button" id="mapSelectOnOff" class="btTheme" onclick="jsSetThemeList(this);">주제도<b id="selectMapCount">0</b> 건</button> <!-- 기존 : 지도선택 -->
+		<div class="scroll" id="themeLayer">
+			<button type="button" class="btDelete" onclick="unCheckAllThemeLayer();" id="themeAllUnchk" alt="전체제거" title="전체제거">전체제거</button>
+		</div>
+		<!-- <div id="otherLayer"> 이성수 DT2단계 : 기능통합으로 인해 필요 없을듯
+			<button type="button" class="badgeMap" id="qCode10" alt="수치지형도" title="수치지형도" onclick="moveWs3dmapByqCode(10);">수치지형도</button>
+			<button type="button" class="badgeMap" id="qCode11" alt="비행안전/장애물제한구역" title="비행안전/장애물제한구역" onclick="moveWs3dmapByqCode(11);">비행안전/장애물제한구역</button>
+		</div> -->
+	</aside>
+	<!--// 선택한 지도 -->
+	<!--// 2023-07-06. 조현석 부장. 과거항공사진 연도선택 -->
+	<aside class="years hide" id="pastTmss"></aside>
+
+	<!-- 지도선택 -->
+	<article class="panel hide" id="themeLayerList">
+	</article>
+	<!--// 지도선택 -->
+	<!-- MY -->
+	<article class="panel hide" id="myFavMap">
+	</article>
+	<!-- MY > 어드레스맵 상세 -->
+	<article class="panel hide" id="umapList">
+	</article>
+	<!-- MY > 지도스타일 등록 -->
+	<article class="panel mapStyle view hide" id="style-write-view">
+	</article>
+	<!-- MY > 지도스타일 수정 -->
+	<article class="panel mapStyle view hide" id="style-modify-view">
+	</article>
+	<!-- MY > 지도스타일 수정 > 사용자레이어스타일 정보 -->
+	<article class="panel mapStyle view hide" id="style-userlayer-view">
+	</article>
+	<!--// MY -->
+	<!-- 새소식 -->
+	<article class="panel hide" id="newsList">
+	</article>
+	<!--// 새소식 -->
+
+	<!-- 실내지도선택 -->
+	<article class="panel hide" id="indoorList">
+		<div class="conHead">
+			<h3 class="title">실내지도</h3>
+			<div class="toggle">
+				<button type="button" class="btInfo">안내</button>
+				<div class="dropbox">
+					<strong>실내지도 서비스란?</strong>
+					<p>공간정보지리원 및 지자체에서 제공받은 실내공간정보를</p>
+					<p>3D/2D 지도에서 확인하실 수 있습니다.</p>
+				</div>
+			</div>
+			<button type="button" class="btClose" onclick="setMinIndoorBtn(true);">닫기</button>
+		</div>
+		<div class="conBody">
+			<div class="set find">
+				<label for="indoorKeyword"></label>
+				<input type="text" class="input" placeholder="검색어입력" id="indoorKeyword" onkeypress="if(event.keyCode==13){jsIndoorSearchKeyword();}" oninput="filterDoubleBatchim(this);"/>
+				<button type="button" class="btFind" onclick="jsIndoorSearchKeyword();">검색</button>
+				<button type="button" class="btDelete hide" onclick="newSearch('indoorList');">새로검색</button>
+			</div>
+			<div class="headline">
+				<span class="count"> 총 <b>000</b> 건</span>
+			</div>
+			<div class="scroll">
+				<div class="list">
+					<ul id="idslist" class="spot-list c-list"></ul>
+				</div>
+			</div>
+			<div class="pages">
+				<button type="button" class="btPrev end" onclick="javascript:funcPage('first','indoorList','');">처음</button>
+				<button type="button" class="btPrev" onclick="javascript:funcPage('prev','indoorList','');">이전</button>
+				<p class="txt"><b>1</b> / 10</p>
+				<button type="button" class="btNext" onclick="javascript:funcPage('next','indoorList','');">다음</button>
+				<button type="button" class="btNext end" onclick="javascript:funcPage('last','indoorList','');">마지막</button>
+			</div>
+		</div>
+	</article>
+	<!-- 실내지도선택 -->
+	<!-- 건물분석 -->
+	<article class="panel hide" id="tool3dList">
+	</article>
+	<!-- 공모전 -->
+	<article class="panel hide" id="promoteList">
+	</article>
+	<article class="panel hide" id="digital"><!-- ggalo 추가 (수치지형도)-->
+	</article>
+	<!-- 2D분석 (이성수) -->
+	<article class="panel analysisLayer hide" id="2dAnal">
+	</article>
+	<article class="panel download hide" id="realtime"><!-- mokujin0 추가 (실시간다운로드)-->
+	</article>
+
+	<!--// 건물분석 -->
+	<article class="maps">
+		<h3 class="blind">지도</h3>
+		<p class="guide hide">지도에 사각형을 그려주세요.</p>
+
+		<!-- 검색 -->
+		<aside class="finder">
+			<div class="set find" id="searchKeywordList">
+				<label for="keyword"></label><input type="text" class="input" placeholder="명칭 또는 주소 검색" id="keyword" name="keyword"/>
+				<button type="button" class="btFind" id="searchFind" onclick="searchKeyword();">검색</button>
+				<button type="button" class="btDelete hide" id="searchDelete" onclick="hideSearch();">새로검색</button>
+			</div>
+
+			<button type="button" class="btList hide" onclick='jsSet2dAnalList(this);' id="toggle2dAnalList">목록</button><!-- 이성수 2d분석지도 -->
+			<button type="button" class="btList hide" onclick="dg.digitalList(this);" id="digitalList" >목록</button> <!-- ggalo 추가 (수치지형도) -->
+			<button type="button" class="btList hide" onclick="jsSetTool3dList(this);" id="toggleTool3dList" >목록</button>
+			<button type="button" class="btList hide" onclick='jsSetNewsList(this);' id="toggleNewsList">목록</button>
+			<button type="button" class="btList hide" onclick='jsSetPromoteList(this);' id="togglePromoteList">목록</button>
+			<button type="button" class="btList hide" onclick='jsSetMyList(this);' id="toggleMyList">목록</button>
+			<button type="button" class="btList hide" onclick="rt.realtimeList(this);" id="realtimeList" >목록</button> <!-- mokujin0 추가 (실시간다운로드) -->
+			<button type="button" class="btTool2 hide" id="searchSideFind" onclick='jsSetSearchList(this);'>주소검색</button>
+			<button type="button" class="btTool2 hide" id="dg_searchSideFind" onclick='dg.setSearchList(this)'>주소검색</button> <!-- ggalo 추가 (수치지형도) -->
+			<button type="button" class="btTool2 hide" id="rt_searchSideFind" onclick='rt.setSearchList(this)'>주소검색</button> <!-- mokujin0 추가 (실시간다운로드) -->
+			<button type="button" class="btTool3" id="moveFindSafeList" onclick='jsSetSafeList(this);'>실종검색</button>
+		</aside>
+		<!--// 검색 -->
+
+		<!-- 검색결과 -->
+		<article class="result hide" id="searchResults">
+		</article>
+		<!--// 검색결과 -->
+		
+		<!-- 26.04.10 경찰청 실종자 API 적용yhkim -->
+		<article class="panel sPanel hide" id="safeFindList"></article>
+		<!-- 26.04.10 경찰청 실종자 API 적용yhkim -->			
+		
+		<!-- 실내지도 목록 호출부 -->
+		<aside class="selector hide" id="indoorListBtn">
+		<button type="button" class="btList hide">목록</button>
+		</aside>
+
+		<!-- 툴바 -->
+		<aside class="toolbar locator" id="vwInWeb">
+			<button type="button" class="btTool zone noTxt" title="지역선택">지역선택</button>
+			<div class="set zone">
+				<select class="select" onChange="jsNaviToMap('city', this.value);" id="sNavi_city">
+					<option>광역시·도</option>
+				</select>
+				<label for="sNavi_city" style="display: none;"></label>
+				<select class="select" onChange="jsNaviToMap('si',this.value);" id="sNavi_si">
+					<option id="navi_si">시·군·구</option>
+				</select>
+				<label for="sNavi_si" style="display: none;" ></label>
+				<select class="select" onChange="jsNaviToMap('dong', this.value);" id="sNavi_dong">
+					<option id="navi_dong">읍·면·동</option>
+				</select>
+				<label for="sNavi_dong" style="display: none;"></label>
+			</div>
+		</aside>
+		<aside class="toolbar locator hide" id="vwInMobile">
+			<button type="button" class="btTool find noTxt" id="mSearch" style="right: 8px; position: fixed;">주소검색</button>
+
+		</aside>
+		<aside class="toolbar function" id="mToolFunc">
+			<div class="btns btns_main">
+				<!--20240229_백업 -->
+				<!-- <div class="toggle">
+					<button type="button" class="btTool dim" title="지도유형선택" id="btMap">지도</button>
+					<ul class="dropbox" id="mapBtn">
+					</ul>
+				</div> -->
+				<!-- 이성수DT_2단계 : 지도선택 컨트롤박스 변경에 따른 소스 추가/수정 끝 -->
+				<div class="toggle">
+					<button type="button" class="btTool dim" title="지도선택" id="btMap">지도</button>
+					<div class="dropbox setup">
+						<nav class="tap">
+							<ul>
+								<li id="btMap2D"><a href="javascript:btMapMode('btMap2D');" class="tapTit" title="2D">2D</a></li>
+								<li id="btMap3D"><a href="javascript:btMapMode('btMap3D');" class="tapTit" title="3D">3D</a></li>
+							</ul>
+						</nav>
+						<div class="tapCon view1">
+							<div class="field" id="mapBtn2D">
+								<!-- <span class="check"><input type="radio" name="r1" checked><label>일반</label></span>
+								<span class="check"><input type="radio" name="r1"><label>백지도</label></span>
+								<span class="check"><input type="radio" name="r1"><label>야간</label></span>
+								<span class="check"><input type="radio" name="r1"><label>영상</label></span> -->
+							</div>
+						</div>
+						<div class="tapCon view2 hide">
+							<div class="field" id="mapBtn3D">
+								<!-- <span class="check"><input type="radio" name="r2"><label>일반</label></span>
+								<span class="check"><input type="radio" name="r2" checked><label>영상</label></span> -->
+							</div>
+						</div>
+						<div class="set radio" id="vectorModeForm">
+							<span class="check"><input type="radio" name="r3" onChange="setVectorTileMode(this)" id="rasterMode"><label for="rasterMode">기본</label></span>
+							<span class="check"><input type="radio" name="r3" onChange="setVectorTileMode(this)" id="vectorMode" checked><label for="vectorMode">벡터</label></span>
+						</div>
+					</div>
+				</div>
+				<!-- 이성수DT_2단계 : 지도선택 컨트롤박스 변경에 따른 소스 추가/수정 끝 -->
+				<div class="toggle">
+					<button type="button" class="btTool quality mhidden q1" id="selectQuality" title="화질">화질</button><!-- q1~q3 클래스로 제어 -->
+					<ul class="dropbox mhidden">
+						<li><span class="check"><input type="radio" name="r1" id="highQuality" ><label for="highQuality">고화질</label></span></li>
+						<li><span class="check"><input type="radio" name="r1" id="mediumQuality" checked><label for="mediumQuality">중화질</label></span></li>
+						<li><span class="check"><input type="radio" name="r1" id="lowQuality"><label for="lowQuality">저화질</label></span></li>
+					</ul>
+				</div>
+				<button type="button" class="btTool measureMap length" id="measureLine" title="거리측정모드">거리</button>
+				<button type="button" class="btTool measureMap area" id="measureArea" title="면적측정모드">면적</button>
+				<!-- 2023-04-28 -->
+				<button type="button" class="btTool measureMap mhidden height" id="measureheight" title="높이측정모드">높이</button>
+				<button type="button" class="btTool measureMap user2d08" id="measureAngle" value="LineString" title="각도측정모드">각도</button><!-- 이성수_DT2단계 : 각도재기 추가 -->
+
+				<button type="button" class="btTool measureMap mhidden file" id="measureKml" title="KML">KML</button>
+				<button type="button" class="btTool measureMap around" id="measurearound" title="둘러보기모드">둘러보기</button>
+				<button type="button" class="btTool building x hide" id="delete3dTileBilding" onclick="delete3dTileBilding()" title="건물삭제">건물삭제</button>
+				<button type="button" class="btTool building hide" id="initDeleteBuilding" onclick="initDelete3dTileBuilding()" title="초기화">건물삭제<br>초기화</button> 
+				<!--// 2023-04-28 -->
+				
+				<button type="button" class="btTool measureMap reset" id="measureReset" title="초기화">초기화</button>
+				<!-- 20251105 -->
+				<div class="toggle">
+					<button type="button" title="측정"  id="measureMain" class="btTool mhidden measure">측정</button> 
+					<div id = "newToolDropbox" class="measure dropbox no mhidden">
+						<button type="button" id="newMeasureLine" title="거리측정모드" class="btTool measureMap length">고도 기반 거리</button> 
+						<button type="button" id="newMeasureheight" title="높이측정모드" class="btTool measureMap mhidden height">높이</button>
+						<button type="button" id="measureTriR" title="삼각자" class="btTool measureMap triangle">삼각자</button> 
+						<button type="button" id="measureHemiS" title="반구" class="btTool measureMap hemisphere">반구</button> 
+						<button type="button" id="measureCircle" title="원" class="btTool measureMap circle">원</button> 
+						<button type="button" id="newMeasureArea" title="고도 기반 면적" class="btTool altitude">고도 기반 면적</button>
+					</div>
+				</div> 
+				<!--// 20251105 -->
+				
+				
+				
+				<!--2d분석지도 툴 -->
+				<div id="2dBtnTool" class="hide">
+					<div class="toggle row">
+						<button type="button" id="2dSelectBtn"class="btTool noIco" title="사용자도구 열고닫기">사용자<br>도구</button>
+						<div class="dropbox" id="analysis_select_button_group" style="display: none;">
+							<button type="button" class="btTool noTxt user2d01 analysis_select_button" name="53" title="패닝모드"><span class="infoTooltipSelect">패닝모드</span></button>
+							<button type="button" class="btTool noTxt user2d02 analysis_select_button" name="50" title="객체선택"><span class="infoTooltipSelect">객체선택</span></button>
+							<button type="button" class="btTool noTxt user2d03 analysis_select_button" name="51" title="영역선택"><span class="infoTooltipSelect">영역선택</span></button>
+							<button type="button" class="btTool noTxt user2d04 analysis_select_button" name="52" title="속성보기"><span class="infoTooltipSelect">속성보기</span></button>
+							<button type="button" class="btTool noTxt user2d05 analysis_select_button" name="54" title="포인트추가"><span class="infoTooltipSelect">포인트추가</span></button>
+							<button type="button" class="btTool noTxt user2d06 analysis_select_button" name="55" title="폴리곤추가"><span class="infoTooltipSelect">폴리곤추가</span></button>
+							<!-- <button type="button" class="btTool noTxt user2d07 analysis_select_button" id="distanceTool" value="LineString" name="57" title="구간별 거리재기"><span class="infoTooltipSelect">거리재기</span></button> -->
+							<!-- <button type="button" class="btTool noTxt user2d08 analysis_select_button" id="angleTool"	value="LineString"name="58" title="각도재기"><span class="infoTooltipSelect">각도재기</span></button> -->
+						</div>
+					</div>
+					<div class="toggle row">
+						<button type="button" id="2dAnalBtn" class="btTool noIco" title="분석도구 열고닫기">분석<br>도구</button>
+						<div class="dropbox" id="analysis_gistool_button_group" style="display: none;">
+							<button type="button" class="btTool noTxt anal2d01 analysis_gistool_button" name="myBufferTool" title="버퍼"><span class="infoTooltipSelect">버퍼</span></button>
+							<button type="button" class="btTool noTxt anal2d02 analysis_gistool_button" name="myCombinationTool" title="결합"><span class="infoTooltipSelect">결합</span></button>
+							<button type="button" class="btTool noTxt anal2d03 analysis_gistool_button" name="myClipTool" title="중첩"><span class="infoTooltipSelect">중첩</span></button>
+							<button type="button" class="btTool noTxt anal2d04 analysis_gistool_button" name="myDifferentTool" title="잘라내기"><span class="infoTooltipSelect">잘라내기</span></button>
+							<button type="button" class="btTool noTxt anal2d05 analysis_gistool_button" name="myExportTool" title="선택객체추출"><span class="infoTooltipSelect">선택객체<br>추출</span></button>
+							<button type="button" class="btTool noTxt anal2d06 analysis_gistool_button" name="myExportAutoTool" title="영역객체추출"><span class="infoTooltipSelect">영역객체<br>추출</span></button>
+							<button type="button" class="btTool noTxt anal2d07 analysis_gistool_button" name="myExportDistanceTool" title="거리기반추출"><span class="infoTooltipSelect">거리기반<br>추출</span></button>
+						</div>
+					</div>
+				</div>
+           		 <!--2d분석지도 툴 끝 -->
+           		 <!--벡터타일모드 -->
+           		 <!-- <button type="button" class="btTool onoff on" onclick="setVectorTileMode(this)" id="VectorOnOff" title="벡터타일모드">벡터</button>   --><!--이성수 벡터타일모드 -->
+				 <!--벡터타일모드 끝-->
+			</div>
+
+			<!-- mokujin0 - 24.08.19 수치지형도, 실시간다운로드 버튼 통합 -->
+			<div class="btns">
+				<div class="toggle" id="dwnldToggle">
+					<button type="button" class="btTool download hide" id="dwnldBtn" title="다운로드유형선택" onclick="dwnldToggleHandler();">다운로드</button>
+					<ul class="dropbox setup">
+						<li><button type="button" class="menu" id="digitalBtn" onclick="dg.digitalOpen();">수치지형도</button></li>
+						<li><button type="button" class="menu" id="realtimeBtn" onclick="rt.realtimeOpen();">실시간다운로드</button></li>
+					</ul>
+				</div>
+			</div>
+<!-- 			2026-04-20  실종검색 모바일-->
+			<div class="btns">
+				<div class="toggle hide" id="safeToggle">
+					<button type="button" class="btTool3" id="moveFindSafeList" onclick='jsSetSafeList(this);'>실종검색</button>
+				</div>
+			</div>
+
+			<!-- mokujin0 - 24.09.19 수치지형도 , 실시간다운로드 버튼 통합으로 인해 주석처리 -->
+			<!-- <div class="btns">
+				<button id="digitalBtn" type="button" class="btTool contour hide" onclick="dg.digitalOpen();" title="수치지형도">수치 지형도</button>
+			</div>ggalo 추가 (수치지형도) -->
+
+		</aside>
+		<!-- 실내지도 툴셋 -->
+		<aside class="toolbar function hide" id="iToolFunc">
+			<div class="btns">
+				<div class="toggle">
+					<button type="button" class="btTool dim" title="지도유형선택">지도</button>
+					<ul class="dropbox">
+						<li><button type="button" class="menu" id="indoor3d" onclick="changeIndoorType('3d');">3D지도</button></li>
+						<li><button type="button" class="menu" id="indoor2d" onclick="changeIndoorType('2d');">2D지도</button></li>
+					</ul>
+				</div>
+			</div>
+			<div class="btns" id="indoor3d-btns">
+				<button type="button" class="btTool onoff" onclick="jsIndoorAlphaMode(this)" id="underOnoff" title="지하레이어 켜기">지하켬</button>
+				<button type="button" class="btTool onoff" onclick="jsGlobeSurfaceMode(this)" id="surfaceOnOff" title="지면레이어 끄기">지면끔</button>
+				<div class="toggle">
+					<button type="button" class="btTool onoff" id="facilityOnOff" onclick="deleteAllLodModel()" title="건물레이어 켜기">건물켬</button>
+					<ul class="dropbox">
+						<li><span class="check"><input type="radio" id="lod" value="LoD1" name="lod" onclick="jsFacilityMode(this)"/><label for="lod">LoD1</label></span></li>
+						<li><span class="check"><input type="radio" id="lod" value="LoD2" name="lod" onclick="jsFacilityMode(this)"/><label for="lod">LoD2</label></span></li>
+						<li><span class="check"><input type="radio" id="lod" value="LoD3" name="lod" onclick="jsFacilityMode(this)"/><label for="lod">LoD3</label></span></li>
+						<li><span class="check"><input type="radio" id="lod" value="LoD4" name="lod" onclick="jsFacilityMode(this)"/><label for="lod">LoD4</label></span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="btns">
+				<button type="button" class="btTool reset single" onclick="jsIndoorReset()" id="indoorReset" title="실내지도 초기화">초기화</button>
+			</div>
+		</aside>
+		<aside class="toolbar control">
+		<button type="button" id="bt-mistake-mobile" class="btTool lamp mobileErrorSend hide" title="지도수정요청"  style="border-radius: 4px 4px 4px 4px;" aria-haspopup="dialog" onclick="rp.reportPupup();">오류신고</button> <!-- ggalo 추가 (오류신고 모바일용) -->
+		<!-- 2023-07-20 -->
+			<div class="btns m2hidden on">
+<!--// 2023-06-13 기능 완성후 해제 -->
+<!-- 				<button type="button" class="btTool star hide" id="bt-bookmark" aria-haspopup="dialog">북마크</button> -->
+<!-- 				<div class="toggle"> -->
+<!-- 					<button type="button" class="btTool share hide" title="SNS선택">공유</button> -->
+<!-- 					<ul class="dropbox"> -->
+<!-- 						<li><a href="" class="menu">페이스북</a></li> -->
+<!-- 						<li><a href="" class="menu">트위터</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</div> -->
+				<button type="button" class="btTool lamp" title="지도수정요청" id="bt-mistake" aria-haspopup="dialog" onclick="rp.reportPupup();">오류신고</button> <!-- ggalo 추가 (오류신고) -->
+				<button type="button" class="btTool m2hidden mail" id="mapSendEmail"  title="지도URL 이메일작성">메일</button>
+				<button type="button" class="btTool m2hidden save" id="mapImageSave" title="지도이미지 저장">저장</button>
+				<div class="toggle">
+					<button type="button" class="btTool m2hidden print" id="mapImagePrint" title="지도이미지 출력선택">인쇄</button>
+					<ul class="dropbox">
+						<li><span class="check"><input type="radio" id="page1" value="a4p" name="page" checked/><label for="page1">A4 세로</label></span></li>
+						<li><span class="check"><input type="radio" id="page2" value="a4l" name="page"/><label for="page2">A4 가로</label></span></li>
+						<li class="btns">
+							<button type="button" class="bt bg primary" onclick="setPage();">확인</button>
+						</li>
+					</ul>
+				</div>
+				<button type="button" class="btToggle on" title="지도 추가기능 열기/닫기">툴바on/off</button>
+			</div>
+			<!-- 2023-06-19 -->
+			<div class="btns">
+				<button type="button" class="btTool compass hide" id="displayCompass" onclick="goNaviNorth();" title="나침반"><span  id="toolCompas">나침반</span></button>
+			</div>
+			<div class="btns">
+				<button type="button" class="btTool compass hide" id="displayCompass2D" title="나침반2D"><span  id="toolCompas2D">나침반</span></button>
+			</div>
+			<!--// 2023-06-19 -->
+			<div class="btns" id="vwMyLocation">
+				<button type="button" class="btTool mylocation noTxt" onclick="setMyCurrentPositionMoveMobile()" title="현재위치로 이동">현재위치</button>
+			</div>
+			<div class="btns">
+				<button type="button" class="btTool plus noTxt" id="plusZoom" title="지도 확대">점진확대</button>
+				<button type="button" class="btTool minus noTxt" id="minusZoom" title="지도 축소">점진축소</button>
+				<button type="button" class="btTool max noTxt" id="initHome" title="지도화면 처음으로">최대확대</button>
+				<button type="button" class="btTool full noTxt" id="fullScreen" onclick="toggleFullScreen()" title="전체화면">전체화면</button>
+				<button type="button" class="btTool mouse noTxt" id="toggleControl" title="마우스 컨트롤 열기/닫기">컨트롤 열고닫기</button>
+			</div>
+			<div class="btns">
+				<button type="button" class="btTool more noTxt" id="toolMore">툴바 열고닫기</button>
+			</div>
+		</aside>
+		<aside class="controller bottom umap" id="address-btns">
+			<div class="btns">
+				<button type="button" class="bt bd primary" onclick="javascript:fnAdrMapMoveTap(1);">이전단계</button>
+				<button type="button" class="bt bg" onclick="javascript:fnAdrMapMoveTap(2);">다시만들기</button>
+				<button type="button" class="bt bd primary" id="address-end" onclick="javascript:fnAdrMapMoveTap(3);">다음단계</button>
+			</div>
+		</aside>
+		<!--// 툴바 -->
+
+
+
+		<!-- 지도 -->
+		<div class="map" id="maparea">
+
+			<!--// 가이드 영역 -->
+			<!-- ============= -->
+			<p class="guide hide tl3dLayer" id="tl3d-guide">시점과 조망점을 지정하세요.</p>
+			<p class="guide hide tl3dLayer" id="tl3d-guide2">지도에 마우스로 그리기를 시작하세요. 마우스 클릭마다 정점이 추가됩니다.</p>
+			<p class="guide hide" id="digital-guide">지도에 도형을 그려주세요.</p> <!-- ggalo 추가 (수치지형도) -->
+			<p class="guide hide" id="guide-mistake">지도에서 오류신고할 지점을 선택하세요.</p> <!-- ggalo 추가 (오류신고) -->
+			<p class="guide hide" id="guide-2dAnal"></p> <!--이성수 : dt2단계: 분석도구 사용시 가이드 -->
+			<p class="guide hide" id="guide-angleMeasure"></p> <!--이성수 : dt2단계: 거리재기 추가 -->
+			<p class="guide hide" id="realtime-guide"></p><!-- mokujin0 추가(실시간다운로드) -->
+			<!--// 가이드 영역 -->
+			<!-- ============= -->
+
+
+
+			<!--// 분석결과 영역 -->
+			<!-- =============== -->
+			<!-- 지형분석 - 평균고도 분석 결과 팝업 -->
+			<div class="detail paper hide tl3dLayer" id="tpgrph01-result-pop">
+				<div class="headline">
+					<h5 class="title" style="padding-bottom:10px;">고도 분석결과</h5>
+					<button type="button" class="btReset" style="filter:invert(100%);">초기화</button><!-- 25.11.09 수정 -->
+					<button type="button" class="btToggle">열닫</button>
+					<button type="button" class="btClose" id="tpgrph01-result-btClose">닫기</button>
+				</div>
+				<div class="content" id="tpgrph01-result-content">
+				<canvas id="elevationChart" style ="height:240px;width:1200px"></canvas>
+					<ul class="data box" style="margin-top:8px;">
+						<li><b>분석거리</b><p id="anaDistance">-</p></li>
+						<li><b>최고고도</b><p id="higHeight">-</p></li>
+						<li><b>최저고도</b><p id="rowHeight">-</p></li>
+						<li><b class="primary">평균고도</b><p class="primary" id="avgHeight">-</p></li>
+					</ul>
+				<div id="tableToResult" style="text-align: right;"><p class="resultGuide">※분석결과는 참고용으로만 사용하시기 바랍니다.</p></div>
+				</div>
+			</div>
+			<!-- 평균높이 분석 결과 팝업 -->
+			<!-- 지형분석 - 경사도 분석 결과 팝업 -->
+			<div class="detail hide tl3dLayer move" id="tpgrph02-result-pop">
+				<div class="headline">
+					<h5 class="title">경사도 분석결과</h5>
+					<button type="button" class="btToggle">열닫</button>
+					<button type="button" class="btClose" id="tpgrph02-result-btClose">닫기</button>
+				</div>
+				<div class="content">
+					<ul class="data">
+						<li class="full bg" id='tpgrph02-resultInfo01'><b>분석영역넓이</b><p>500 ㎡</p></li>
+					</ul>
+
+					<div class="headline hide" id="selectArrowTitle"><h6 class="title">선택 화살표</h6></div>
+					<ul class="data bg hide" id="selectArrowResult">
+						<li class="half"><b>경사각</b><p id="selectAngle">500 %</p></li>
+						<li class="half"><b>경사도</b><p id="selectGradient">500 %</p></li>
+					</ul>
+					<div class="headline"><h6 class="title">경사도범위</h6><p class="resultGuide">※분석결과는 참고용으로만 사용하시기 바랍니다.</p></div>
+					<ul class="scope" id="slopeResultTable">
+						<li class="th">경사각(˚)<b style="margin-left: 98px">경사도(%)</b><b>분포도(%)</b></li>
+						<li><span style="background:#7c0014">빨강</span>45~<b>100~</b><b></b></li>
+						<li><span style="background:#7c0014">주황</span>40~45<b>83.91~100</b><b></b></li>
+						<li><span style="background:#7c0014">노랑</span>35~40<b>70.72~83.91</b><b></b></li>
+						<li><span style="background:#f50000">연두</span>30~35<b>57.74~70.02</b><b></b></li>
+						<li><span style="background:#ff7826">초록</span>25~30<b>46.63~57.74</b><b></b></li>
+						<li><span style="background:#ffab09">하늘</span>20~25<b>36.40~46.63</b><b></b></li>
+						<li><span style="background:#ffd800">파랑</span>15~20<b>26.79~36.40</b><b></b></li>
+						<li><span style="background:#fff158">진청</span>10~15<b>17.63~26.79</b><b></b></li>
+						<li><span style="background:#fcffb8">보라</span>5~10<b>8.75~17.63</b><b></b></li>
+						<li><span style="background:#ffffff">회색</span>0~5<b>0.00~8.75</b><b></b></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 설계도면 범례 팝업 시작 -->
+			<div class="detail hide tl3dLayer move" id="tpgrph05-guide-pop">
+				<div class="headline">
+					<h5 class="title">설계도면 편집</h5>
+					<button type="button" class="btToggle on">열닫</button>
+					<button type="button" class="btClose"  onclick="tpgrph05GuideClose()">닫기</button>
+				</div>
+				<div class="content">
+					<ul class="data">
+						<li class="full bg" id='tpgrph05-guideInfo'><b>파일명</b><p id="desdraFileNm"></p></li>
+						<input type="hidden" name="desdraThisId" id="desdraThisId" value=""/>
+					</ul>
+					<ul class="scope" id="desdraGuide">
+						<li><span style="background:#FF1A47">빨강</span>비율조정</li>
+						<li><span style="background:#1E90FF">파랑</span>상하좌우 크기조정</li>
+						<li><span style="background:#FFF158">노랑</span>이동</li>
+						<li>↻ &nbsp;&nbsp;&nbsp;   회전</li>
+						<li>
+							<div class="range">
+								<label for="rangeImageMapOpacity" >투명도
+							    	<input  id="rangeImageMapOpacity" class="form-control-range"  type="range"  value="1.0" min="0.0" max="1.0" step="0.1" oninput="document.getElementById('rangeImageMapOpacityDisplay').textContent = parseFloat(this.value).toFixed(1)" style="width: 10em">
+							    </label>
+							    <span id="rangeImageMapOpacityDisplay" style="font-size:10px;">1.0</span>
+							</div>
+						</li>
+					</ul>
+					<div class="btns" style="margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+						<button type="button" class="bt bg" onclick="moveDesdraByDirection('FRONT')">↑</button>
+						<div style="display: flex; gap: 6px;">
+							<button type="button" class="bt bg" onclick="moveDesdraByDirection('LEFT')">←</button>
+							<button type="button" class="bt bg" onclick="moveDesdraByDirection('BACK')">↓</button>
+							<button type="button" class="bt bg" onclick="moveDesdraByDirection('RIGHT')">→</button>
+						</div>
+					</div>
+						<br>
+						<p style="font-size:10px;">설계도면을 클릭하면 편집툴이 활성화됩니다. 
+						<br>
+						편집이 완료되면 저장버튼을 클릭하여 설계도면을 저장합니다.
+						<br>
+						투명도 조절은 설계도면이 선택된 상태에서만 가능합니다.
+						</p>
+				</div>
+				<div class="conFoot">
+					<div class="btns" style="padding: 1px 38%;">
+						<button type="button" class="bt bg primary" id="desdraChangeVerSave" onclick="desdraChangeVerSave();">반영</button>
+					</div>
+				</div>
+			</div>
+			<!-- 설계도면 범례 팝업 종료 -->
+			<article class="balloon hide" style="left: 50%; top: 50%;visibility: hidden" id= "wetherhtmlpop">
+				<div class="content">
+					<div class="headline">
+						<h6 id="title_level" class="title">서울특별시 용산구</h6>
+						<button type="button" class="btClose" onclick="removePopHtml()">닫기</button>
+					</div>
+					<div class="grid scroll" id="scrbard" style="height: 100px">
+						<table>
+							<caption>서울특별시 용산구</caption>
+							<tbody id="level_attr_value_tbody">
+								<tr v-for="n in 10">
+									<th scope="row">기온</th>
+									<td>123</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</article>
+			<div class="detail min hide" style="top:40px; left:400px;" id="district003FilePop">
+				<div class="headline">
+					<h5 class="title">경로 불러오기</h5>
+					<button type="button" class="btClose" onclick="$('#district003FilePop').addClass('hide');">닫기</button>
+				</div>
+				<div class="content">
+					<p class="infoTxt noM">kml, gpx형식 파일만 지원합니다.</p>
+					<div class="field">
+						<dl>
+							<dt class="min">형식선택</dt>
+							<dd>
+								<div class="check"><input type="radio" id="KmlRootFile" name="fileType" value="kml"><label for="KmlRootFile"l>kml</label></div>
+								<div class="check"><input type="radio" id="gpxRootFile" name="fileType" value="gpx"><label for="gpxRootFile">gpx</label></div>
+							</dd>
+							<dt class="min">파일위치</dt>
+							<dd>
+								<input type="file" class="input file" accept='.kml,.gpx' id='selectRouteUpLoadFile' name='selectRouteUpLoadFile'/>
+								<label for="selectRouteUpLoadFile"></label>
+							</dd>
+						</dl>
+					</div>
+					<div id="routetFileSelectedInfo"></div>
+					<div class="btns fc">
+						<button type="button" class="bt bg" onclick="$('#district003FilePop').addClass('hide');">취소</button>
+						<button type="button" class="bt bg primary" id='uploadRoutetFile' onclick="uploadRouteFile()">확인</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- 모의주행 규격팝업 -->
+			<div id="tl3d-district003OptPop"></div>
+			<!-- 모의주행 전용 -->
+			<aside class="controller bottom" id="drivingControl">
+				<div class="btn tool3d">
+					<button type="button" id="drivingBtPlay" class="btPlay on" onclick="javascript:playSim();" alt="시작">모의주행 시작</button>
+					<!-- <button type="button" class="btPlay on" onclick="javascript:pauseRouteSim();" alt="초기화">일시정지</button> -->
+					<button type="button" class="btReset" onclick="javascript:playRouteSim();" alt="재시작">재시작</button>
+					<button type="button" class="btEnd" onclick="javascript:initRouteSim();" alt="닫기">닫기</button>
+				</div>
+			</aside>
+			<div class="detail hide" style="bottom:32px; right:80px;" id="drone_legend">
+				<div class="content">
+					<h6 class="title">범례</h6>
+					<ul class="scope">
+						<li><span class="area pink"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISUAC" name="LT_C_AISUAC" ><label for="LT_C_AISUAC">UA) 초경량비행장치구역</label></div></li>
+						<li><span class="area olive"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISCTRC" name="LT_C_AISCTRC" ><label for="LT_C_AISCTRC">관제권</label></div></li>
+						<li><span class="area brown"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISALTC" name="LT_C_AISALTC" ><label for="LT_C_AISALTC">경계구역</label></div></li>
+						<li><span class="area red"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISPRHC" name="LT_C_AISPRHC" ><label for="LT_C_AISPRHC">비행금지구역</label></div></li>
+						<li><span class="area green"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISRESC" name="LT_C_AISRESC" ><label for="LT_C_AISRESC">비행제한구역</label></div></li>
+						<li><span class="area gray"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISATZC" name="LT_C_AISATZC" ><label for="LT_C_AISATZC">비행장교통구역</label></div></li>
+						<li><span class="area cyan"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISFLDC" name="LT_C_AISFLDC" ><label for="LT_C_AISFLDC">경량항공기 이착륙장</label></div></li>
+						<li><span class="area magenta"></span><div class="check switch fr"><input type="checkbox" id="LT_C_AISDNGC" name="LT_C_AISDNGC" checked><label for="LT_C_AISDNGC">위험지역</label></div></li>
+						<!-- <li><input type="checkbox" id="LT_C_AISUAC" name="LT_C_AISUAC"><span class="area aqua"></span>장애물공역</li> -->
+					</ul>
+				</div>
+			</div>
+			<!-- 가상건물(팝업) -->
+			<div id="tl3d-bldgCrt-pop"></div>
+			<!-- 건물모델(팝업) -->
+			<div id="tl3d-bldgModel-pop"></div>
+			<!--  설계도면(팝업) -->
+			<div id="tl3d-desdra-pop"></div>
+			<!-- 문화재현상변경 허용기준정보(팝업) -->
+			<div id="tl3d-bldgCultural-pop"></div>
+			<!-- 문화재현상변경 허용기준정보 입력(팝업) -->
+			<div id="tl3d-bldgCulturalInsert-pop"></div>
+
+			<div id="tl3d-bldgFix-pop"></div>
+			<div id="tl3d-analisys-pop"></div>
+			<!--// 샘플모델 다운로드 창 -->
+			<div id="tl3d-sampleDown-pop"></div>
+			<!--// 샘플모델 다운로드 창 -->
+			<div id="tl3d-short-forecast-pop"></div>
+			<!--// 분석결과 영역 -->
+			<!-- =============== -->
+			<div class="detail hide" id="layerInfoPop" style=""></div>
+			<div class="detail hide" id="buildingInfoPop" style=""></div>
+			<div class="detail hide" id="fsaInfoPop" style=""></div><!-- 2024.03.05 수정_pkh -->
+			<div class="detail hide" id="popupDialog" style=""></div>
+ 			<div class="detail hide" id="safeInfoPop" style="left: 983px; top: 174px;"></div><!-- 2026.04.30 yhkim -->
+			<div class="detail hide" id="analysisAttributeBox" style=""></div> <!-- 이성수 dt2단계: 2d분석지도 속성보기 팝업 -->
+			<div class="detail download hide" id="rtFlterPop" style=""></div><!-- mokujin0 - 실시간다운로드 필터 팝업 추가 -->
+			<div class="detail download hide" id="rtAplyInfoPop" style=""></div><!-- mokujin0 - 실시간다운로드 신청정보 팝업 추가 -->
+			<aside class="controller">
+				<button type="button" class="btClose">닫기</button>
+				<div class="move">
+					<button type="button" class="btMove lt" title="좌로이동">좌로 이동</button>
+					<button type="button" class="btMove rt" title="우로이동">우로 이동</button>
+					<button type="button" class="btMove up" title="위로이동">위로 이동</button>
+					<button type="button" class="btMove dw" title="아래로이동">아래로 이동</button>
+				</div>
+			</aside>
+
+			<aside class="controller bottom" id="pControl">
+				<div class="btns">
+					<button type="button" class="btToggle" onclick="javascript:helpBtn();"  alt="도움말">도움말</button>
+					<div class="dropbox">
+						<div class="headline">
+							<h6 class="title">도움말</h6>
+							<button type="button" class="bt min" onclick="javascript:helpClose(this);">닫기</button>
+						</div>
+						<p class="infoTxt">박물관 실내 서비스 이용시 아래의 <br>기본 조작 키를 이용하여 편리하게 이용하세요.</p>
+						<ul class="note">
+							<li class="wrap">
+								<img src="/images/dtkmap/ico_play.svg" alt="실행">
+								<img src="/images/dtkmap/ico_stop.svg" alt="정지">
+								<b>둘러보기 재생</b>
+								<p>재생 버튼을 클릭하면 지정된 경로를 따라 이동합니다. 중지 버튼을 클릭하면 일시중지됩니다.</p>
+							</li>
+							<li class="wrap">
+								<img src="/images/dtkmap/ico_refresh.svg" alt="초기화">
+								<b>둘러보기 초기화</b>
+								<p>처음 위치로 이동합니다.</p>
+							</li>
+							<li class="wrap mHide">
+								<img src="/images/dtkmap/ico_walk.svg" alt="보행자 모드">
+								<b>보행자 모드 시작</b>
+								<p>시작 버튼을 클릭하면 키보드로 건물 내부를 이동합니다.</p>
+							</li>
+						</ul>
+						<img src="https://map.vworld.kr/images/v4map/indoor/help_key1.png" alt="이동" class="mHide">
+						<img src="https://map.vworld.kr/images/v4map/indoor/help_key2.png" alt="둘러보기" class="mHide">
+						<ul class="note mHide">
+							<li class="dot br"><b>이동</b><p>키보드의 W/S/A/D키로 건물 내부를 전/후/좌/우로 이동합니다.</p></li>
+							<li class="dot br"><b>좌우 둘러보기</b><p>키보드의 Q/E키로 건물 내부를 좌/우로 둘러봅니다.</p></li>
+							<li class="dot br"><b>상하 둘러보기</b><p>키보드의 Z/X키로 건물 내부를 상/하로 둘러봅니다.</p></li>
+						</ul>
+					</div>
+					<button type="button" class="btPlay" onclick="contestDrivePlay(this)" id="cbtPlay" alt="둘러보기" >둘러보기</button>
+					<button type="button" class="btReset" onclick="contestViewInit(true)" alt="초기화">초기화</button>
+					<button type="button" class="btWalk" onclick="contestDriveModeOnOff(true)" alt="보행자모드">보행자모드</button>
+					<button type="button" class="btEnd" onclick="resetContest()" alt="종료">종료</button>
+				</div>
+			</aside>
+			<!-- 3D 실내지도 전용 controller -->
+			<aside class="controller bottom" id="iControl">
+				<!--button type="button" class="btClose">닫기</button-->
+				<div class="btns">
+					<button type="button" class="btToggle" onclick="javascript:helpBtn();" alt="도움말">도움말</button>
+					<div class="dropbox">
+						<div class="headline">
+							<h6 class="title">도움말</h6>
+							<button type="button" class="bt min" onclick="javascript:helpClose(this);">닫기</button>
+						</div>
+						<p class="infoTxt">실내지도 서비스 이용시 아래의 <br>기본 조작 키를 이용하여 편리하게 이용하세요.</p>
+						<ul class="note">
+							<li class="wrap">
+								<img src="/images/dtkmap/ico_play.svg" alt="실행">
+								<img src="/images/dtkmap/ico_stop.svg" alt="정지">
+								<b>둘러보기 재생</b>
+								<p>재생 버튼을 클릭하면 지정된 경로를 따라 이동합니다. 중지 버튼을 클릭하면 일시중지됩니다.</p>
+							</li>
+							<li class="wrap">
+								<img src="/images/dtkmap/ico_refresh.svg" alt="초기화">
+								<b>둘러보기 초기화</b>
+								<p>처음 위치로 이동합니다.</p>
+							</li>
+							<li class="wrap mHide">
+								<img src="/images/dtkmap/ico_walk.svg" alt="보행자 모드">
+								<b>보행자 모드 시작</b>
+								<p>시작 버튼을 클릭하면 키보드로 건물 내부를 이동합니다.</p>
+							</li>
+						</ul>
+						<img src="https://map.vworld.kr/images/v4map/indoor/help_key1.png" alt="이동" class="mHide">
+						<img src="https://map.vworld.kr/images/v4map/indoor/help_key2.png" alt="둘러보기" class="mHide">
+						<ul class="note mHide">
+							<li class="dot br"><b>이동</b><p>키보드의 W/S/A/D키로 건물 내부를 전/후/좌/우로 이동합니다.</p></li>
+							<li class="dot br"><b>좌우 둘러보기</b><p>키보드의 Q/E키로 건물 내부를 좌/우로 둘러봅니다.</p></li>
+							<li class="dot br"><b>상하 둘러보기</b><p>키보드의 Z/X키로 건물 내부를 상/하로 둘러봅니다.</p></li>
+						</ul>
+					</div>
+					<button type="button" class="btPlay" onclick="javascript:drivePlay(this);" id="btPlay" alt="둘러보기">둘러보기</button>
+					<button type="button" class="btReset" onclick="javascript:viewInit(true);" alt="초기화">초기화</button>
+					<button type="button" class="btWalk" onclick="javascript:driveModeOnOff(true);" alt="보행자모드">보행자모드</button>
+					<button type="button" class="btEnd" onclick="javascript:resetIndoor();" alt="닫기">닫기</button>
+				</div>
+			</aside>
+			<aside class="controller moving hide" id="iControl2">
+				<div class="move">
+					<button type="button" class="btMove walk up" onclick="moveWalk('W');" alt="상">상</button>
+					<button type="button" class="btMove walk dw" onclick="moveWalk('S');" alt="하">하</button>
+					<button type="button" class="btMove walk rl" onclick="moveWalk('Q');" alt="좌측 회전">좌측 회전</button>
+					<button type="button" class="btMove walk rr" onclick="moveWalk('E');" alt="우측 회전">우측 회전</button>
+					<button type="button" class="btMove walk lt" onclick="moveWalk('A');" alt="좌">좌</button>
+					<button type="button" class="btMove walk rt" onclick="moveWalk('D');" alt="우">우</button>
+				</div>
+				<div class="move etc">
+					<button type="button" class="btMove walk up" onclick="javascript:moveWalk('X');">위 둘러보기</button>
+					<button type="button" class="btMove walk dw" onclick="javascript:moveWalk('Z');">아래 둘러보기</button>
+				</div>
+			</aside>
+			<!-- 3D 실내지도 전용 controller -->
+
+
+			<!--// 지점설정, 분석실행 버튼영역 -->
+			<!-- =================== -->
+			<div id="tl3d-controller-btns"></div>
+			<div id="tl3d-controller-btns2"></div>
+			<div id="tl3d-moveModel-btns"></div><!-- 건물모델 수정 버튼 -->
+			<!-- 건물 삭제 버튼 -->
+			<aside class="controller bottom tl3dBtns" id="tl3d_delete_tile">
+				<div class="btns">
+					<button type="button" class="bt bd primary Grp" id="completeDeleteDrawing">그리기완료</button>
+					<button type="button" class="bt bd primary Grp" onclick="delete3dTileBilding()">다시그리기</button>
+					<button type="button" class="btOutGrp bg sub" id="calncelDeleteDrawing">취소</button>
+				</div>
+			</aside>
+			<!-- 건물 삭제 버튼 -->
+			<!--// 지점설정, 분석실행 버튼영역 -->
+			<!-- =================== -->
+
+			<!-- SHP파일 팝업창 영역 -->
+			<!-- =================== -->
+			<!-- SHP파일 불러오기 -->
+			<article class="popup hide" role="dialog" id="shpUp-pop" style="z-index: 998;">
+				<div class="popBox">
+					<div class="conHead">
+						<h4 class="title">SHP파일 불러오기</h4>
+						<button type="button" class="btClose" id="shpUp-closeBt" onclick="closePopup()">닫기</button>
+					</div>
+					<div class="conBody">
+						<form class="field">
+							<dl>
+								<dt>파일위치</dt>
+								<dd><label for="selectUpLoadFile"></label><input type="file" multiple='multiple' class="input file" accept='.dbf,.fix,.prj,.qix,.shp,.shx' id='selectUpLoadFile' name='selectUpLoadFile'/></dd>
+							</dl>
+							<p class="info">
+								shp파일은 .dbf, .prj, .shp, .shx 1세트로 구성되며, 4개 파일을 동시에 선택해야합니다.<br/>
+								좌표계는 EPSG:4326으로 지정되어야 합니다.<br/>
+								※필수 필드 값<br/>
+								id:Integer, bldgname:String (건물이름), purpose:String (건물용도), <br/>height:double (건물높이), alpha:Integer (투명도)<br/>
+								※필드 값이 없을 경우 용도: 단독주택, 높이: 30m, 투명도:50%로 고정됩니다.
+							</p>
+						</form>
+						<div id="shpFileSelectedInfo"></div>
+					</div>
+					<div class="conFoot">
+						<div class="btns">
+							<button type="button" class="bt bg" onclick="closePopup()">취소</button>
+							<button type="button" class="bt bg primary" id='uploadShpFile' onclick="uploadShpFile()">불러오기</button>
+						</div>
+					</div>
+				</div>
+			</article>
+
+			<!-- SHP파일 저장하기 -->
+			<article class="popup hide" role="dialog" id="shpDown-pop">
+				<div class="popBox">
+					<div class="conHead">
+						<h4 class="title">SHP파일 저장하기</h4>
+						<button type="button" class="btClose" id="shpDown-closeBt" onclick="closePopup()">닫기</button>
+					</div>
+					<div class="conBody">
+						<form class="field">
+							<dl>
+								<dt>파일이름</dt>
+								<dd>
+									<div class="set">
+										<label for="downloadShpFileName"></label><input type="text" class="input" id='downloadShpFileName'/>
+									</div>
+								</dd>
+							</dl>
+						</form>
+					</div>
+					<div class="conFoot">
+						<div class="btns">
+							<button type="button" class="bt bg" onclick="closePopup()">취소</button>
+							<button type="button" class="bt bg primary" id='downloadShpFile' onclick='downloadShpFile()'>저장</button>
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- SHP파일 팝업창 영역 -->
+			<!-- 사용자 모델 파일 영역 -->
+			<article class="popup hide" role="dialog" id="userModel-pop">
+				<div class="popBox">
+					<div class="conHead">
+						<h4 class="title">건물 모델 불러오기</h4>
+						<button type="button" class="btClose" id="userModel-closeBt" onclick="closeModelPopup()">닫기</button>
+					</div>
+					<div class="conBody">
+						<form class="field">
+							<dl>
+								<dt>파일위치</dt>
+								<dd><label for="glbFile"></label><input type="file" class="input file" id='glbFile' accept='.glb,.gltf'/></dd>
+							</dl>
+							<p class="info">※ glb, gltf 형식 파일만 지원합니다.<br/>
+							로컬 좌표계 값은 (0, 0, 0)으로 구성되어야 합니다.<br/>다른 형식의 3차원 모델은 glb 또는 gltf로 변환해야 합니다.
+							</p>
+						</form>
+					</div>
+					<div class="conFoot">
+						<div class="btns">
+							<button type="button" class="bt bg" onclick="closeModelPopup()">취소</button>
+							<button type="button" class="bt bg primary" onclick='selectedModelFile()'>확인</button>
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- 사용자 모델 파일 영역 -->
+			<!-- =================== -->
+			<!-- 어드레스맵 만들기(yhkim) -->
+			<article class="popup addressMap hide" role="dialog" id="pop-address"></article>
+			<!-- 2D분석 팝업들(이성수) -->
+			<div id="2dAnal-pop"></div>
+
+			<!-- 2024-02-26 오른쪽 클릭 팝업 -->
+			<div oncontextmenu="return false" class="toggle click" id="div_menu_popup_list" onclick="javascript:clickMenu(event)" onmouseover="javascript:switchMenu(event)" onmouseout="javascript:switchMenu(event)"  style="display:none;z-index:997;">
+				<ul class="dropbox">
+					<li><button type="button" class="btTool row star" id="bookmark">즐겨찾기</button></li>
+					<li><button type="button" class="btTool row share" title="지도공유선택" id="bt-share" aria-haspopup="dialog" onclick="javascript:$('#pop-share').removeClass('hide');">위치공유</button></li>
+					<li><button type="button" class="btTool row mylocation"  id="cp">현위치주소</button></li>
+					<li><button type="button" class="btTool row lamp"  id="mk">오류신고</button></li>
+				</ul>
+			<!-- 2024-02-26 오른쪽 클릭 팝업 -->
+		</div>
+		<!-- end: dt추가 -->
+		<!--// 지도 -->
+		<!--3D 어라운드 뷰 종료 -->
+		<button type="button" class="btOut hide" id="bt-around-out" onclick="javascript:setDefaultAroundView();" >둘러보기 나가기</button>
+		<button type="button" class="btRefresh hide" id="searchRefresh" onclick="toggleSearchBound(true);">현재 지도에서 검색</button>
+		<!-- 3D 실내지도 전용 -->
+		<button type="button" class="btOut hide" id="bt-walk-out" onclick="javascript:driveModeOnOff(false);">보행자모드 종료</button>
+		<!-- 3D 거리측정 전용 -->
+		<button type="button" class="btOut hide" id="bt-line-out" onclick="javascript:setDefaultLineMeasure();">거리측정 종료</button>
+		<!-- 3D 면적측정 전용 -->
+		<button type="button" class="btOut hide" id="bt-area-out" onclick="javascript:setDefaultAreaMeasure();">면적측정 종료</button>
+		<!-- 홍보관 국립 새만금간척 박물관 전용 -->
+		<button type="button" class="btOut hide" id="bt-walk-end" onclick="javascript:contestDriveModeOnOff(false);">보행자모드 종료</button>
+
+		<button type="button" class="btOut hide" id="bt-dg-area-out" onclick="dg.mbDrawEnd(this);">도형그리기 종료</button> <!-- ggalo 추가 (수치지형도) -->
+		<button type="button" class="btOut hide" id="bt-mistake-out" onclick="rp.reportEnd();">오류신고 나가기</button> <!-- ggalo 추가 (오류신고) -->
+		<button type="button" class="btOut hide" id="bt-angle-out" onclick="javascript:setDefaultAngleMeasure();">각도측정 종료</button> <!-- 이성수_DT2단계 : 각도재기 추가 -->
+		<button type="button" class="btOut hide" id="bt-rt-area-out" onclick="rt.mbDrawEnd(this);">도형그리기 종료</button> <!-- mokujin0 추가 (실시간다운로드) -->
+	</div>
+	</article>
+	<!--// maps -->
+	<!-- KML팝업 -->
+	<article class="popup noDim hide" role="dialog" id="pop-kml"></article>
+	<!-- 메일보내기 -->
+	<article class="popup hide" role="dialog" id="pop-email"></article>
+	<!-- 인쇄팝업 -->
+	<article class="popup hide" role="dialog" id="pop-print" style="top:0px;"></article>
+	<!--// 인쇄팝업 -->
+
+	<!-- // 팝업다이얼로그. -->
+	<article class="popup noDim hide" role="dialog" id="footerPopDialog"></article>
+
+	<!-- 3D분석 매뉴얼 : 이은서 추가 2024.06.17-->
+	<article class="popup manual hide" role="dialog" id="manualPopup3D"></article>
+
+	<!-- // 로딩. -->
+	<div class="loading" id="mapsLoading">
+	<ul class="spinner">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	</div>
+
+	<!-- [공통]얼럿 -->
+	<article class="popup alert hide" role="dialog" id="vwAlert"></article>
+	<article class="popup alert hide" role="dialog" id="vwConfirmAlert"></article>
+	<article class="popup alert hide" role="dialog" id="vAlertRed"></article>
+	<!--// [공통]얼럿 -->
+	<!--// 로그인 팝업 -->
+	<!-- 공장인허가 수정 -->
+	
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var anyidAdaptor = anyidAdaptor || {};
+        
+        
+        
+        
+        
+        
+
+        /*이용기관 수정 영역 Start*/
+        anyidAdaptor.orgLogin = function(data){
+            window.location.href = "/dtkmap/vworldLogin.do";
+          //정부 통합인증SDK_연계가이드 4.4.1.3 이용기관 로그인(토글 off) 참조
+            //제공되는 라이브러리 메소드로 인증데이터 decrypt 이후 자체 로그인 로직 개발
+        }
+        /*이용기관 수정 영역 End*/
+        
+        
+        /*이용기관 문구수정 영역 Start*/
+        anyidAdaptor.JoinConfirm = function(portalJoinUri, memberData){
+            if(!confirm('Any-ID 사용자등록 하시겠습니까?')) {
+                anyidAdaptor.orgLogin();
+                return;
+            }else{
+                anyidAdaptor.receiveAnyIdJoin(portalJoinUri, memberData);
+            }
+        }
+        /*이용기관 문구수정 영역 End*/
+        
+        
+        
+        
+        
+
+        anyidAdaptor.portalJoinUri = "null";
+        anyidAdaptor.certData = null;
+        anyidAdaptor.ssoByPass = "0";
+        anyidAdaptor.niRegYn = "null";
+        anyidAdaptor.agencyContextPath = "";
+
+        anyidAdaptor.success = function(data){
+            if(anyidAdaptor.ssoByPass != 0 || !data.useSso) {
+                anyidAdaptor.orgLogin(data);
+            } else {
+                anyidAdaptor.certData = data;
+                anyidAdaptor.userCheck();
+            }  
+        }
+        
+        anyidAdaptor.userCheck = function(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", anyidAdaptor.agencyContextPath + "/oidc/userCheck", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        anyidAdaptor.ssoLogin();
+                    } else {
+                        setTimeout(function() {
+                            anyidAdaptor.receiveAnyIdJoin(response.uri, response.data);
+                        }, 100);  
+                    }
+                }
+            };
+
+            let jsonObject = new Object();
+            jsonObject.txId = anyidAdaptor.certData.txId;
+            jsonObject.ssob = anyidAdaptor.certData.ssob;
+            jsonObject.userSeCd = anyidAdaptor.certData.userSeCd;
+            
+            let jsonStr = JSON.stringify(jsonObject);
+            let encodedString = btoa(jsonStr);
+            
+            var data = "data=" + encodedString + "&txId=" + anyidAdaptor.certData.txId;
+            xhr.send(data);
+            
+        }
+
+
+      //anyid가입
+        anyidAdaptor.receiveAnyIdJoin = function(portalJoinUri, memberData){
+        
+            var url = portalJoinUri+encodeURIComponent(memberData);
+            anyidAdaptor.popup(url,"openAnyIdRegistUserIdv",700,740);
+
+            window.addEventListener("message", function(event) {
+                var result;
+                try {
+                    result = JSON.parse(event.data);
+                } catch (error) {
+                    console.error("Received message is not valid JSON:", error);
+                    return;
+                }
+                
+                if(!result.funcName || (result.funcName !== "trmsAgreComplete" && result.funcName !== "registUserComplete")) {
+                    return;
+                }
+                if(result.status === "success") {
+                    if(result.trmsAgreYn == "Y"){
+                        anyidAdaptor.ssoLogin();
+                    }else{
+                        anyidAdaptor.orgLogin();
+                    }
+                }else{
+                    
+                    anyidAdaptor.orgLogin();
+                }
+
+            }, false);
+        }
+
+     // 팝업 호출
+        anyidAdaptor.popup = function(url, name, width, height){
+            let left = (screen.width) ? (screen.width-width)/2 : 0;
+            let top = (screen.height) ? (screen.height-height)/2 : 0;
+            let popup=window.open(url, name ,"resizable=yes,toolbar=no,scrollbars=yes,location=no,top="+top+"px,left="+left+"px,width="+width+"px,height="+height+"px");
+            if(popup){
+                popup.focus();
+            }
+        }
+
+        anyidAdaptor.ssoLogin = function(){
+            let jsonObject = new Object();
+            jsonObject.txId = anyidAdaptor.certData.txId;
+            jsonObject.ssob = anyidAdaptor.certData.ssob;
+            jsonObject.userSeCd = anyidAdaptor.certData.userSeCd;
+            let jsonStr = JSON.stringify(jsonObject);
+            let encodedString = btoa(jsonStr);
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/ssoLogin";
+            var urlWithParams = baseUrl + "?data=" + encodedString;
+            window.location.href = urlWithParams;
+            
+        }
+        
+        anyidAdaptor.ssoLoginPageSub = function(baseUrl, endPoint, acrValues){
+            var subUrl = "";
+            
+            if (endPoint && endPoint.trim() !== "") {
+                subUrl = "?endPoint=" + encodeURIComponent(endPoint);
+            }
+            
+            if (!acrValues && acrValues.trim() == "") {
+                acrValues = "3" 
+            }
+            
+            if (acrValues && acrValues.trim() !== "") {
+                if(subUrl == ""){
+                    subUrl = "?";
+                }else{
+                    subUrl = subUrl + "&";
+                }
+                subUrl = subUrl + "acrValues=" + acrValues;
+            }
+            
+// 	            window.open(baseUrl+subUrl, '_blank');
+            window.location.replace(baseUrl+subUrl);
+        }
+        
+        /**/
+        anyidAdaptor.ssoLogout = function(endPoint) {
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+//             var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/ssoLogout";
+            var baseUrl = 'https://www.vworld.kr' + anyidAdaptor.agencyContextPath + "/oidc/ssoLogout";
+            baseUrl = baseUrl + "?endPoint=" + encodeURIComponent(endPoint);
+            window.location.replace(baseUrl);
+        }
+        /**/
+        anyidAdaptor.reAuthLevel = function(endPoint, acrValues){
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/reAuthLevel";
+            anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues)
+
+        }
+        /**/
+        anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+//             var baseUrl = 'http://www.vworld.kr:8084' + anyidAdaptor.agencyContextPath + "/oidc/auth";
+            var baseUrl = 'https://www.vworld.kr' + anyidAdaptor.agencyContextPath + "/oidc/auth";
+//             var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
+            anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues)
+        }
+        
+        /**/
+        anyidAdaptor.ssoSvcToSvc = function(url, endPoint){
+            var baseUrl = url + "/oidc/svcToSvc?endPoint=" + encodeURIComponent(endPoint);;
+            window.open(baseUrl, "_blank");
+        }
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+<!-- 25.11.09 수정 -->
+	<article class="popup login hide" role="dialog" id="loginPopupForm">
+		<div class="popBox" style="animation: none;">
+			<div class="conBody">
+				<div class="headline">
+					<h4 class="title">로그인</h4>
+					<button type="button" class="btClose" id="loginCloseBtn" onclick="closeLoginPopup();">닫기</button>
+				</div>
+				<form class="field" id="loginForm" name="loginForm" method="post" action="#">
+					<input type="hidden" name="prevUrl" id="prevUrl" value=""/>
+					<input type="hidden" name="nextUrl" id="nextUrl" value=""/>
+					<input type="hidden" name="usrIdeE" id="usrIdeE" value=""/>
+					<input type="hidden" name="usrPwdE" id="usrPwdE" value=""/>
+					<input type="hidden" name="callback" id="callback" value="loginSuccessCall" />
+					<input type="hidden" name="isJson" id="isJson" value="1"/>
+					<ul>
+						<li><label for="usrIde"></label><input type="text" class="input id" id="usrIde" name="usrIde" placeholder="아이디" value="" /></li>
+						<li><label for="usrPwd"></label><input type="password" class="input pw" id="usrPwd" name="usrPwd" placeholder="비밀번호" value=""  onkeyup="if((arguments[0]||event).keyCode == 13) popupLogin();return false;"/></li>
+						<li><span class="check"><input type="checkbox" id="chkId" name="chkId"/><label for="chkId">아이디저장</label></span></li>
+					</ul>
+				</form>
+				<!-- 25.11.09 수정 시작 -->
+				<div class="btns any">
+					<button type="button" class="bt max bg primary" onclick="popupLogin();return false;">로그인</button>
+					<button type="button" class="bt max bg secondary" onclick="anyidAdaptor.ssoLoginPage('/v4po_main.do?goMap=Y','3');return false;">정부 통합로그인</button>
+<!-- 					<button type="button" class="bt max bg secondary" onclick="window.open('http://www.vworld.kr:8084/v4po_main.do?goMap=Y', '_blank');return false;">정부통합로그인</button> -->
+				</div>
+				<!-- 25.11.09 수정 끝 -->
+				<nav class="nav">
+					<ul>
+						<li><a href="http://www.vworld.kr/v4po_usrcla_a002.do" class="menu">회원가입</a></li>
+						<li><a href="http://www.vworld.kr/v4po_usrid_s001.do" class="menu">아이디찾기</a></li>
+						<li><a href="http://www.vworld.kr/v4po_usrpwd_s001.do" class="menu">비밀번호찾기</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</article>
+	<!-- // 로그인 팝업끝 -->
+
+<article class="popup hide" role="dialog" id="reportPopup" style="z-index: 9997;" ></article> <!--ggalo 추가 (오류신고)--> <!-- 25.11.09 수정 -->
+<!-- 24.02.26 어드레스맵 팝업 -->
+<article class="popup hide" role="dialog" id="adrMapDownload-pop" style="z-index: 9998;" ></article>
+
+<!-- 2024-02-29 위치공유 -->
+<article class="popup hide" role="dialog" id="pop-share" style="z-index: 998;">
+	<div class="popBox">
+		<div class="conBody">
+			<div class="headline">
+				<h4 class="title">위치공유</h4>
+				<button type="button" class="btClose" id="closePopShare">닫기</button>
+			</div>
+			<p class="infoTxt">공유방법을 선택하세요.</p>
+			<div class="field">
+				<ul>
+					<li><a href="javascript:shareToSNS(1);" class="sns fb" id="fb" title="위치공유">페이스북</a></li>
+					<li><a href="javascript:shareToSNS(2);" class="sns tw" id="tw" title="위치공유">트위터</a></li>
+					<li><button type="button" onclick="javascript:$('#mapSendEmail').click();" id="ml" class="btTool row mail">메일</button></li>
+					<li><button type="button" onclick="javascript:$('#mapImageSave').click();" id="sv" class="btTool row save">저장</button></li>
+					<li><button type="button" onclick="javascript:setPage();" id="pt" class="btTool row print">프린트</button></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</article>
+<!--// 2024-02-29 위치공유 -->
+<!-- 2024-02-22 관심주제도 도움말 //2024.02.28 수정_pkh-->
+<article class="popup noDim hide" role="dialog" id="pop-help">
+	<div class="popBox min">
+		<div class="conHead">
+			<h4 class="title">도움말</h4>
+			<button type="button" class="btClose" onclick="favHelpPop('off')">닫기</button>
+		</div>
+		<div class="conBody">
+			<p class="infoTxt">로그인 후 자주 사용하는 주제도를 관심주제도로 등록해서 편리하게 사용하세요.</p>
+			<ul class="note bg">
+				<li class="txt">① <mark>주제도 메뉴</mark>를 선택합니다.</li>
+				<li class="txt">
+					② 주제도목록에서 특정 레이어(예:연속지적도)의 상세보기에서 '별'아이콘 버튼을 클릭하면 관심주제도로 선택됩니다.
+					<img src="/images/dtkmap/help_bookmark01.png" alt="북마크도움말1">
+				</li>
+				<li class="txt">
+					③ 선택된 '별'아이콘 버튼을 다시 클릭하면 관심주제도 선택이 취소됩니다.
+					<img src="/images/dtkmap/help_bookmark02.png" alt="북마크도움말2">
+				</li>
+				<li class="txt">④ <mark>관심주제도 탭</mark>에서 주제도가 추가되었는지 확인할 수 있습니다.</li>
+			</ul>
+		</div>
+	</div>
+</article>
+<!-- 비행안전/장애물제한구역 팝업 2024.03.05 수정_pkh-->
+<article class="popup hide" role="dialog" id="safetyAddInfoPop"></article>
+<article class="popup hide" role="dialog" id="safetySurfaceDivPop"></article>
+<!-- DT_2단계 이성수 : 2차원분석 도움말 팝업-->
+<article class="popup noDim hide" role="dialog" id="analmap-help" style="width:480px;height:410px;">
+	<div class="popBox min">
+		<div class="conHead">
+			<h4 class="title">도움말</h4>
+			<button type="button" class="btClose" onclick="analMapHelpPop('off')">닫기</button>
+		</div>
+		<div class="conBody">
+			<p class="infoTxt">브이월드에서 제공하는 공간정보들을 분석레이어로 활용하여 다양한 사용자 분석기능을 제공합니다.</p>
+			<p class="infoTxt red3">최대 생성 가능한 분석 레이어 건수 : <mark>10건</mark><br>최대 저장 가능한 그룹 건수 : <mark>10건</mark><br>개별 사용자의 최대 허용 저장 용량" : <mark>100MB</mark></p>
+			<ul class="note bg">
+				<li class="txt">① 분석레이어를 추가한 후, <mark>분석도구</mark>를 활용하여 다양한 2차원 분석을 수행합니다.</li>
+						<img src="/images/dtkmap/analmap/toc/analTool2D.png" alt="2차원분석도움말">
+				<li class="txt">② <mark>웹 저장</mark>버튼을 클릭하면 분석레이어가 그룹으로 저장됩니다.</li>
+				<li class="txt">③ 저장된 목록을 선택한 후, <mark>다운로드(SHP)</mark> 버튼을 클릭하면 해당 저장목록이 SHP으로 다운로드됩니다.</li>
+				<li class="txt">④ 저장된 목록을 선택한 후, <mark>출력하기</mark> 버튼을 클릭하면 해당 저장목록이 이미지로 추출됩니다.</li>
+			</ul>
+		</div>
+	</div>
+</article>
+
+
+
+<!--2024-12-02-->
+<article id="analysisMenu" class="analysismenu min hide">
+	<h3 class="blind">분석 및 시뮬레이션 메뉴</h3>
+	<button type="button" class="btToggle2" id="btnToggle">열고닫기</button>
+	<nav class="tap" id="tap0">
+		<ul>
+			<li class="on"><a href="javascript:analysisMenuFnc.tabClick('all')" class="tapTit" title="선택된 탭">전체</a></li>
+			<!-- <li><a href="javascript:analysisMenuFnc.tabClick('')" class="tapTit" title="">인허가 분석</a></li> -->
+			<li><a href="javascript:analysisMenuFnc.tabClick('tpgrph')" class="tapTit" title="">지형분석</a></li>
+			<li><a href="javascript:analysisMenuFnc.tabClick('bldg')" class="tapTit" title="">건물분석</a></li>
+			<li><a href="javascript:analysisMenuFnc.tabClick('lndscp')" class="tapTit" title="">경관분석</a></li>
+			<li><a href="javascript:analysisMenuFnc.tabClick('wthr')" class="tapTit" title="">기상분석</a></li>
+			<li><a href="javascript:analysisMenuFnc.tabClick('district')" class="tapTit" title="">지역분석</a></li>
+			<li><a href="javascript:analysisMenuFnc.tabClick('2d')" class="tapTit" title="">2차원분석</a></li>
+			<li><a href="javascript:analysisMenuFnc.tabClick('fctr')" class="tapTit" title="">인허가분석</a></li>
+		</ul>
+		<div class="set find">
+			<label for="analysisMenu_searchInput" class="blind">분석 및 시뮬레이션 메뉴검색</label>
+			<input type="text" class="input" placeholder="분석 및 시뮬레이션 메뉴검색" id="analysisMenu_searchInput">
+			<button type="button" id="analysisMenu_btnSearch"class="btFind">검색</button>
+		</div>
+		<button type="button" class="btClose">메뉴닫기</button>
+	</nav>
+	<div class="tapCon view1" id="analysisMenuList">
+		<!--2D/3D버튼 없는경우-->
+		<div class="list">
+			<ul>
+				<li class="tpgrph">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('101','Y','/dtkmap/dtk_t3dtpgrph_s001.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_topography_height.png" alt="고도분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">고도 분석</p>
+						<div class="con">사용자가 입력한 설정값(굵기)과 지도상에 그린 경로를 기준으로 거리별 지표면의 고도정보(최고고도, 최저고도, 평균고도)를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="tpgrph">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('101','Y','/dtkmap/dtk_t3dtpgrph_s002.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_topography_gradient.png" alt="경사도분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">경사도 분석</p>
+						<div class="con">사용자가 선택한 지점 및 영역을 기준으로 설정된 영역을 세분화하여 영역별로 세분화된 경사도, 경사각 및 분포도를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="tpgrph">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('101','Y','/dtkmap/dtk_t3dtpgrph_s003.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_landscape_earth.png" alt="토공량분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">토공량 분석</p>
+						<div class="con">사용자가 입력한 설정값(계획높이, 굴착각도, 분석옵션)과 지도상에 그려낸 영역을 기준으로 토공정보(평균고, 절/성토량 등)를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="tpgrph">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('101','Y','/dtkmap/dtk_t3dtpgrph_s004.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_topography_cross.png" alt="지형단면분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">지형단면 분석</p>
+						<div class="con">사용자가 지정한 시작점(기준)과 끝점(방향)을 기준으로 그려진 선(Line)을 따라 지형의 높낮이 변화가 시각적으로 나타나며 지형 및 건물의 구조를 단면으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s001.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_topography_virtualmodel.png" alt="가상건물"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">가상건물</p>
+						<div class="con">사용자가 직접 설정값(높이,건물색상, 투명도 등)을 입력해 지도상에 원하는 형태의 가상건물을 그려내 생성하거나 파일 업로드를 통해 가상건물을 불러올 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s002.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_topography_bulidingmodel.png" alt="건물모델"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<!-- <p class="tit">건물모델</p> 20251109 사용자모델로 변경 -->
+						<p class="tit">사용자모델</p>
+						<div class="con">다양한 형식의 3D 모델 파일, PNG 파일을 업로드하여 지도상에 해당 파일을 가시화할 수 있으며, 편집기능(회전, 위치, 배율 등)을 이용해 불러온 모델의 실시간 편집이 가능합니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s004.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_topography_buildng oldness.png" alt="건물노후도"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">건물노후도 분석</p>
+						<div class="con">사용자가 설정한 색상별 건물노후도를 바탕으로 지도상 지정한 영역 및 선택한 지역의 건물노후도를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s003.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_building_sunlight.png" alt="일조권"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">일조권 분석</p>
+						<div class="con">사용자가 분석을 희망하는 지역(지점) 및 분석시간간격을 설정하면 동지일을 기준으로 총 일조량과 연속일조량을 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s005.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_building_setback.png" alt="일조권 사선제한"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">일조권 사선제한 분석</p>
+						<div class="con">사용자가 선택한 대지의 경계선 내에 가상 건물을 설치 후 분석시 사선 제한 법령에 근거한 기준면에 건축물이 위반되는지 이격 조건 충족여부를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s006.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_district_cultural.png" alt="문화재현상변경"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">문화재 현상변경 분석</p>
+						<div class="con">구역별 문화재 현상변경 허용기준을 활용하여 사용자는 생성한 가상건물이 위치된 구역내 존재하는 문화재 정보를 확인 가능하며, 분석시 문화재 현상변경 허용 기준 충족 여부 및 가시화를 지원합니다.</div>
+					</button>
+				</li>
+				<li class="bldg">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('102','Y','/dtkmap/dtk_t3dbldg_s007.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_building_sun_an.png" alt="일조 침해 분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">일조 침해 분석</p>
+						<div class="con">사용자가 생성한 가상 건물을 기준으로, 선택된 대지에 미치는 일조량과 그림자 영향을 평가합니다. 이를 통해 일조, 비일조를 가시화하여 건축 가능성을 검토할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="lndscp">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('103','Y','/dtkmap/dtk_t3dlndscp_s001.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_landscape_view.png" alt="조망권"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">조망권 분석</p>
+						<div class="con">사용자가 지도상에 시점(기준) 및 조망점(방향)을 지정하면 설정된 방향에 따라 조망점의 가시여부를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="lndscp">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('103','Y','/dtkmap/dtk_t3dlndscp_s003.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_landscape_height.png" alt="고도제한"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">고도제한 분석</p>
+						<div class="con">사용자가 지정한 영역 내에서, 사용자가 설정한 고도제한 높이값보다 초과된 건물 및 시설물을 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="lndscp">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('103','Y','/dtkmap/dtk_t3dlndscp_s004.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_landscape_sunlight.png" alt="일조량"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">일조량 분석</p>
+						<div class="con">희망하는 분석지점(들)을 지정 후, 분석주기를 설정하면 각각의 분석지점에 해당하는 시간별 일조량 및 총 일조량을 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="lndscp">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('103','Y','/dtkmap/dtk_t3dlndscp_s007.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_landscape_skyline.png" alt="스카이라인"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">스카이라인 분석</p>
+						<div class="con">사용자가 지정한 위치에서 카메라 각도를 조작하여 하늘과 지형지물이 구분된 스카이라인을 시각적으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="lndscp">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('103','Y','/dtkmap/dtk_t3dlndscp_s008.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_scenery_curved.png" alt="시곡면분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">시곡면 분석</p>
+						<div class="con">사용자가 입력한 설정값(지점, 경사각, 시곡각)을 통해 시곡면을 생성하여 각 거리별 고도에 따른 충돌 건축물 및 건축가능높이를 시각적으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="lndscp">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('103','Y','/dtkmap/dtk_t3dlndscp_s009.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_scenery_visible.png" alt="가시면적분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">가시면적 분석</p>
+						<div class="con">사용자가 입력한 설정값(퍼짐각, 정밀도)을 통해 가시/비가시 면적을 수치화하고 시각적으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="wthr">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('104','Y','/dtkmap/dtk_t3dweather_s001.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_weather_typhoon.png" alt="실시간 기상"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">실시간기상</p>
+						<div class="con">사용자가 원하는 지역의 기상 및 대기질, 태풍과 관련된 정보와 위성영상을 실시간으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="wthr">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('104','Y','/dtkmap/dtk_t3dweather_s002.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_weather_weathersim.png" alt="기상시뮬레이션"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">기상 시뮬레이션</p>
+						<div class="con">사용자가 입력한 정보에 따라 지도상에 비내림, 눈내림, 안개, 미세먼지, 황사 배경 이펙트를 가시화하여 시각적으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="wthr">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('104','Y','/dtkmap/dtk_t3dweather_s003.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_weather_wind.png" alt="바람길분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">바람길 분석</p>
+						<div class="con">사용자가 입력한 설정값(풍속, 풍향)과 지정한 영역(생활지역)에 대해 바람길을 가시화하여 시각적으로 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="district">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('105','Y','/dtkmap/dtk_t3ddistrict_s001.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_district_hotspot.png" alt="핫스팟분석"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">핫스팟 분석</p>
+						<div class="con">사용자가 선택한 지역의 인구, 사업체, 탄소배출 등 생활에 밀접한 관련이 있는 항목들의 통계 및 시설물 분포를 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="district">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('105','Y','/dtkmap/dtk_t3ddistrict_s002.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_district_simulation.png" alt="보안시뮬레이션"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">보안 시뮬레이션</p>
+						<div class="con">사용자가 지정한 지역에 시설물(CCTV, 보안등, 가로등) 모델과 밀집도를 가시화할 수 있으며 시설물 설치 시뮬레이션을 통해 보안지역을 확인할 수 있습니다.</div>
+					</button>
+				</li>
+				<li class="district">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu('105','Y','/dtkmap/dtk_t3ddistrict_s003.do');">
+						<div class="pic"><img src="/images/dtkmap/megamenu/megamenu_district_drone.png" alt="드론차량 모의주행  시뮬레이션"></div>
+						<div class="format"><span class="d3">3D</span></div>
+						<p class="tit">드론·차량 모의주행</p>
+						<div class="con">사용자가 지정한 경로 혹은 파일을 통해 지도상에 설정된 경로를 따라 드론 및 차량 모의주행 시뮬레이션을 수행할 수 있으며 주행도구 조작을 통해 실시간 다채로운 주행이 가능합니다.</div>
+					</button>
+				</li>
+				
+				<li class="2d">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu(20);">
+						<div class="pic"><img src="/images/dtkmap/megamenu/analsTempImg.png" alt="2차원분석"></div>
+						<div class="format"><span class="d3">2D</span></div>
+						<p class="tit">일반분석</p>
+						<div class="con">공간 분석 도구를 통해 사용자는 지도의 다양한 관계와 분포를 분석하며, 의사결정에 필요한 공간 정보를 손쉽게 도출할 수 있습니다.
+							분석 결과는 주제도(레이어)로 시각화되며, 결과 데이터 공유가 가능합니다.
+						</div>
+					</button>
+				</li>
+				<li class="2d">
+					<button type="button" class="item" onclick="javascript:loadQuickMenu(21);">
+						<div class="pic"><img src="/images/dtkmap/megamenu/aanalsTempImg.png" alt="2차원분석"></div>
+						<div class="format"><span class="d3">2D</span></div>
+						<p class="tit">절차분석</p>
+						<div class="con">사용자가 직접 분석 데이터설정, 분석기능 설정, 파이프라인을 설계 등 분석의 절차를 설계하고 공유하는 기능을 제공합니다.
+						</div>
+					</button>
+				</li>
+				<li class="fctr">
+					<button type="button" class="item" onclick="javascript:openFctrPopup('https://pss.vworld.kr');">
+						<div class="pic"><img src="/images/dtkmap/megamenu_fctr.png" alt="공장인허가분석"></div>
+						<div class="format"><span class="d3">2D/3D</span></div>
+						<p class="tit">공장 인허가 분석</p>
+						<div class="con">토지 개발에 필요한 인허가에 대한 종합적인 분석 기능을 제공합니다.</div>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div><!--// view1 -->
+	<div class="tapCon view3 hide" id="analysisMenuList_nodata">
+		<div class="list">
+			<ul>
+				<li class="nodata">조회된 분석 및 시뮬레이션 존재하지 않습니다.</li>
+			</ul>
+		</div>
+	</div><!--// view3 -->
+</article>
+<script>
+$(document).ready(function() {
+	$('.analysismenu .btToggle2').click(function(){
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+			$('.analysismenu').addClass('min');
+		} else {
+			$(this).addClass('on');
+			$('.analysismenu').removeClass('min');
+		}
+	});
+	$('.analysismenu .btClose').click(function(){
+		$('.analysismenu').addClass('hide');
+	});
+
+	$('.analysismenu nav li').click(function(){
+		$('.analysismenu nav li').removeClass("on");
+		$(this).addClass("on");
+	});
+
+	$("#analysisMenu_searchInput").keypress(function() {
+		if(window.event.keyCode == 13) {
+			analysisMenuFnc.tabClick(analysisMenuFnc.prevType);
+			analysisMenuFnc.search();
+		}
+	});
+
+	$("#analysisMenu_btnSearch").click(function() {
+		console.log(analysisMenuFnc.prevType);
+			analysisMenuFnc.tabClick(analysisMenuFnc.prevType);
+			analysisMenuFnc.search();
+	});
+
+});
+
+var analysisMenuFnc = {
+	prevType : "all"
+	, prevId : "101"
+	, prevUrl : "/dtkmap/dtk_t3dtpgrph_s001.do"
+	, moveRslt : true
+	, val : ""
+	, search : function(){
+		this.val = $("#analysisMenu_searchInput").val();
+		if(this.val != ""){
+			$('#analysisMenuList li').not('.hide').each(function() {
+		        if (!$(this).find(".tit").text().includes(analysisMenuFnc.val)) {
+		            $(this).addClass("hide");
+		        }
+		    });
+		}
+
+		if($('#analysisMenuList li').not('.hide').length < 1){
+			$("#analysisMenuList").addClass("hide");
+			$("#analysisMenuList_nodata").removeClass("hide");
+		}else{
+			$("#analysisMenuList").removeClass("hide");
+			$("#analysisMenuList_nodata").addClass("hide");
+		}
+
+	}
+	, tabClick : function(type){
+		$('#analysisMenuList li').addClass("hide");
+			this.prevType = type;
+			if(type == "all" || type == ""){
+				type = "";
+			}else{
+				type = "."+type;
+			}
+			$('#analysisMenuList li'+type).each(function() {
+				$(this).removeClass("hide");
+
+		    });
+
+			this.search();
+	}
+	, isFirstVisit : true
+
+};
+</script>
+<!-- jrpark 임시 추가. 나만의 지도 open div 시작 -->
+<article class="mymap hide" id="myMapArc"></article>
+<!-- jrpark 임시 추가. 나만의 지도 open div 끝 -->
+
+
+								 
+</section>
+
+
+<!-- 3차원 분석저장 -->
+<div id="tl3d-analisys-save-pop"></div>
+<div id="tl3d-analisys-save-pop2"></div>
+<!--// 분석저장 -->
+
+
+<input type='hidden' name='qCategory' id='qCategory' value=""/>
+<input type='hidden' name='pageIndex' id='pageIndex' value=""/>
+<input type='hidden' name='left' id='qleft' value=""/>
+<input type='hidden' name='right' id='qright' value=""/>
+<input type='hidden' name='top' id='qtop' value=""/>
+<input type='hidden' name='bottom' id='qbottom' value=""/>
+<input type="hidden" id="clipToMapUrl" name="clipToMapUrl" value="" />
+<input type="hidden" id="area" name="area" value="0" />
+
+<footer class="footer" id="footer"></footer>
+
+</div><!--//container-->
+<!-- 공통 -->
+<script>
+//URL property 처리 - 2024/02/20
+const _URL_MAP = {};
+_URL_MAP['mode'] = 'real';
+_URL_MAP['po'] = 'http://www.vworld.kr';
+_URL_MAP['map'] = 'https://map.vworld.kr';
+_URL_MAP['data'] = 'http://www.vworld.kr';
+_URL_MAP['dev'] = 'http://www.vworld.kr';
+_URL_MAP['user'] = 'http://www.vworld.kr';
+_URL_MAP['desk'] = 'http://www.vworld.kr';
+_URL_MAP['eng'] = 'http://www.vworld.kr';
+_URL_MAP['apis'] = 'http://apis.vworld.kr';
+_URL_MAP['api'] = 'http://api.vworld.kr';
+_URL_MAP['xdworld'] = 'http://xdworld.vworld.kr:8080';
+
+//2차원분석 limit property 처리 - 2024/03/25
+var _2dAnal_MAP = {};
+_2dAnal_MAP['addLayerLimit'] = 10;
+_2dAnal_MAP['saveLayerGroupLimit'] = 10;
+_2dAnal_MAP['usrAllowedCapacity'] = "100MB";
+
+
+
+//2차원분석 limit property 처리 끝 - 2024/03/25
+</script>
+<script src="/js/ws3dmap/WS3DRelease3/WS3DExtension/modeler.js"></script>
+<script src="/js/dtkmap/tool3d/lib/measureAdvanced.js"></script>
+<script src="/js/dtkmap/tool3d/lib/terrainVolume_analysis2.js"></script>																		 
+
+														   
+<script src="/js/ZeroClipboard.js?ver=2023033001"></script>
+<script src="/js/dtkmap/tool3d/lib/imageGroundProjection.js"></script>
+<script src="/js/dtkmap/ValidationScript.js?ver=2023083101"></script>
+<script src="/js/dtkmap/LayerObjects.js?ver=2023060501"></script>
+<script src="/js/dtkmap/util.js?ver=2023080901"></script>
+<script src="/js/dtkmap/map.url.js?ver=2023071101"></script>
+<script src="/js/dtkmap/map.comm.js?ver=2026081101"></script><!-- 25.11.09 수정 -->
+<script src="/js/dtkmap/map.home.js?ver=2026090201"></script>
+<script src="/js/dtkmap/maps.wmsinfo.js?ver=2023081001"></script>
+<script src="/js/dtkmap/map.indoor.js?ver=2026092201"></script>
+<script src="/js/dtkmap/map.event.js?ver=2026061901"></script>
+<script src="/js/dtkmap/map.function.js?ver=2026110201"></script>
+<script src="/js/dtkmap/map.tree.js?ver=2026061901"></script>
+<script src="/js/dtkmap/map.tool3d.js?ver=2024061101"></script>
+<script src="/js/dtkmap/tool3d/lib/sunlightViolation.js"></script>
+<script src="/js/dtkmap/map.digital.js?ver=2026062201"></script> <!-- ggalo 추가 (수치지형도)-->
+<script src="/js/dtkmap/map.error.report.js?ver=2026110501"></script> <!-- ggalo 추가 (오류신고)-->
+<script src="/js/dtkmap/analmap/toc/mapAnalAngle.js?ver=20240130"></script><!-- 이성수_DT2단계 : 각도재기 추가 -->
+<script src="/js/dtkmap/map.realtime.js?ver=2026062201"></script><!-- mokujin0 추가 (실시간다운로드) -->
+																		   
+
+<script src="/js/dtkmap/tool3d/tool3d.viewfunction.js?ver=1"></script>
+</body>
+<script>
+//test
+var fromPotal = "";
+var anlsSeCd = "";
+var setIde = "";
+var userTmapId = "";
+
+window.onload = function() {
+
+	$('.bt-alert').click(function(){
+		$('.popup.alert').addClass('hide');
+// 		$('.popup.login').removeClass('hide');
+	});
+
+
+	/* 지도설정 */
+	$('#bt-setting').click(function(){
+		$('.popup.setting').removeClass('hide');
+	});
+
+
+
+	/* 얼럿 */
+	$('#bt-bookmark').click(function(){
+		$('.popup.alert').removeClass('hide');
+	});
+
+	/* 헤더 팝업 로그인 */
+	var ide = "";
+	/**
+	 * 로그인 베이스.
+	 * @returns
+	 */
+	if(ide != null && ide !=  ''){
+		document.loginForm.usrIde.value = ide;
+		document.loginForm.usrPwd.focus();
+	}else{
+		document.loginForm.usrIde.focus();
+	}
+
+	//console.log("getCookie ",getCookie("id"));
+	if(getCookie("id")){
+		document.loginForm.usrIde.value = getCookie("id");
+		$("input[id=chkId]").prop("checked", true);
+		document.loginForm.chkId.checked = true;
+		document.loginForm.usrPwd.focus();
+	}
+
+	usrInfoArert("");
+
+
+
+	// 2023.04.04. ADD. 조현석 부장. 줌 확대 2/3D 동일.
+	$("#plusZoom").click(  function () {
+		if ( mapController )	mapController.zoomIn();
+	});
+	// 2023.04.04. ADD. 조현석 부장. 줌 축소 2/3D 동일.
+	$("#minusZoom").click(  function () {
+		if ( mapController )	mapController.zoomOut();
+	});
+	// 2023.04.04. ADD. 조현석 부장. 홈버튼. 2/3D 동일함.
+	$("#initHome").click(  function () {
+		if ( mapController ){
+			if(vw.isEvtPreventMode) mapController.Map3D.homeCameraPosition.location.y = 36.37221771122243;
+			mapController.initHome();
+		}
+	});
+
+	// 2023.04.26 ADD 김영희. 마우스 클릭 지도이동. 2/3D 동일
+	$(".btMove:not(.walk)").on('click', function(){
+		if ( mapController ){
+			if($(this).hasClass('lt')){mapController.zoomLeft();
+			}else if($(this).hasClass('rt')){mapController.zoomRight();
+			}else if($(this).hasClass('up')){mapController.zoomUp();
+			}else if($(this).hasClass('dw')){mapController.zoomDown();}
+		}
+	});
+	// 2023.04.26 ADD 김영희. 지도선택시 현재지도 표출
+	$('#mapBtn').on('click', function(){
+		setMapMainBtn();
+	});
+
+	//분석기능 초기화_ 지도각도 및 표출레이어 초기화 추가
+	$('#measureReset').on('click', function(){
+		$(this).addClass('on');
+		if ( mapController ){
+			//setTimeout( function() {setDefaultMeasure();}, 300);
+			setTimeout( function() {
+				 if(currentMapMode == 2){
+					//vw.NavigationZoom.initHome();
+				}else{
+					map2d.getView().animate({
+					    rotation: 0
+					})
+				}
+				 
+				vw.isEvtPreventMode = false;
+				$("#tl3d-guide").addClass("hide");
+		
+// 				2026-05-26 works 진흥원 요청
+// 				unCheckAllThemeLayer();
+				setDefaultMeasureOnly();
+			}, 300); //2d에서 다른 vectorlayer도 없어져서 수정
+		}
+	});
+	
+	
+	
+	<!--20250919 툴바 추가 시작 -->
+	//삼각자 버튼 클릭 시
+ 	$('#measureTriR').on('click', function(){
+ 		setDefaultMeasure();
+		
+		//초기화하고 시작
+		//ws3d.viewer.entities.removeAll();
+		$("#tl3d-guide").addClass("hide");
+		
+		$(this).addClass('on');
+		if ( mapController ){
+			setTimeout( function() {
+				 if(currentMapMode == 2){
+				}else{
+					map2d.getView().animate({
+					    rotation: 0
+					})
+				}
+				 //건물 클릭 못하게
+				 vw.isEvtPreventMode = true
+				 
+				 $("#tl3d-guide").removeClass("hide");
+				 //가이드 문구 지정
+				 $("#tl3d-guide").html("지도상에 삼각자 측정을 시작할 위치를 마우스 왼쪽 버튼으로 클릭해 주세요. 두번째 클릭시 측정이 종료되어 거리가 나타납니다.");
+
+		         MeasureAdvanced.getInstance().startMeasureByTrigonometry();
+
+			}, 300); //2d에서 다른 vectorlayer도 없어져서 수정
+		}
+	});
+	 
+	//반구 버튼 클릭 시
+ 	$('#measureHemiS').on('click', function(){
+ 		setDefaultMeasure();
+		//초기화하고 시작
+		//ws3d.viewer.entities.removeAll()
+	    $("#tl3d-guide").addClass("hide");	
+		$(this).addClass('on');
+		if ( mapController ){
+			setTimeout( function() {
+				 if(currentMapMode == 2){
+				}else{
+					map2d.getView().animate({
+					    rotation: 0
+					})
+				}
+				
+				vw.isEvtPreventMode = true
+				 $("#tl3d-guide").removeClass("hide");
+				 //가이드 문구 지정
+				 $("#tl3d-guide").html("지도상에 반구 측정을 시작할 위치를 마우스 왼쪽 버튼으로 클릭해 주세요. 두번째 클릭시 측정이 종료되어 거리가 나타납니다.");
+
+		        MeasureAdvanced.getInstance().startMeasureBySphere();
+			}, 300); //2d에서 다른 vectorlayer도 없어져서 수정
+		}
+	});
+	
+	//원 측정 버튼 클릭 시
+	$('#measureCircle').on('click', function(){
+		setDefaultMeasure();
+		//초기화하고 시작
+		//ws3d.viewer.entities.removeAll()
+		$("#tl3d-guide").addClass("hide");
+		$(this).addClass('on');
+		if ( mapController ){
+			setTimeout( function() {
+				 if(currentMapMode == 2){
+				}else{
+					map2d.getView().animate({
+					    rotation: 0
+					})
+				}
+				vw.isEvtPreventMode = true
+				$("#tl3d-guide").removeClass("hide");
+				//가이드 문구 지정
+				$("#tl3d-guide").html("지도상에 원 측정을 시작할 위치를 마우스 왼쪽 버튼으로 클릭해 주세요. 두번째 클릭시 측정이 종료되어 거리가 나타납니다.");
+		        MeasureAdvanced.getInstance().startMeasureByCircle();
+
+			}, 300); //2d에서 다른 vectorlayer도 없어져서 수정
+		}
+	});
+	
+	//고도기반 면적 클릭 시
+ 	$('#newMeasureArea').on('click', function(){
+ 		
+		//초기화하고 시작
+		setDefaultMeasure();
+		//ws3d.viewer.entities.removeAll()
+		
+ 	    
+        // LinearRing 단일 외부링 형태 입력 지원
+        $("#tl3d-guide").removeClass("hide");
+		//가이드 문구 지정
+		$("#tl3d-guide").html("지도상에 고도기반면적 측정을 위한 입력 영역을 그려주세요. 우클릭시 영역선택이 완료됩니다.");
+				 
+
+        _tinInputGroundAreaAsLinearRing = null; // tin 생성 입력 대상영역 지정
+
+        // 영역을 그리고 그리기 완료 시 단순 면적 결과 생성
+        const promiseMeasure = MeasureAdvanced.getInstance().startMeasurePolygonAreaAsync({
+          showAreaLabel: true,
+          areaLabelPrefix: "(단순 면적): ",
+          maxAreaLimit: 200000,
+        });
+        promiseMeasure.then(result=>{{
+			
+          setTimeout( function() {
+        	  displayLoading(true);
+              if(result.geometry && result.geometry.getExteriorRing()){
+                  _tinInputGroundAreaAsLinearRing = result.geometry.getExteriorRing(); // 입력 폴리곤의 외부링을 가져온다.
+                }
+      		  var finSimpleArea = Math.floor(result.area * Math.pow(10, 2)) / Math.pow(10, 2);
+              createMeshByDrawingPoly(finSimpleArea);
+              $("#newMeasureArea").removeClass("on");
+          }, 500);
+          
+        }}).catch(err=>{
+        })
+        
+	});
+	
+ 	//영역그려진대로 표면메쉬 생성
+	function createMeshByDrawingPoly(simpleArea){
+ 		
+		if (!_tinInputGroundAreaAsLinearRing) {
+			alert("대상 영역그리기를 먼저 수행해 주세요!");
+	        return;
+	    }
+	    
+	    $("#tl3d-guide").addClass("hide");
+	    simpleArea = Math.trunc(simpleArea).toLocaleString("ko-KR");
+	    const promiseTinResult = MeasureAdvanced.getInstance().createMeasureTinFromGroundAreaAsync({
+	      boundaryRing: _tinInputGroundAreaAsLinearRing,
+	      cellSize: 4.0,
+	      showTriangleOutline: true,
+	      showAreaLabel: true,
+	      areaLabelPrefix: "단순 면적: " + simpleArea +"m²  \n고도적용 면적: "
+	    });
+	
+	    promiseTinResult.then((resultArea)=>{
+	      MeasureAdvanced.getInstance().removeMeasurePolygonAreaGraphics(); //단순면적 측정 결과 지우기
+	      _tinInputGroundAreaAsLinearRing = null;
+		 displayLoading(false);
+	    }).catch(err=>{
+	      alert("삼각형 분할 면적 측정 중 오류가 발생하였습니다."); 
+	    })
+	}
+	<!--20250919 툴바 추가 끝 -->
+	
+	
+	//2D에서 나침반 버튼 추가
+	$('#displayCompass2D').on('click', function(){
+		if ( mapController ){
+			//setTimeout( function() {setDefaultMeasure();}, 300);
+			setTimeout( function() {
+				map2d.getView().animate({
+				    rotation: 0
+				})
+			}, 300);
+		}
+	});
+
+	$('.measureMap').on('click', function(){
+		$("#newMeasureArea").removeClass("on");
+		setDefaultMeasure();
+		if(!$('#safeFindList').hasClass('hide')){
+			jsSetSafeList();			
+		}
+		//if ($(this).hasClass('on')) {
+			//setDefaultMeasure(); 다른 vectorlayer도 없어져서 아래 function으로 바꿈
+			//setDefaultMeasureOnly();
+			//$('#pop-kml').addClass('hide'); //박준영. 우측툴바 클릭으로 kml탭 삭제시 hide 남도록 조정
+		//}else{
+			if(!dgDrawYn && rtMeasure){ // ggalo 추가 (수치지형도에서 도형을 그리고 있지 않으면 작동하게), mokujin0 실시간다운로드 추가
+			if(mapController) {
+						switch(String(this.id)) {
+
+						case "measureLine" :
+				          	lineDrawingFlag = false;
+							//삼각자, 구, 원
+							jsMeasureLine();
+							popClose();
+							break;
+							
+						case "newMeasureLine" :
+				          	lineDrawingFlag = true;
+				          	//초기화
+					      	ws3de.modeler.init();
+							//삼각자, 구, 원
+							jsMeasureLine();
+							popClose();
+							break;
+					          
+						case "measureArea" :
+// 							$("#mapToolBar").addClass("hide");
+							$("#tl3d-guide").addClass("hide");
+							jsMeasureArea();
+							popClose();
+							//삼각자, 구, 원
+							break;
+							
+				/* 		case "newMeasureArea" :
+// 							$("#mapToolBar").addClass("hide");
+							jsMeasureArea();
+							//삼각자, 구, 원
+							popClose();
+							break; */
+							
+						case "measurearound" :
+// 							$("#mapToolBar").removeClass("hide");
+							$("#tl3d-guide").addClass("hide");
+							jsAroundView();
+							popClose();
+							break;
+						case "measureheight" :
+// 							$("#mapToolBar").removeClass("hide");
+							$("#tl3d-guide").addClass("hide");
+							var isVisibleElv = true;
+							jsMeasureHeight();
+							popClose();
+							break;
+							
+						case "newMeasureheight" :
+							var isVisibleElv = true;
+							jsMeasureHeight();
+							popClose();
+							//삼각자, 구, 원
+							break;
+							
+						case "measureKml" :
+							setDefaultMeasure();
+							var isVisibleElv = true;
+							$('#pop-kml').removeClass('hide');
+							callHtmlUrl('/dtkmap/map_viewKml.do','post','html','', 'pop-kml');
+							break;
+						case "measureAngle" : //이성수_DT2단계 : 각도재기 추가
+							$("#tl3d-guide").addClass("hide");
+							jsMeasureAngle();
+							popClose();
+							break;
+						}
+						
+						if(this.id != "measureReset"){//초기화는 제외
+							$(this).addClass('on');
+						}
+					if(!$('.result').hasClass('hide')){
+						changePositionByPopup("#searchResults");
+					}
+					
+				}
+			}
+		//}
+	});
+
+	//2023.05.15 ADD 김영희. 이미지 저장기능 2/3D 동일
+	$('#mapImageSave').on('click', function(){
+		mapSaveImage(this)
+	});
+
+	function mapSaveImage(_this){
+		if(mapController.getMapMode()=="2d-map"){
+			displayLoading( true);
+		}
+
+		$('.btTool').removeClass('on');
+		$(_this).addClass('on');
+		setTimeout(function(){
+			$(_this).removeClass('on');
+		},1000)
+
+		if ( mapController ){
+			saveScreenimg();
+		}
+		setTimeout( function() {changeClass('#mapImageSave');}, 500);
+	}
+
+	function sendEmail(){
+
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+			$('#pop-email').addClass('hide');
+		}else{
+			getNowLocation();
+			$(this).addClass('on');
+			$('#pop-email').removeClass('hide');
+			callHtmlUrl('/dtkmap/map_emailsend.do','post','html','', 'pop-email');
+		}
+		if(!$('.result').hasClass('hide')){
+			changePositionByPopup("#searchResults");
+		}
+	}
+
+	//2023.05.15 ADD 김영희. 메일 보내기 기능 2/3D 동일
+	$('#mapSendEmail').on('click', function(){
+		sendEmail();
+	});
+    $('#keyword').on('keypress',function(e){
+        var p = e.which;
+        if(p==13){
+        	//$("#mainpage > #q").val($(this).val());
+        	searchKeyword();
+        	e.preventDefault();
+        }
+    });
+
+	/* SELECT */
+    $('select').change(function(){
+        var selectText = $(this).children('option:selected').text();
+        $(this).siblings('label').text(selectText);
+    });
+	$('.select > label').click(function(){
+		$(this).toggleClass('on');
+		$(this).siblings('.option').toggle();
+	});
+
+
+	/* MAP */
+	$('.btZoom').click(function(){
+		$(this).toggleClass('on');
+	});
+
+	/* mobile search */
+	$('#mSearch').on('click', function(){
+// 		$(this).toggleClass('on');
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+			$("#vwInMobile").removeClass('on');
+			$('#searchKeywordList').addClass('hide');
+		}else{
+			$(this).addClass('on');
+			$("#vwInMobile").addClass('on');
+			$('#searchKeywordList').removeClass('hide');
+			if(!$('#safeFindList').hasClass('hide')){
+				$('#safeFindList').addClass('hide');
+				$('#safeInfoPop').addClass('hide');
+				$('#safeFindList').removeAttr('tabindex');
+				$('#safeFindList').removeClass('mini');
+				removeFindPeopleMarker();
+			}
+		}
+	});
+
+	/* <--2023-04-12 수정 */
+	$('.pointer .number').click(function(){
+		$(this).parents('.pointer').find('.number').removeClass('on');
+		$(this).addClass('on');
+	});
+	/* 2023-04-12 수정--> */
+
+	$('.btTool.zone').click(function(){
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+			$('.toolbar.locator').removeClass('on');
+			if(vw.isEvtPreventMode){ //실내지도여부
+				$('.selector').removeClass('hide');
+			}else{
+// 				$('.finder').removeClass('hide');
+			}
+		} else {
+			$(this).addClass('on');
+			$('.toolbar.locator').addClass('on');
+			if(vw.isEvtPreventMode){ //실내지도여부
+				$('.selector').addClass('hide');
+			}else{
+// 				$('.finder').addClass('hide');
+			}
+		}
+	});
+
+	// 24.03.04 하단 버튼 수정
+	$('.btTool.mouse').click(function(){
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+			$('.controller:not(#iControl,.tl3dBtns, #bldg02-result-control, #pControl, #address-btns, #drivingControl)').removeClass('on');
+			if( $('#iControl').hasClass('hide') ) $('#iControl').removeClass('hide');
+			if($("#bldg02-result-control").hasClass('on')) $("#bldg02-result-control").css('display','block');
+		} else {
+			$(this).addClass('on');
+			$('.controller:not(#iControl,.tl3dBtns, #pControl, #address-btns, #drivingControl)').addClass('on');
+			if( $('#iControl').hasClass('on') ) $('#iControl').addClass('hide');
+			if($("#bldg02-result-control").hasClass('on')) $("#bldg02-result-control").css('display','none');
+		}
+	});
+
+	$('.controller .btClose:not(.ri)').click(function(){
+		$('.btTool.mouse').removeClass('on');
+		$('.controller:not(#iControl)').removeClass('on');
+		if($('#iControl').hasClass('hide')) $('#iControl').removeClass('hide');
+	});
+
+	$('.btTool.more').click(function(){
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+			$('.toolbar.function').removeClass('on');
+		} else {
+			$(this).addClass('on');
+			$('.toolbar.function').addClass('on');
+		}
+	});
+
+	/* BT BOOKMARK */
+	$('.btBookmark').click(function(){
+		$(this).toggleClass('on');
+	});
+
+
+	/* LIST PICK */
+	$('.list.pick .item').click(function(){
+		if ($(this).hasClass('on')) {
+			$(this).removeClass('on');
+		} else {
+			$('.list.pick .item').removeClass('on');
+			$(this).addClass('on');
+		}
+	});
+
+	$('.panel .btClose').click(function(){
+		$(this).parents('.panel').addClass('hide');
+		$(this).parents('.panel').removeAttr('tabindex');
+		if( $(this).parents('.panel')[0].id == "indoorList" ) {
+			$(".selector .btList").toggleClass("on");
+			chkDtailView = false;
+// 			2023.06.15. 박준영 추가(닫기 클릭시 팝업 위치 조정)
+			changePositionByPopup("#indoorList");
+		}
+	});
+
+	/* 검색창 클릭이벤트 (박준영 추가. 23.06.12) */
+	$("#keyword, #indoorKeyword").click(function(){
+		if($(".toggle .btToggle").hasClass("on")){
+			$(".toggle .btToggle").removeClass("on")
+			$("#menuList").css("display", "none");
+		};
+	});
+	/* 모바일 보행자모드 버튼 on (박준영 추가. 23.06.29) */
+	$(".move .walk").click(function(){
+		$(".move .walk").removeClass("on");
+		$(this).addClass("on");
+	});
+
+	/* 컨트롤바 열고닫기 */
+	var pCon = 1;
+	$('.toolbar .btToggle').click(function(){
+		$(this).parent('.btns').toggleClass('on');
+		/* print.js 상시 추가(오른쪽 메뉴때문)
+		if(pCon == 1){
+			var sElement = document.createElement('script');
+			sElement.setAttribute('src', '/js/dtkmap/maps.print.js?ver=2023051501');
+			document.querySelector('head').appendChild(sElement);
+		}
+		pCon++;
+		*/
+	});
+
+   	// 3. banner 호출 2023.09.08 모바일 안내 이미지만 표출
+	if(getCookie("vmNotice20150302") != "Y" && isMobile() == false){
+		if (isNoticeDate('2015-02-27','9999-12-31') == true){
+// 			callHtmlUrl( '/dtkmap/banner.do', 'post', 'html', '', 'banner');
+
+		}
+	}else if(isMobile()){
+		if(browserInfo().name == "Safari"){
+			var mode = getParameter("mode");
+			if(mode !="MAPD201" && mode !="MAPD101" && mode !="MAPD102"  && mode !="MAPD103" && mode !="MAPD104"  && mode !="MAPD104"){
+				setTimeout(function(){callVwAlert('3차원 지도에서 3차원 건물 레이어 로딩시<br> 3G/4G 환경에서는 데이터 요금이 발생할 수 있습니다.','', function(){});},100);
+			}
+		}else{
+			callHtmlUrl( '/dtkmap/banner.do', 'post', 'html', '', 'banner');
+		}
+	}
+
+   	// 분석 결과창 드래그 이동 임시
+	 $('#tl3d-analisys-pop').draggable();
+	 $('#tl3d-bldgCultural-pop').draggable();
+	 $('#tl3d-bldgCulturalInsert-pop').draggable();
+
+
+	 /* 이성수_DT2단계 - 사이드바 - 지도링크  start */
+	 $('#clickRside').click(function(){
+		 if($('.snb_Rside').hasClass('hide')){
+	 			$('.snb_Rside').removeClass('hide');
+	 			$('.btn_split_arr').css('right','180px');
+	 			$('.btn_split_arr').css('background', 'url("/images/ws3dmap/dtem/btn_rightlayer_off.png") right center no-repeat');
+
+	 		}
+	 		else {
+	 			$('.snb_Rside').addClass('hide');
+	 			$('.btn_split_arr').css('right','0px');
+	 			$('.btn_split_arr').css('background', 'url("/images/ws3dmap/dtem/btn_rightlayer_on.png") right center no-repeat');
+	 		}
+	 });
+
+	 $('.category_link').click(function(){
+		     // 팝업 창을 열기 위한 옵션 설정
+		     var options = "width=1920,height=1080,toolbar=no,directories=no,menubar=no,status=yes,scrollbars=yes";
+
+		     // 팝업 창 열기
+		     window.open($(this).attr("name"), "_blank", options);
+
+		 /* 사이드바 - 지도링크  end */
+	 });
+
+
+// 	 24.03.04 우클릭메뉴 팝업 닫기
+	$('#closePopShare').click(function(){
+		if(!$(this).parents('.popup').hasClass('hide')){
+			$('ul.dropbox li button').removeClass('on');
+			$(this).parents('.popup').addClass('hide');
+			$(this).parents('.popBox').removeAttr('tabindex');
+			$('.dcurrent').focus();
+		}
+	});
+
+	//24.05.27 화질선택
+	$('#selectQuality').siblings('ul.dropbox').children('li').click(function(){
+        const selectedQuality = $(this).find('input[type="radio"]').attr('id');
+        const qualityButton = $('#selectQuality');
+
+        // 클래스 변경을 위한 초기화
+        qualityButton.removeClass('q0 q1 q2');
+
+        // 선택된 화질에 따라 클래스 설정
+        if (selectedQuality === 'highQuality') {
+            qualityButton.addClass('q2');
+            ws3d.viewer.setting.renderingQuality = 2;
+        } else if (selectedQuality === 'mediumQuality') {
+            qualityButton.addClass('q1');
+            ws3d.viewer.setting.renderingQuality = 1;
+        } else if (selectedQuality === 'lowQuality') {
+            qualityButton.addClass('q0');
+            ws3d.viewer.setting.renderingQuality = 0;
+        }
+
+        $('#selectQuality').removeClass('on');
+        $(this).parent('ul').css('display','none');
+    });
+	
+
+	//test
+	if (fromPotal === "Y" && anlsSeCd) {
+
+		if (userTmapId) {
+			displayLoading(true);
+			setTimeout(function() {
+				loadQuickMenu(16);
+
+				function waitForMymapReady(opts) {
+					opts = opts || {};
+					var intervalMs = opts.intervalMs || 50;   // 폴링 주기
+					var timeoutMs  = opts.timeoutMs  || 8000; // 최대 대기 시간
+
+					return new Promise(function (resolve, reject) {
+						var start = Date.now();
+
+						var timer = setInterval(function () {
+							var ok =
+									window.Mymap &&
+									typeof Mymap.mmSubMenuClick === 'function' &&
+									typeof Mymap.loadPageTmapDetail === 'function';
+
+							if (ok) {
+								clearInterval(timer);
+								resolve();
+								return;
+							}
+
+							if (Date.now() - start >= timeoutMs) {
+								clearInterval(timer);
+								reject(new Error('Mymap not ready within ' + timeoutMs + 'ms'));
+							}
+						}, intervalMs);
+					});
+				}
+
+				waitForMymapReady({intervalMs: 50, timeoutMs: 8000})
+						.then(function () {
+							Mymap.mmSubMenuClick($('#mymapTmap')[0], 1);
+							Mymap.loadPageTmapDetail('us', userTmapId, '');
+						})
+						.catch(function (e) {
+							console.error(e);
+						})
+						.finally(function () {
+							userTmapId = '';
+							displayLoading(false)
+						});
+
+				return false;
+
+			}, 4000)
+		}
+		
+		setTimeout(function() {
+			displayLoading( true);
+			//console.log('poToMap true');
+            if (anlsSeCd == "LS001") {
+                //console.log('setIde: '+setIde);
+                loadQuickMenu('103', fromPotal, '/dtkmap/dtk_t3dlndscp_s001.do');
+                setTimeout(function() {
+                	var selAnlsItem = $('#tool3dList .list.pick .item').filter(function() {
+                        return $(this).parents('li').attr('id') === setIde;
+                    });
+                	if (selAnlsItem.length > 0) {
+                		selAnlsItem.click();
+                    } else {
+                        console.log('setIde Item not found: ', setIde);
+                    }
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "LS003") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('103', fromPotal, '/dtkmap/dtk_t3dlndscp_s003.do');
+                setTimeout(function() {
+                	var selAnlsItem = $('#tool3dList .list.pick .item').filter(function() {
+                        return $(this).parents('li').attr('id') === setIde;
+                    });
+                	if (selAnlsItem.length > 0) {
+                		selAnlsItem.click();
+                    } else {
+                        console.log('setIde Item not found: ', setIde);
+                    }
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "LS004") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('103', fromPotal, '/dtkmap/dtk_t3dlndscp_s004.do');
+                setTimeout(function() {
+                	var selAnlsItem = $('#tool3dList .list.pick .item').filter(function() {
+                        return $(this).parents('li').attr('id') === setIde;
+                    });
+                	if (selAnlsItem.length > 0) {
+                		selAnlsItem.click();
+                    } else {
+                        console.log('setIde Item not found: ', setIde);
+                    }
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "LS007") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('103', fromPotal, '/dtkmap/dtk_t3dlndscp_s007.do');
+                setTimeout(function() {
+                	selectSaveSklinItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "LS008") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('103', fromPotal, '/dtkmap/dtk_t3dlndscp_s008.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "LS009") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('103', fromPotal, '/dtkmap/dtk_t3dlndscp_s009.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "BD004") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('102', fromPotal, '/dtkmap/dtk_t3dbldg_s004.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "BL005") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('102', fromPotal, '/dtkmap/dtk_t3dbldg_s005.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "BL006") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('102', fromPotal, '/dtkmap/dtk_t3dbldg_s006.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "DI001") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('105', fromPotal, '/dtkmap/dtk_t3ddistrict_s001.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "DI002") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('105', fromPotal, '/dtkmap/dtk_t3ddistrict_s002.do');
+                setTimeout(function() {
+                	selectSaveSecurityItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "DI003") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('105', fromPotal, '/dtkmap/dtk_t3ddistrict_s003.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "TP003" || anlsSeCd == "TP003F") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('101', fromPotal, '/dtkmap/dtk_t3dtpgrph_s003.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "TP004") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('101', fromPotal, '/dtkmap/dtk_t3dtpgrph_s004.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "WH001") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('104', fromPotal, '/dtkmap/dtk_t3dweather_s003.do');
+                setTimeout(function() {
+                	//var selAnlsItem = $("#"+setIde+"");
+                	var selAnlsItem = document.getElementById(setIde);
+                	metercombochangeEvent(selAnlsItem);
+                	//displayLoading( false);
+                }, 3000);
+            } else if (anlsSeCd == "BD007") {
+            	//console.log('setIde: '+setIde);
+                loadQuickMenu('102', fromPotal, '/dtkmap/dtk_t3dbldg_s007.do');
+                setTimeout(function() {
+                	selectSaveItem(setIde);
+                	displayLoading( false);
+                }, 3000);
+            }
+            fromPotal = "N";
+        }, 4000);
+	}else{
+		displayLoading( false);
+		//console.log('poToMap false');
+	}
+}
+
+/* 경관분석 바로 진입 */
+var queryString = window.location.search;
+var params = new URLSearchParams(queryString);
+// var mapcode = getCookie('mapcode');
+//20240715 qCode 파라미터로 수치지형도 직접 접속
+var qCode = getParameter("qCode");
+var mapcode = localStorage.mapcode != "" ? localStorage.mapcode : 'MAPW201';
+// var mapcode = getCookie('mapcode');
+if(params.get('mode')!=null) {
+	mapcode = params.get('mode');
+	localStorage.setItem('mapcode', mapcode);
+}
+var dtcode;
+var fromPortal = false;
+var evKeyNum = 0;
+if(mapcode=="" || mapcode==null || typeof(mapcode)=="undefined") mapcode = "MAPW201";
+// setCookie2('mapcode',mapcode,365);
+if(mapcode.indexOf('MAPD') > -1) dtcode = mapcode.slice(4); //포털에서 넘어온 코드값을 전역변수에 저장
+if(dtcode!=null && typeof(dtcode)!="undefined" || qCode == 10){
+	visitMyPage = true; //마이지도 진입여부
+	fromPortal = true;
+	$("#searchSideFind").addClass("hide");
+}
+//25.11.09 수정 시작
+else if (qCode==16 || qCode==17){
+	visitMyPage = true; //마이지도 진입여부
+	fromPortal = true;
+}
+//25.11.09 수정 끝
+/* 경관분석 바로 진입 */
+
+//2026.06.16
+var msspsnIdntfccd = getParameter("msspsnIdntfccd");
+if(msspsnIdntfccd > 0){
+	 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+	 function viewSafeList() { jsSetSafeList($("#moveFindSafeList"));}
+	 function viewSafePop() {linkOnMarkerSafeEvent(msspsnIdntfccd);}
+
+	 async function startProcess() {
+	   await delay(5000); 
+	   viewSafeList();
+	   await delay(1000); 
+	   viewSafePop();
+	 }
+	 startProcess();
+}
+
+//전체화면(토글방식) 2D/3D
+function toggleFullScreen() {
+	if(!document.fullscreenElement) {
+		document.documentElement.requestFullscreen();
+	} else {
+		document.exitFullscreen();
+	}
+}
+//모바일에선 전체화면 버튼 x
+if(isMobile()) {
+	$('#fullScreen').addClass('hide');
+}
+
+/* 다운로드유형선택 핸들러 */
+dwnldToggleHandler = () => {
+	const handler = $("#dwnldBtn").hasClass('on');
+	const digitalYn = $("#digitalBtn").hasClass('on');
+	const realtimeYn = $("#realtimeBtn").hasClass('on');
+	if(handler) {
+		if(digitalYn) {
+			dg.digitalOpen();
+			$("#digitalBtn").prop('checked', false);
+		}
+		if(realtimeYn) {
+			rt.realtimeOpen();
+			$("#realtimeBtn").prop('checked', false);
+		}
+
+	}
+}
+</script>
+<!-- 실내지도 관련 form 추가_23.05.12 -->
+<form name="frmIndoorList" id="frmIndoorList" method="post">
+	<input type="hidden"	name="type"	 	id="type" value=""/>
+	<input type="hidden"	name="pageIndex1" id="pageIndex1" value="1"/>
+	<input type="hidden"	name="pageUnit" id="pageUnit" value="10"/>
+	<input type="hidden"	name="pageSize" id="pageSize" value="5"/>
+	<input type="hidden"	name="q"	 	id="q" value=""/>
+	<input type="hidden"	name="alphaMode"	id="alphaMode" value=""/>
+	<input type="hidden"	name="facilityMode"	id="facilityMode" value=""/>
+	<input type="hidden"	name="globeSurfaceMode"	id="globeSurfaceMode" value=""/>
+	<input type="hidden"	name="insideFuid"	id="insideFuid" value=""/>
+	<input type="hidden"	name="uid"		id="uid"	value="" />
+	<input type="hidden"	name="fuid"	 	id="fuid" value=""/>
+</form>
+
+<!-- <form name="frmPOIList" id="frmPOIList" method="post">
+<input type="hidden"	name="uid"		id="uid"	value="" />
+<input type="hidden"	name="type"	 	id="type" value=""/>
+<input type="hidden"	name="fuid"	 	id="fuid" value=""/>
+<input type="hidden"	name="pageIndex2" id="pageIndex2" value=""/>
+<input type="hidden"	name="pageUnit" id="pageUnit" value="10"/>
+<input type="hidden"	name="pageSize" id="pageSize" value="5"/>
+<input type="hidden"	name="q"	 	id="q" value=""/>
+</form> -->
+
+
+</html>

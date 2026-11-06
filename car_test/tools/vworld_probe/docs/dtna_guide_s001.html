@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>브이월드</title>
+
+	<meta property="og:url" content="https://www.vworld.kr"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="브이월드"/>
+<meta property="og:description" content="공간정보 오픈플랫폼은 국가가 보유하고 있는 공개 가능한 공간정보를 모든 국민이 자유롭게 활용할 수 있도록 다양한 방법을 제공합니다."/>
+<meta property="og:image" content="https://www.vworld.kr/img/logo.png">
+<meta name="description" content="공간정보 오픈플랫폼은 국가가 보유하고 있는 공개 가능한 공간정보를 모든 국민이 자유롭게 활용할 수 있도록 다양한 방법을 제공합니다."/>
+<meta name="naver-site-verification" content="1f678c125bac40f073e2a87032b197c87cde5ab0" />
+<link rel="canonical" href="https://www.vworld.kr/v4po_main.do" /> 
+
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/css/slick.css" />
+<link rel="stylesheet" type="text/css" href="/css/syntaxhighlighter_3.0.83/shCore.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/syntaxhighlighter_3.0.83/shThemeDefault.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/spectrum.min.css" />
+
+<link rel="stylesheet" type="text/css" href="/css/common.css?ver=20260102101" />
+<link rel="stylesheet" type="text/css" href="/css/content.css" />
+<link rel="stylesheet" type="text/css" href="/css/responsive.css?var=20240710" />
+<script type="text/javascript">
+var cmAppUrl = {
+	po : "https://www.vworld.kr"
+	, data : "https://www.vworld.kr"
+	, dev : "https://www.vworld.kr"
+	, user : "https://www.vworld.kr"
+	, desk : "https://www.vworld.kr"
+	, eng : "https://www.vworld.kr"
+	, map : "https://map.vworld.kr"
+	, apis : "https://apis.vworld.kr"
+	, api : "https://api.vworld.kr"
+}
+</script>
+<script type="text/javascript" src="/js/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/dayjs/dayjs.min.js"></script>
+<script type="text/javascript" src="/js/dayjs/ko.js"></script>
+<script type="text/javascript" src="/js/dayjs/utc.js"></script>
+<script type="text/javascript" src="/js/slick.min.js"></script>
+<script type="text/javascript" src="/js/vue.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/common_fnc.js?var=20261022"></script>
+<script type="text/javascript" src="/js/common_login.js?var=20260622"></script>
+<script type="text/javascript" src="/js/common_msg.js"></script>
+<script type="text/javascript" src="/js/common_valid_msg.js"></script>
+<script type="text/javascript" src="/js/common_valid.js"></script>
+<script type="text/javascript" src="/js/common_menu.js?var=20260901"></script>
+<script type="text/javascript" src="/js/common_file.js"></script>
+<script type="text/javascript" src="/js/spectrum.min.js"></script>
+
+<script type="text/javascript" src="/js/wcslog.js"></script>
+<script type="text/javascript">
+var depth1=0
+var depth2=0
+var depth3=0
+var depth4=0
+var depth5=0
+
+$(window).on("load",function() {
+	if(!wcs_add) var wcs_add = {}; wcs_add["wa"] = "811b38780a3a60"; wcs_do();
+});
+
+// dayjs 플러그인 적용
+dayjs.extend(window.dayjs_plugin_utc);
+</script>
+
+
+</head>
+
+<body>
+	<div class="blind">
+		<a href="#sitemapMenu">전체메뉴 바로가기</a>
+		<a href="#headerMenu" class="mHide">메인메뉴 바로가기</a>
+		<a href="#section">본문 바로가기</a>
+	</div>
+	<div id="app" class="container">
+		<div class="template sub">
+			<header class="header">
+				﻿﻿<!-- 공장인허가 수정 소스 시작-->
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var anyidAdaptor = anyidAdaptor || {};
+        
+        /*이용기관 수정 영역 Start*/
+        anyidAdaptor.orgLogin = function(data){
+        	urlFnc.goLogin();
+            //window.location.href = "/dtkmap/vworldLogin.do";
+          //정부 통합인증SDK_연계가이드 4.4.1.3 이용기관 로그인(토글 off) 참조
+            //제공되는 라이브러리 메소드로 인증데이터 decrypt 이후 자체 로그인 로직 개발
+        }
+        /*이용기관 수정 영역 End*/
+        
+        
+        /*이용기관 문구수정 영역 Start*/
+        anyidAdaptor.JoinConfirm = function(portalJoinUri, memberData){
+            if(!confirm('Any-ID 사용자등록 하시겠습니까?')) {
+                anyidAdaptor.orgLogin();
+                return;
+            }else{
+                anyidAdaptor.receiveAnyIdJoin(portalJoinUri, memberData);
+            }
+        }
+        /*이용기관 문구수정 영역 End*/
+        
+        
+        anyidAdaptor.portalJoinUri = "null";
+        anyidAdaptor.certData = null;
+        anyidAdaptor.ssoByPass = "0";
+        anyidAdaptor.niRegYn = "null";
+        anyidAdaptor.agencyContextPath = "";
+        anyidAdaptor.anyIdSsoOn ="true";
+        if(!anyidAdaptor.anyIdSsoOn){
+        	anyidAdaptor.ssoByPass = 1;
+        }
+
+        anyidAdaptor.success = function(data){
+            if(anyidAdaptor.ssoByPass != 0 || !data.useSso) {
+                anyidAdaptor.orgLogin(data);
+            } else {
+                anyidAdaptor.certData = data;
+                anyidAdaptor.userCheck();
+            }  
+        }
+        
+        anyidAdaptor.userCheck = function(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", anyidAdaptor.agencyContextPath + "/oidc/userCheck", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        anyidAdaptor.ssoLogin();
+                    } else {
+                        setTimeout(function() {
+                            anyidAdaptor.receiveAnyIdJoin(response.uri, response.data);
+                        }, 100);  
+                    }
+                }
+            };
+
+            let jsonObject = new Object();
+            jsonObject.txId = anyidAdaptor.certData.txId;
+            jsonObject.ssob = anyidAdaptor.certData.ssob;
+            jsonObject.userSeCd = anyidAdaptor.certData.userSeCd;
+            let jsonStr = JSON.stringify(jsonObject);
+            let encodedString = btoa(jsonStr);
+            
+            var data = "data=" + encodedString + "&txId=" + anyidAdaptor.certData.txId;
+            xhr.send(data);
+            
+        }
+
+
+      //anyid가입
+        anyidAdaptor.receiveAnyIdJoin = function(portalJoinUri, memberData){
+        
+            var url = portalJoinUri+encodeURIComponent(memberData);
+            anyidAdaptor.popup(url,"openAnyIdRegistUserIdv",700,740);
+
+            window.addEventListener("message", function(event) {
+                var result;
+                try {
+                    result = JSON.parse(event.data);
+                } catch (error) {
+                    console.error("Received message is not valid JSON:", error);
+                    return;
+                }
+                
+                if(!result.funcName || (result.funcName !== "trmsAgreComplete" && result.funcName !== "registUserComplete")) {
+                    return;
+                }
+                if(result.status === "success") {
+                    if(result.trmsAgreYn == "Y"){
+                        anyidAdaptor.ssoLogin();
+                    }else{
+                        anyidAdaptor.orgLogin();
+                    }
+                }else{
+                    
+                    anyidAdaptor.orgLogin();
+                }
+
+            }, false);
+        }
+
+     // 팝업 호출
+        anyidAdaptor.popup = function(url, name, width, height){
+            let left = (screen.width) ? (screen.width-width)/2 : 0;
+            let top = (screen.height) ? (screen.height-height)/2 : 0;
+            let popup=window.open(url, name ,"resizable=yes,toolbar=no,scrollbars=yes,location=no,top="+top+"px,left="+left+"px,width="+width+"px,height="+height+"px");
+            if(popup){
+                popup.focus();
+            }
+        }
+
+        anyidAdaptor.ssoLogin = function(){
+            let jsonObject = new Object();
+            jsonObject.txId = anyidAdaptor.certData.txId;
+            jsonObject.ssob = anyidAdaptor.certData.ssob;
+            jsonObject.userSeCd = anyidAdaptor.certData.userSeCd;
+            jsonObject.afData = anyidAdaptor.certData.afData;
+            let jsonStr = JSON.stringify(jsonObject);
+            let encodedString = btoa(jsonStr);
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/ssoLogin";
+            var urlWithParams = baseUrl + "?data=" + encodedString;
+            window.location.href = urlWithParams;
+            
+        }
+        
+        anyidAdaptor.ssoLoginPageSub = function(baseUrl, endPoint, acrValues){
+            var subUrl = "";
+            
+            if (endPoint && endPoint.trim() !== "") {
+                subUrl = "?endPoint=" + encodeURIComponent(endPoint);
+            }
+            
+            if (!acrValues && acrValues.trim() == "") {
+            	acrValues = "3";
+            }
+            
+            if (acrValues && acrValues.trim() !== "") {
+                if(subUrl == ""){
+                    subUrl = "?";
+                }else{
+                    subUrl = subUrl + "&";
+                }
+                subUrl = subUrl + "acrValues=" + acrValues;
+            }
+            
+            window.location.replace(baseUrl+subUrl);
+        }
+        
+        /**/
+        anyidAdaptor.ssoLogout = function(endPoint) {
+            var subUrl = "";
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/ssoLogout";
+            
+            if (endPoint && endPoint.trim() !== "") {
+                subUrl = "?endPoint=" + encodeURIComponent(endPoint);
+            }
+            baseUrl = baseUrl + "?endPoint=" + encodeURIComponent(endPoint);
+// 			if(baseUrl.includes("%26")){ baseUrl = baseUrl.replaceAll("%26","%2526"); }
+            window.location.replace(baseUrl);
+        }
+        /**/
+        anyidAdaptor.reAuthLevel = function(endPoint, acrValues){
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/reAuthLevel";
+            anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues);
+
+        }
+        /**/
+        anyidAdaptor.ssoLoginPage = function(endPoint, acrValues){
+            endPoint = typeof endPoint !== 'undefined' ? endPoint : "/";
+            var baseUrl = window.location.origin + anyidAdaptor.agencyContextPath + "/oidc/auth";
+            anyidAdaptor.ssoLoginPageSub(baseUrl, endPoint, acrValues);
+        }
+        
+        /**/
+        anyidAdaptor.ssoSvcToSvc = function(url, endPoint){
+            /* var baseUrl = url + "/oidc/svcToSvc?endPoint=" + encodeURIComponent(endPoint);
+            window.open(baseUrl, "_blank"); */
+        	var baseUrl = url + "/oidc/svcToSvc?endPoint=" + encodeURIComponent(endPoint);
+        	var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+        	window.open(baseUrl, "popup", options);
+        }
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+<!-- 공장인허가 수정 소스 끝 -->
+<script type="text/javascript">
+$(document).ready(function() {
+// 	2025-04-10 anyId login connect
+	var queryString = window.location.search;
+	var params = new URLSearchParams(queryString);
+	if(params.get('goMap')!=null){
+		var lcode = params.get('goMap');
+		if(lcode == 'Y'){ 
+// 			window.location.replace('http://localhost:8280/map/dtkmap.do');
+			window.location.replace('https://map.vworld.kr/map/dtkmap.do');
+		}
+	}
+	
+	
+	srchFnc.init("header_searchIdw", "header_searchBtn");
+	menuFnc.set();
+});
+</script>
+
+
+<h1 class="logo"><a href="javascript:urlFnc.goMain();" title="메인화면으로 이동" ><strong>V-world</strong>디지털트윈국토</a></h1>
+
+<nav class="gnb mHide" id="headerMenu">
+	
+</nav>			
+
+<div class="btns">
+	<div class="toggle one">
+			<button type="button" class="bt max ico only find" title="통합검색">통합검색</button>
+			<!-- 2023-11-28 -->
+			<div class="overbox rt">
+				<div class="set find">
+					<label for="header_searchIdw" class="blind">통합검색</label>
+					<input type="text" class="input validate[required]" id="header_searchIdw" name="searchIdw" value="" placeholder="통합검색" title="검색어">
+					<a href="javascript:void(0);" class="bt ico only find" id="header_searchBtn" >검색</a>
+					<button type="button" class="bt ico only close">취소</button>
+				</div>
+			</div>
+			<!--// 2023-11-28 -->
+		</div>
+	<div class="toggle one" id="login-before">
+		<button type="button" id="btLogin" class="bt max ico only lock customToggle" title="로그인" onclick="loginFnc.def(undefined,'Y');">로그인/회원가입</button>
+		<div class="dropbox">
+			<div class="headline">
+				<h4 class="title">로그인</h4>
+				<button type="button" class="bt ico only close">닫기</button>
+			</div>
+			<form class="field">
+				<label for="loginUsrIde" class="blind">아이디</label>
+				<input type="text" id="loginUsrIde" class="input validate[required]" placeholder="아이디" title="아이디" maxlength="18">
+				<label for="loginUsrPwd" class="blind">비밀번호</label>
+				<input type="password" id="loginUsrPwd" class="input validate[required]" placeholder="비밀번호" title="비밀번호" autocomplete="on" maxlength="18">
+				<div class="check"><input type="checkbox" id="chkUsrIde"><label for="chkUsrIde">아이디저장</label></div>
+			</form>
+			<div class="btns col">
+				<button type="button" class="bt bg primary" onClick="loginFnc.login('loginUsrIde','loginUsrPwd','chkUsrIde');">로그인</button>
+				<button type="button" class="bt bd primary" onClick="urlFnc.goJoin();">회원가입</button>
+			</div>
+			<div class="btns fs">
+				<a class="linktxt" onClick="urlFnc.goFindId();">아이디찾기</a>
+				<a class="linktxt" onClick="urlFnc.goFindPwd();">비밀번호찾기</a>
+			</div>
+		</div>
+	</div>
+	<button type="button" class="bt max ico only menu" title="전체메뉴" aria-haspopup="dialog" aria-controls="pop-sitemap">전체메뉴열기</button>
+</div>
+</header>
+			<article class="sitemap hide" aria-hidden="true" id="pop-sitemap">
+	<div class="conWrap">
+		<div class="conHead">
+			<h2 class="blind">전체메뉴</h2>
+			<button type="button" class="bt max ico only home" title="메인화면 바로가기" onclick="urlFnc.goMain();">홈</button>
+			<!-- 로그인 전  -->
+			<p class="infotxt">로그인 후 디지털트윈국토의 모든 서비스를 이용해 보세요.</p>
+			<div class="btns ml">
+				<!-- 공장인허가 수정 소스 시작 -->
+<!-- 				 <a class="bt bd" href="javascript:urlFnc.goLogin();">로그인</a>  -->
+				<a class="bt bd" href="javascript:anyidAdaptor.ssoLoginPage(window.location.pathname+window.location.search,'3');">로그인</a>
+				<!-- 공장인허가 수정 소스 끝 -->
+				<a class="bt bd" href="javascript:urlFnc.goJoin();">회원가입</a>
+			</div>
+			<!--// 로그인 전 -->
+			<button type="button" class="bt max ico only close" title="전체메뉴 닫기">전체메뉴 닫기</button>
+		</div>
+		<div class="conBody">
+			<nav class="gnb" id="sitemapMenu">
+				
+			</nav>
+			<div class="note bg">
+				<ul>
+					<li><p class="bt ico bookmark on min">관심메뉴 설정</p> : 클릭 시 관심메뉴로 등록되어 마이포털에서 바로가기를 제공합니다. 지도메뉴의 관심설정은 지도 전체메뉴에서 설정해 주세요.</li>
+					<li><p class="bt ico lock min">회원전용 메뉴</p> : 자물쇠 표시가 있는 메뉴(하위 메뉴 포함)는 로그인 후 이용가능합니다.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</article><!--// sitemap --><section class="section" id="section">
+				<nav class="lnb">
+					<script type="text/javascript">
+$(document).ready(function() {
+	menuFnc.locationYn = "Y";
+});
+</script>
+<div class="inner" id="lnbMenu" >
+	
+</div></nav>
+				<aside class="location">
+					<div class="inner">
+	<div class="path" id="locationMenu"><span>홈</span></div>
+</div></aside>
+				<article class="article service api intro">
+	
+	<div class="headline">
+		<div class="inner">
+			<h3 class="title">국가중점데이터API 소개</h3>
+			<a href="/dev/v4apiRefer.do" class="bt ico back only ml">이전화면</a>
+		</div>
+	</div>
+
+	<article class="content">
+		<div class="inner">
+			
+			<nav class="tabs fix" id="tabs">
+				<ul>
+					<li><a href="#tab1" class="tab on" title="선택된 탭">국가중점데이터란?</a></li>
+					<li><a href="#tab2" class="tab">국가중점데이터API</a></li>
+				</ul>
+			</nav>
+
+			<div class="tabcon noO view1" id="tab1">
+				<h5 class="blind">국가중점데이터란?</h6>
+				
+				<div class="headline">
+					<h5 class="title">국가중점데이터 개요</h5>
+				</div>
+				<div class="note">
+					<ul class="bar">
+						<li>공간정보란 지상ㆍ지하ㆍ수상ㆍ수중 등 공간상에 존재하는 자연적 또는 인공적인 객체에 대한 위치정보 및 이와 관련된 공간적 인지 및 의사결정에 필요한 정보이며, 국가중점데이터는 이러한 공간정보를 범정부적으로 통합관리 하기 위하여 중앙부처, 지방자치단체, 공공기관 등에서 구축한 공간정보를 통합 또는 연계하여 국토교통부장관이 구축·운용하는 공간정보이다.</li>
+						<li>국가중점데이터는 각 부처의 토지 이용 및 규제 정보 등 다양한 토지관련 정보를 다양한 사용자가 일목요연하게 볼 수 있도록 하여, 대민서비스의 개선과 과학적이고 합리적인 정책 수립을 지원하고 있다. 국토교통부에서는 관리되고 있는 정보에서 부동산지적/가격정보, 토지/건물융합정보 등 28종의 데이터를 개방하였고, 공개된 정보들은 포털, 통신사, 네비게이션 업체 등에서 부동산 개발 지원, 길안내 및 지도서비스의 갱신이나 최신 정보 구축에 활용될 전망이다.</li>
+					</ul>
+					<a href="/dtmk/dtmk_ntads_s001.do" class="bt ico next min bd ml">공간정보 다운로드 바로가기</a>
+				</div>
+
+				<div class="headline">
+					<h5 class="title">국가중점데이터는 어디서 개방 되나요?</h5>
+				</div>
+				<div class="note">
+					<ul>
+						<li class="dot">국가중점데이터 제공 타입에서 공간정보는 지도서비스(WMS, WFS)로 속성정보는 웹표준형태인 XML 또는 JSON 으로 공공데이터포털 및 브이월드를 통해 서비스 제공되며, 파일형태(shp, csv)로 활용할 수 있도록 다운로드 서비스도 함께 제공</li>
+						<li class="dot"><b>URL</b> : 공공데이터포털(<a href="https://www.data.go.kr" target="_blank" title="새창" class="linktxt">www.data.go.kr</a>), 브이월드(www.vworld.kr)</li>
+					</ul>
+				</div>
+				<img src="/img/service_api_ref01.jpg" alt="국가중점데이터">
+
+				<div class="headline">
+					<h5 class="title">어떤 분야에서 개방 데이터를 활용할 수 있을까요?</h5>
+				</div>
+				<div class="note">
+					<ul>
+						<li class="dot">국가중점데이터를 쉽게 활용(오픈API, 무료 다운로드 등) 함으로써 공간정보 기반의 통계 및 의사결정지원 서비스 활용</li>
+						<li class="dot">국가중점데이터 개방을 통한 공공 및 민간의 교통, 환경, 상가, 교육 등 다양한 분야와 융·복합 수요가 있으며, 개별주택가격지도 제작 및 소상공인 창업지원 등 무한한 정보 수요 확대 예상</li>
+					</ul>
+				</div>
+				<img src="/img/service_api_ref02.jpg" alt="국가중점데이터">
+				<div class="note">
+					<ul>
+						<li class="dot">부동산종합정보는 토목설계, GIS위치정보, 공간정보 솔루션 구축, 환경관리, 도시계획 등 민간·학계·연구기관 등에서 다양하게 활용</li>
+						<li class="dot">국가공간정보 및 부동산종합정보는 교통, 환경, 상가, 교육 등 다양한 분야와 융·복합 수요가 있으며, 무한한 정보 수요 확대 예상</li>
+					</ul>
+				</div>
+				<img src="/img/service_api_ref03.jpg" alt="국가중점데이터">
+
+				<div class="headline">
+					<h5 class="title">국가중점데이터 개방을 위해 어떤 준비 작업들을 하셨나요?</h5>
+				</div>
+				<div class="note bd">
+					<ul>
+						<li class="dot">지속적인 개방데이터 품질관리를 위해 국가중점데이터의 오류자료 정비 모니터링기능 구현</li>
+						<li class="dot">필지고유번호(PNU)를 식별자로 타 기관 행정정보와 융·복합 가능한 일원화된 개방데이터 모델 제시</li>
+						<li class="dot">국가중점데이터 상세 분석으로 폐쇄 및 중복 데이터 제거를 통한 정확도 높은 개방데이터 제공</li>
+					</ul>
+				</div>
+
+				<div class="headline">
+					<h5 class="title">실제 데이터 활용사례가 있나요?</h5>
+				</div>
+				<div class="grid">
+					<table>
+						<caption>실제 데이터 활용사례가 있나요?</caption>
+						<tbody>
+							<tr>
+								<th class="tl" scope="row">산림청</th>
+								<td class="tl">브이월드 2D지도, 연속지적도를 활용하여 산림청에서 구축한 산림 내 위치, 산림입지토양도, 임상도, 맞춤형 조림지도, 등산로 등 14종 공간정보를 통합하여 서비스 제공</td>
+							</tr>
+							<tr>
+								<th class="tl" scope="row">한국감정원</th>
+								<td class="tl">브이월드 지적도API와 다음 배경/위성 지도를 결합하여 위치정보 기반으로 현장조사 가능하도록 설계</td>
+							</tr>
+							<tr>
+								<th class="tl" scope="row">(주)오브젠</th>
+								<td class="tl">브이월드 2D 지도API 서비스를 적용하여 GIS연계분석과 지리정보 시각화를 통한 의사결정시스템을 제공</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="headline">
+					<h5 class="title">국민이 원하는 데이터 개방을 위한 향후계획은?</h5>
+				</div>
+				<div class="note bd">
+					<ul>
+						<li class="dot">단기적으로 자료정비 결과를 바탕으로 전국단위 오류데이터 정비로 국가중점데이터의 고품질 데이터 제공 추진</li>
+						<li class="dot">또한, 국가공간정보센터에서 연계되는 다양한 정보를 대상으로 타 공공데이터와 융·복합 될 수 있는 식별자 체계 마련으로 활용범위 확대</li>
+						<li class="dot">중·장기적으로 국가공간정보센터 연계데이터 품질을 통합 관리하기 위한 인프라를 구축하고 각 본부 및 소속·산하기관의 데이터 관리 역량 강화 예정</li>
+						<li class="dot">국가공간정보포털을 통한 개방 창구 일원화로 민간 활용성 증대를 위한 다양한 개방 포맷 및 사용 편의성 제공으로 지속적인 서비스 기능 강화</li>
+					</ul>
+				</div>
+				
+				<div class="blind"><a href="#tabs">탭메뉴 돌아가기</a></div>
+			</div><!--// view1 -->
+
+			<div class="tabcon noO view2 hide" id="tab2">
+				<h5 class="blind">국가중점데이터API</h5>
+				
+				<div class="headline">
+					<h5 class="title">공간정보 데이터 제공 API 소개</h5>
+				</div>
+				<div class="headline">
+					<h6 class="title">속성정보</h6>
+					<div class="note bg">
+						<ul>
+							<li>속성정보에 대한 데이터를 외부에서 활용할 수 있도록 XML 또는 JSON 형태로 데이터를 제공하는 API서비스입니다.</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="headline">
+					<h6 class="title">공간정보</h6>
+					<div class="note bg">
+						<ul>
+							<li>OGC(Open Geospatial Consortium)가 제정한 표준 프로토콜을 이용해 지리공간 정보를 두 가지 형태의 API서비스를 제공합니다.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="note bd">
+					<ul>
+						<li class="dot">WMS (Web Map Service) 서비스는 지리 데이터에서 생성된 맵 이미지(png, jpg, gif)를 활용할 수 있도록 합니다.</li>
+						<li class="dot">WFS (Web Feature Service) 서비스는 (벡터 도형 및 속성을 지닌) 지리 피처 데이터를 활용할 수 있도록 합니다.</li>
+					</ul>
+				</div>
+
+				<div class="headline">
+					<h5 class="title">인증키 발급</h5>
+				</div>
+				<div class="note bd">
+					<ul>
+						<li class="dot">오픈API서비스는 활용신청 절차를 통해 이용하실 수 있습니다.</li>
+						<li class="dot">오픈API 사용 신청 (오픈API > 인증키 발급) 을 통해 인증키를 발급받습니다.</li>
+						<li class="dot">활용신청 후 부여받은 인증키값과 함께 요청URL을 서버로 전송하면 오픈API 서비스를 사용하실 수 있습니다.</li>
+					</ul>
+				</div>
+
+				<div class="headline">
+					<h5 class="title">요청 URL 작성 예시</h5>
+					<p class="infotxt br">요청 URL은 오퍼레이션 상세 (오픈API 서비스 목록 > 서비스 상세 > 상세기능) 화면의 요청주소란에서 확인할 수 있습니다.</p>
+				</div>
+				<div class="headline">
+					<h6 class="title">속성정보</h6>
+					<div class="note">
+						<ul>
+							<li class="dot">서비스 결과는 XML 또는 JSON 형식으로 받을 수 있고, 아래 예시처럼 원하는 결과형식을 지정할 수 있습니다.</li>
+							<li class="dot">format 요청변수를 이용하여 원하는 결과형식을 지정하며, 결과형식을 지정하지 않으면 기본값으로 XML 형식이 사용됩니다.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="list bd box">
+					<ul>
+						<li>
+							<div class="item row">
+								<div class="tit min fix">JSON 형식</div>
+								<div class="con">https://api.vworld.kr/ned/data/<i class="blue">서비스제공 restful URI.?</i><i class="red">format=json</i>&key=인증키[&요청변수=값]</div>
+							</div>
+						</li>
+						<li>
+							<div class="item row">
+								<div class="tit min fix">XML 형식</div>
+								<div class="con">https://api.vworld.kr/ned/data/<i class="blue">서비스제공 restful URI.?</i><i class="red">format=xml</i>&key=인증키[&요청변수=값]</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="headline">
+					<h6 class="title">공간정보</h6>
+					<div class="note">
+						<ul>
+							<li class="dot">WMS/WFS 서비스별로 필요한 요청변수는 [요청변수] 탭을 참고합니다.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="list bd box">
+					<ul>
+						<li>
+							<div class="item row">
+								<div class="tit min fix">WMS</div>
+								<div class="con">https://api.vworld.kr/ned/wms/<i class="blue">서비스제공 restful URI?</i>key=인증키[&요청변수=값]</div>
+							</div>
+						</li>
+						<li>
+							<div class="item row">
+								<div class="tit min fix">WFS</div>
+								<div class="con">https://api.vworld.kr/ned/wfs/<i class="blue">서비스제공 restful URI?</i>key=인증키[&요청변수=값]</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="blind"><a href="#tabs">탭메뉴 돌아가기</a></div>
+			</div><!--// view2 -->
+			
+			
+			
+			
+			<br>
+			<div class="btns fe">
+				<a href="/dev/v4apiRefer.do" class="linktxt">오픈API 목록 돌아가기</a>
+			</div>
+		
+		</div>
+	</article><!--// content -->
+	
+</article><!--// article --></section>
+			<footer class="footer">
+				<script type="text/javascript">
+var footerObj = {
+		move : function(){
+			if($("#footerPageMove").val() == ""){
+				msgFnc.alert({text : "이동할 사이트를 선택해주세요."
+					, callBackConfirmFnc : function(){
+						$("#footerPageMove").focus();
+					}
+				});
+				return;
+			}
+			window.open($("#footerPageMove").val(), '_blank');
+		}
+}
+</script>
+
+<nav class="nav">
+	<ul>
+		<li><a href="javascript:urlFnc.goAgree();" class="menu">이용약관</a></li>
+		<li><a href="javascript:urlFnc.goPrivacy();" class="menu"><strong>개인정보처리방침</strong></a></li>
+		<li><a href="javascript:urlFnc.goUnauthEmail();" class="menu">이메일무단수집거부</a></li>
+		<li><a href="javascript:urlFnc.goCpyrht();" class="menu">저작권정책</a></li>
+		<li><a href="javascript:urlFnc.goIntrcn();" class="menu">브이월드소개</a></li>
+		<li><a href="https://data.molit.go.kr/systemQuality/list?system_id=S0023" onclick="window.open(this.href, '품질오류신고 및 확인'); return false;" class="menu">품질오류신고 및 확인</a></li>
+	</ul>
+</nav>
+<div class="cscenter">
+<!-- 2024-08-30 국토부 요청으로  footer style 변경 -->
+<!-- 	<h6 class="title">고객센터<em>평일 09:00 ~ 18:00 (중식 12:00 ~ 13:00) / 주말 및 공휴일 휴무</em></h6> -->
+<!-- 	<p class="infotxt">※ 공간정보 오픈플랫폼(V-World) 서비스 관련 궁금한 사항은 공간정보산업진흥원 고객센터로 문의해주시기 바랍니다.</p> -->
+<!-- 	<div class="btns"> -->
+<!-- 		<a href="tel:16610115" class="bt ico call bg">1661 - 0115</a> -->
+<!-- 		<a href="mailto:vworld@spacen.or.kr" class="bt ico mail bg">vworld@spacen.or.kr</a> -->
+<!-- 	</div> -->
+	<h6 class="title">고객센터
+	<em>
+		<div class="btns">
+			<a href="tel:16610115" class="bt ico call bg">1661 - 0115</a>
+			<a href="mailto:vworld@spacen.or.kr" class="bt ico mail bg">vworld@spacen.or.kr</a>
+			<a href="javascript:urlFnc.goDtidFAQ();" class="bt ico help bg">부동산 중개업 문의</a>
+		</div>
+	</em>
+	</h6>
+	<div class="btns"><em>평일 09:00 ~ 18:00 (중식 12:00 ~ 13:00) / 주말 및 공휴일 휴무</em></div>
+	<div class="spacen">
+		<div class="logo"><strong>공간정보산업진흥원</strong></div>
+		<p class="address">[14055] 경기도 안양시 동안구 부림로170번길 41-4(디에스세미콘) 3층 공간정보산업진흥원</p>
+	</div>
+<!-- 2024-08-30 국토부 요청으로  footer style 변경 -->
+</div>
+<div class="organizer">
+	<div class="logo"><strong>V-world</strong>디지털트윈국토</div>
+	<p class="address">[30103] 세종특별자치시 도움6로 11 국토교통부</p>
+	<p class="copyright">Copyright (C) Ministry of Land, Infrastructure and Transport 2023. All Rights Reserved.</p>
+</div>
+<div class="set">
+	<label for="footerPageMove" class="blind">사이트 바로가기</label>
+	<select class="select" id="footerPageMove">
+		<option value="" selected>사이트 바로가기</option>
+		<option value="https://www.molit.go.kr/">국토교통부</option>
+		<option value="https://www.ngii.go.kr/">국토지리정보원</option>
+		<!-- option value="https://www.nsdi.go.kr/">국가공간정보포털</option-->
+		<option value="http://spacen.or.kr/">공간정보산업진흥원</option>
+		<option value="https://www.spacein.kr/">공간정보교육포털</option>
+		<option value="https://www.lx.or.kr/kor.do">한국국토정보공사</option>
+		<option value="http://www.siqms.or.kr">공간정보품질관리원</option>
+		<option value="https://www.kasm.or.kr">공간정보산업협회</option>
+		<option value="https://gsqm.lx.or.kr/index.do">공간정보표준통합지원시스템</option>
+	</select>
+	<button class="bt bg" onclick="footerObj.move();">이동</button>
+</div>
+<a href="#top" class="bt ico go only">맨위로 이동</a>
+</footer>
+		</div><!--//template-->
+	</div><!--//container-->
+</body>
+</html>

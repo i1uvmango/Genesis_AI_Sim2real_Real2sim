@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="UTF-8"?><Capabilities xmlns="http://www.opengis.net/wmts/1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd">
+	<!-- Service Identification -->
+	<ows:ServiceIdentification>
+		<ows:Title>Vworld Web Map Tile Service</ows:Title>
+		<ows:ServiceType>OGC WMTS</ows:ServiceType>
+		<ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+	</ows:ServiceIdentification>
+	<!-- Operations Metadata -->
+	<ows:OperationsMetadata>
+		<ows:Operation name="GetCapabilities">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/WMTSCapabilities.xml">
+						<ows:Constraint name="GetEncoding">
+							<ows:AllowedValues>
+								<ows:Value>RESTful</ows:Value>
+							</ows:AllowedValues>
+						</ows:Constraint>
+					</ows:Get>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+		<ows:Operation name="GetTile">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Get xlink:href="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/">
+						<ows:Constraint name="GetEncoding">
+							<ows:AllowedValues>
+								<ows:Value>RESTful</ows:Value>
+							</ows:AllowedValues>
+						</ows:Constraint>
+					</ows:Get>
+				</ows:HTTP>
+			</ows:DCP>
+		</ows:Operation>
+	</ows:OperationsMetadata>
+	<Contents>
+		<!--Layer -->
+		<Layer>
+			<ows:Title>VworldBase</ows:Title>
+			<ows:Identifier>Base</ows:Identifier>
+			<ows:BoundingBox crs="urn:ogc:def:crs:EPSG::3857">
+				<ows:LowerCorner>12523442.714243278 3130860.6785608195</ows:LowerCorner>
+				<ows:UpperCorner>15654303.392804097 5635549.221409474</ows:UpperCorner>
+			</ows:BoundingBox>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>112.5 27.059125784374068</ows:LowerCorner>
+				<ows:UpperCorner>140.625 45.089035564831036</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Base/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>VworldMidnight</ows:Title>
+			<ows:Identifier>midnight</ows:Identifier>
+			<ows:BoundingBox crs="urn:ogc:def:crs:EPSG::3857">
+				<ows:LowerCorner>12523442.714243278 3130860.6785608195</ows:LowerCorner>
+				<ows:UpperCorner>15654303.392804097 5635549.221409474</ows:UpperCorner>
+			</ows:BoundingBox>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>112.5 27.059125784374068</ows:LowerCorner>
+				<ows:UpperCorner>140.625 45.089035564831036</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/midnight/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>VworldHybrid</ows:Title>
+			<ows:Identifier>Hybrid</ows:Identifier>
+			<ows:BoundingBox crs="urn:ogc:def:crs:EPSG::3857">
+				<ows:LowerCorner>12523442.714243278 3130860.6785608195</ows:LowerCorner>
+				<ows:UpperCorner>15654303.392804097 5635549.221409474</ows:UpperCorner>
+			</ows:BoundingBox>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>112.5 27.059125784374068</ows:LowerCorner>
+				<ows:UpperCorner>140.625 45.089035564831036</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Hybrid/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>VworldSatellite</ows:Title>
+			<ows:Identifier>Satellite</ows:Identifier>
+			<ows:BoundingBox crs="urn:ogc:def:crs:EPSG::3857">
+				<ows:LowerCorner>12523442.714243278 3130860.6785608195</ows:LowerCorner>
+				<ows:UpperCorner>15654303.392804097 5635549.221409474</ows:UpperCorner>
+			</ows:BoundingBox>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>112.5 27.059125784374068</ows:LowerCorner>
+				<ows:UpperCorner>140.625 45.089035564831036</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/jpeg</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/jpeg" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/{TileMatrix}/{TileRow}/{TileCol}.jpeg"/>
+		</Layer>
+		<Layer>
+			<ows:Title>VworldWhite</ows:Title>
+			<ows:Identifier>white</ows:Identifier>
+			<ows:BoundingBox crs="urn:ogc:def:crs:EPSG::3857">
+				<ows:LowerCorner>12523442.714243278 3130860.6785608195</ows:LowerCorner>
+				<ows:UpperCorner>15654303.392804097 5635549.221409474</ows:UpperCorner>
+			</ows:BoundingBox>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>112.5 27.059125784374068</ows:LowerCorner>
+				<ows:UpperCorner>140.625 45.089035564831036</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/white/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>LondonDowntown</ows:Title>
+			<ows:Identifier>LondonDowntown</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-0.09242292496989156 51.52124929751157</ows:LowerCorner>
+				<ows:UpperCorner>-0.06999708537079552 51.50710177177747</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2011/LondonDowntown/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>LondonOlympic</ows:Title>
+			<ows:Identifier>LondonOlympic</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-0.02976321899942586 51.558279546250866</ows:LowerCorner>
+				<ows:UpperCorner>0.00323024717317071 51.52939163590143</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2011/LondonOlympic/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Sydney</ows:Title>
+			<ows:Identifier>Sydney</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>151.1924312182078 -33.852748255972045</ows:LowerCorner>
+				<ows:UpperCorner>151.22349137971187 -33.88782437027452</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2011/Sydney/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>AntarcticaJangbogo</ows:Title>
+			<ows:Identifier>AntarcticaJangbogo</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>163.97754907551374 -74.55011397412576</ows:LowerCorner>
+				<ows:UpperCorner>164.34427922832023 -74.64902544903663</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2013/AntarcticaJangbogo/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>AntarcticaSejong</ows:Title>
+			<ows:Identifier>AntarcticaSejong</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-58.81958895436327 -62.1696791967855</ows:LowerCorner>
+				<ows:UpperCorner>-58.60732878940228 -62.26783239138899</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2013/AntarcticaSejong/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Kyiv</ows:Title>
+			<ows:Identifier>Kyiv</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>30.355133595367114 50.59456849611336</ows:LowerCorner>
+				<ows:UpperCorner>30.64072188440209 50.25993985096258</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2023/Kyiv/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>MockBa</ows:Title>
+			<ows:Identifier>MockBa</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>37.40654996932974 56.027089629384314</ows:LowerCorner>
+				<ows:UpperCorner>37.739948045593124 55.6916493207264</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2023/MockBa/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Washington</ows:Title>
+			<ows:Identifier>Washington</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-77.13604941348349 38.98982210850085</ows:LowerCorner>
+				<ows:UpperCorner>-76.93876216362364 38.75871627026664</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2023/Washington/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Athens</ows:Title>
+			<ows:Identifier>Athens</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>23.609761110242893 38.12240963008774</ows:LowerCorner>
+				<ows:UpperCorner>23.841803179450988 37.7872670962425</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Athens/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Beijing</ows:Title>
+			<ows:Identifier>Beijing</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>116.29237972912247 40.02236743107526</ows:LowerCorner>
+				<ows:UpperCorner>116.51106155934718 39.7891097900865</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Beijing/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Berlin</ows:Title>
+			<ows:Identifier>Berlin</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>13.281439885125454 52.68857086767983</ows:LowerCorner>
+				<ows:UpperCorner>13.585934264475092 52.35351812723906</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Berlin/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Canberra</ows:Title>
+			<ows:Identifier>Canberra</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>149.0127559144054 -35.113173625621265</ows:LowerCorner>
+				<ows:UpperCorner>149.22660825093868 -35.450725392724415</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Canberra/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Doha</ows:Title>
+			<ows:Identifier>Doha</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>51.41195676923207 25.416511268803863</ows:LowerCorner>
+				<ows:UpperCorner>51.60251402724649 25.08169857699576</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Doha/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Paris</ows:Title>
+			<ows:Identifier>Paris</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>2.1343326996393053 48.96014800106691</ows:LowerCorner>
+				<ows:UpperCorner>2.455575778928398 48.72759879702053</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Paris/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Santiago</ows:Title>
+			<ows:Identifier>Santiago</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-70.82057255261883 -33.27590831814232</ows:LowerCorner>
+				<ows:UpperCorner>-70.61677812400761 -33.50786911604306</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2024/Santiago/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Antananarivo</ows:Title>
+			<ows:Identifier>Antananarivo</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>47.40885320128896 -18.7629327067297</ows:LowerCorner>
+				<ows:UpperCorner>47.663562043922134 -19.105662794461363</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Antananarivo/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Helsinki</ows:Title>
+			<ows:Identifier>Helsinki</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>24.762646778510728 60.32103542189</ows:LowerCorner>
+				<ows:UpperCorner>25.191867199031076 59.98237788633476</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Helsinki/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Kabul</ows:Title>
+			<ows:Identifier>Kabul</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>69.00363582320085 34.649152379089436</ows:LowerCorner>
+				<ows:UpperCorner>69.21240025365735 34.31477260401654</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Kabul/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>MexicoCity</ows:Title>
+			<ows:Identifier>MexicoCity</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-99.2136269766215 19.697697429177374</ows:LowerCorner>
+				<ows:UpperCorner>-98.97655795872934 19.254205868477193</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/MexicoCity/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Montevideo</ows:Title>
+			<ows:Identifier>Montevideo</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-56.24172439152552 -34.68687169045861</ows:LowerCorner>
+				<ows:UpperCorner>-56.02369901701257 -35.02280401773815</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Montevideo/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Naypyitaw</ows:Title>
+			<ows:Identifier>Naypyitaw</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>96.00827975596438 19.932637552077004</ows:LowerCorner>
+				<ows:UpperCorner>96.18980509220302 19.597524545396055</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Naypyitaw/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Oslo</ows:Title>
+			<ows:Identifier>Oslo</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>10.535179939324507 60.09897672220988</ows:LowerCorner>
+				<ows:UpperCorner>10.940194462671704 59.76239866336473</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Oslo/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Rabat</ows:Title>
+			<ows:Identifier>Rabat</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-6.945151851872168 34.18003934995578</ows:LowerCorner>
+				<ows:UpperCorner>-6.718488813604469 33.84276833978058</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Rabat/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Sarajevo</ows:Title>
+			<ows:Identifier>Sarajevo</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>18.25074721358968 44.03679296157116</ows:LowerCorner>
+				<ows:UpperCorner>18.5070305556314 43.70034997642724</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Sarajevo/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Vienna</ows:Title>
+			<ows:Identifier>Vienna</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>16.18222496610246 48.322382532774185</ows:LowerCorner>
+				<ows:UpperCorner>16.423502645416033 48.0896573338845</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:18</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/cities/2025/Vienna/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Canada(forest fires, 2023.07)</ows:Title>
+			<ows:Identifier>Canada</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-114.2200044485335 58.24455239809376</ows:LowerCorner>
+				<ows:UpperCorner>-113.9531827746861 58.11123878860288</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Canada/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Chile(earthquake, 2023.02)</ows:Title>
+			<ows:Identifier>Chile</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-73.13433972354119 -38.05993049381836</ows:LowerCorner>
+				<ows:UpperCorner>-72.89491012918882 -38.206619971793046</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Chile/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Greece(forest fires, 2023.07)</ows:Title>
+			<ows:Identifier>Greece</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>27.799935525016963 36.192891510932846</ows:LowerCorner>
+				<ows:UpperCorner>28.11152984299047 36.00415101832239</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Greece/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Libya(forest fires, 2023.07)</ows:Title>
+			<ows:Identifier>Libya</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>22.528643278566733 32.843851044815636</ows:LowerCorner>
+				<ows:UpperCorner>22.69270226953431 32.71273751406254</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Libya/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Morocco(earthquake, 2023.09)</ows:Title>
+			<ows:Identifier>Morocco</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-8.825497068970206 31.58260325521878</ows:LowerCorner>
+				<ows:UpperCorner>-8.673066954356022 31.45387258114645</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Morocco/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>SaudiArabia(2023.10)</ows:Title>
+			<ows:Identifier>SaudiArabia</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>35.46530421987994 27.580628717037673</ows:LowerCorner>
+				<ows:UpperCorner>35.6181174557343 27.45061346841904</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/SaudiArabia/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Spain(forest fires, 2023.03)</ows:Title>
+			<ows:Identifier>Spain</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-0.7180213338571874 40.17082355385382</ows:LowerCorner>
+				<ows:UpperCorner>-0.46058354176335836 39.934825126985736</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Spain/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Turkiye Antakya(earthquake, 2023.02)</ows:Title>
+			<ows:Identifier>Turkiye_Antakya</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>36.02946085864556 36.33094326358429</ows:LowerCorner>
+				<ows:UpperCorner>36.30219647597788 36.09888844778501</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Turkiye_Antakya/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Turkiye Gaziantep(earthquake, 2023.02)</ows:Title>
+			<ows:Identifier>Turkiye_Gaziantep</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>37.252784880460396 37.22888134650989</ows:LowerCorner>
+				<ows:UpperCorner>37.536156409916686 36.87407617708094</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Turkiye_Gaziantep/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>Turkiye Sanliurfa(earthquake, 2023.10)</ows:Title>
+			<ows:Identifier>Turkiye_Sanliurfa</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>38.725937443760586 37.23574964721897</ows:LowerCorner>
+				<ows:UpperCorner>38.900705228126256 37.10378221574882</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/Turkiye_Sanliurfa/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<Layer>
+			<ows:Title>USA(hurricane, 2023.03)</ows:Title>
+			<ows:Identifier>USA</ows:Identifier>
+			<ows:WGS84BoundingBox crs="urn:ogc:def:crs:OGC:2:84">
+				<ows:LowerCorner>-91.04934626152584 32.997752553749464</ows:LowerCorner>
+				<ows:UpperCorner>-90.68940681081557 32.830322562179525</ows:UpperCorner>
+			</ows:WGS84BoundingBox>
+			<Style isDefault="true">
+				<ows:Title>Default Style</ows:Title>
+				<ows:Identifier>default</ows:Identifier>
+			</Style>
+			<Format>image/png</Format>
+			<TileMatrixSetLink>
+				<TileMatrixSet>GoogleMapsCompatible:16</TileMatrixSet>
+			</TileMatrixSetLink>
+			<ResourceURL format="image/png" resourceType="tile" template="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/themes/disaster/2023/USA/{TileMatrix}/{TileCol}/{TileRow}.png"/>
+		</Layer>
+		<!--TileMatrixSet -->
+		<TileMatrixSet>
+			<ows:Title>GoogleMapsCompatible</ows:Title>
+			<ows:Abstract>the wellknown 'GoogleMapsCompatible' tile matrix set defined by OGC WMTS specification</ows:Abstract>
+			<ows:Identifier>GoogleMapsCompatible</ows:Identifier>
+			<ows:SupportedCRS>urn:ogc:def:crs:EPSG:6.18.3:3857</ows:SupportedCRS>
+			<WellKnownScaleSet>urn:ogc:def:wkss:OGC:1.0:GoogleMapsCompatible</WellKnownScaleSet>
+			<TileMatrix>
+				<ows:Identifier>6</ows:Identifier>
+				<ScaleDenominator>8735660.37545</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>64</MatrixWidth>
+				<MatrixHeight>64</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>7</ows:Identifier>
+				<ScaleDenominator>4367830.18772</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>128</MatrixWidth>
+				<MatrixHeight>128</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>8</ows:Identifier>
+				<ScaleDenominator>2183915.09386</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>256</MatrixWidth>
+				<MatrixHeight>256</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>9</ows:Identifier>
+				<ScaleDenominator>1091957.54693</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>512</MatrixWidth>
+				<MatrixHeight>512</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>10</ows:Identifier>
+				<ScaleDenominator>545978.773466</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>1024</MatrixWidth>
+				<MatrixHeight>1024</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>11</ows:Identifier>
+				<ScaleDenominator>272989.386733</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>2048</MatrixWidth>
+				<MatrixHeight>2048</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>12</ows:Identifier>
+				<ScaleDenominator>136494.693366</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>4096</MatrixWidth>
+				<MatrixHeight>4096</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>13</ows:Identifier>
+				<ScaleDenominator>68247.3466832</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>8192</MatrixWidth>
+				<MatrixHeight>8192</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>14</ows:Identifier>
+				<ScaleDenominator>34123.6733416</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>16384</MatrixWidth>
+				<MatrixHeight>16384</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>15</ows:Identifier>
+				<ScaleDenominator>17061.8366708</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>32768</MatrixWidth>
+				<MatrixHeight>32768</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>16</ows:Identifier>
+				<ScaleDenominator>8530.9183354</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>65536</MatrixWidth>
+				<MatrixHeight>65536</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>17</ows:Identifier>
+				<ScaleDenominator>4265.4591677</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>131072</MatrixWidth>
+				<MatrixHeight>131072</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>18</ows:Identifier>
+				<ScaleDenominator>2132.72958385</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>262144</MatrixWidth>
+				<MatrixHeight>262144</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>19</ows:Identifier>
+				<ScaleDenominator>1066.36479192</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>524288</MatrixWidth>
+				<MatrixHeight>524288</MatrixHeight>
+			</TileMatrix>
+		</TileMatrixSet>
+		<TileMatrixSet>
+			<ows:Title>GoogleMapsCompatible:16</ows:Title>
+			<ows:Abstract>the wellknown 'GoogleMapsCompatible' tile matrix set defined by OGC WMTS specification</ows:Abstract>
+			<ows:Identifier>GoogleMapsCompatible:16</ows:Identifier>
+			<ows:SupportedCRS>urn:ogc:def:crs:EPSG:6.18.3:3857</ows:SupportedCRS>
+			<WellKnownScaleSet>urn:ogc:def:wkss:OGC:1.0:GoogleMapsCompatible</WellKnownScaleSet>
+			<TileMatrix>
+				<ows:Identifier>6</ows:Identifier>
+				<ScaleDenominator>8735660.37545</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>64</MatrixWidth>
+				<MatrixHeight>64</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>7</ows:Identifier>
+				<ScaleDenominator>4367830.18772</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>128</MatrixWidth>
+				<MatrixHeight>128</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>8</ows:Identifier>
+				<ScaleDenominator>2183915.09386</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>256</MatrixWidth>
+				<MatrixHeight>256</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>9</ows:Identifier>
+				<ScaleDenominator>1091957.54693</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>512</MatrixWidth>
+				<MatrixHeight>512</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>10</ows:Identifier>
+				<ScaleDenominator>545978.773466</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>1024</MatrixWidth>
+				<MatrixHeight>1024</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>11</ows:Identifier>
+				<ScaleDenominator>272989.386733</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>2048</MatrixWidth>
+				<MatrixHeight>2048</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>12</ows:Identifier>
+				<ScaleDenominator>136494.693366</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>4096</MatrixWidth>
+				<MatrixHeight>4096</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>13</ows:Identifier>
+				<ScaleDenominator>68247.3466832</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>8192</MatrixWidth>
+				<MatrixHeight>8192</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>14</ows:Identifier>
+				<ScaleDenominator>34123.6733416</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>16384</MatrixWidth>
+				<MatrixHeight>16384</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>15</ows:Identifier>
+				<ScaleDenominator>17061.8366708</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>32768</MatrixWidth>
+				<MatrixHeight>32768</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>16</ows:Identifier>
+				<ScaleDenominator>8530.9183354</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>65536</MatrixWidth>
+				<MatrixHeight>65536</MatrixHeight>
+			</TileMatrix>
+		</TileMatrixSet>
+		<TileMatrixSet>
+			<ows:Title>GoogleMapsCompatible:18</ows:Title>
+			<ows:Abstract>the wellknown 'GoogleMapsCompatible' tile matrix set defined by OGC WMTS specification</ows:Abstract>
+			<ows:Identifier>GoogleMapsCompatible:18</ows:Identifier>
+			<ows:SupportedCRS>urn:ogc:def:crs:EPSG:6.18.3:3857</ows:SupportedCRS>
+			<WellKnownScaleSet>urn:ogc:def:wkss:OGC:1.0:GoogleMapsCompatible</WellKnownScaleSet>
+			<TileMatrix>
+				<ows:Identifier>6</ows:Identifier>
+				<ScaleDenominator>8735660.37545</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>64</MatrixWidth>
+				<MatrixHeight>64</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>7</ows:Identifier>
+				<ScaleDenominator>4367830.18772</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>128</MatrixWidth>
+				<MatrixHeight>128</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>8</ows:Identifier>
+				<ScaleDenominator>2183915.09386</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>256</MatrixWidth>
+				<MatrixHeight>256</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>9</ows:Identifier>
+				<ScaleDenominator>1091957.54693</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>512</MatrixWidth>
+				<MatrixHeight>512</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>10</ows:Identifier>
+				<ScaleDenominator>545978.773466</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>1024</MatrixWidth>
+				<MatrixHeight>1024</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>11</ows:Identifier>
+				<ScaleDenominator>272989.386733</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>2048</MatrixWidth>
+				<MatrixHeight>2048</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>12</ows:Identifier>
+				<ScaleDenominator>136494.693366</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>4096</MatrixWidth>
+				<MatrixHeight>4096</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>13</ows:Identifier>
+				<ScaleDenominator>68247.3466832</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>8192</MatrixWidth>
+				<MatrixHeight>8192</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>14</ows:Identifier>
+				<ScaleDenominator>34123.6733416</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>16384</MatrixWidth>
+				<MatrixHeight>16384</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>15</ows:Identifier>
+				<ScaleDenominator>17061.8366708</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>32768</MatrixWidth>
+				<MatrixHeight>32768</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>16</ows:Identifier>
+				<ScaleDenominator>8530.9183354</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>65536</MatrixWidth>
+				<MatrixHeight>65536</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>17</ows:Identifier>
+				<ScaleDenominator>4265.4591677</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>131072</MatrixWidth>
+				<MatrixHeight>131072</MatrixHeight>
+			</TileMatrix>
+			<TileMatrix>
+				<ows:Identifier>18</ows:Identifier>
+				<ScaleDenominator>2132.72958385</ScaleDenominator>
+				<TopLeftCorner>-20037508.3428 20037508.3428</TopLeftCorner>
+				<TileWidth>256</TileWidth>
+				<TileHeight>256</TileHeight>
+				<MatrixWidth>262144</MatrixWidth>
+				<MatrixHeight>262144</MatrixHeight>
+			</TileMatrix>
+		</TileMatrixSet>
+	</Contents>
+	<ServiceMetadataURL xlink:href="http://api.vworld.kr/req/wmts/1.0.0/<KEY>/WMTSCapabilities.xml"/>
+</Capabilities>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExceptionReport xmlns="http://www.opengis.net/ows/1.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.opengis.net/ows/1.1.0/owsExceptionReport.xsd"
+	version="1.1.0" xml:lang="kor">
+	<Exception exceptionCode="InvalidParameterValue" locator="tilematrix">
+		<ExceptionText><![CDATA[tilematrix 파라미터의 값이 유효한 범위를 넘었습니다. 유효한 파라미터 값의 범위 : 6 ~ 19, 입력한 파라미터 값 : 20]]></ExceptionText>
+	</Exception>
+</ExceptionReport>

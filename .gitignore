@@ -28,3 +28,7 @@ genesis meeting.txt
 # === PDF 변환기 산출물 (재생성 가능) ===
 car_test/pdf/mathjax/
 car_test/pdf/*.html
+
+# === API 키 (V-World 등) ===
+.env
+*.env

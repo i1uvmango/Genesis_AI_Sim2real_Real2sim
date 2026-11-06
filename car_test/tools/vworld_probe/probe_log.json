@@ -1,0 +1,36 @@
+[
+ {
+  "name": "wmts_capabilities.xml",
+  "url": "https://api.vworld.kr/req/wmts/1.0.0/<KEY>/WMTSCapabilities.xml",
+  "http": 200,
+  "content_type": "application/xml;charset=UTF-8",
+  "bytes": 50172,
+  "saved": "raw/wmts_capabilities.xml.txt"
+ },
+ {
+  "name": "satellite_z19_203152_447154.jpeg",
+  "url": "https://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/19/203152/447154.jpeg",
+  "http": 200,
+  "content_type": "image/jpeg",
+  "bytes": 15389,
+  "saved": "samples/satellite_z19_203152_447154.jpeg",
+  "m_per_px_nominal": 0.2369
+ },
+ {
+  "name": "satellite_z18_101576_223577.jpeg",
+  "url": "https://api.vworld.kr/req/wmts/1.0.0/<KEY>/Satellite/18/101576/223577.jpeg",
+  "http": 200,
+  "content_type": "image/jpeg",
+  "bytes": 19811,
+  "saved": "samples/satellite_z18_101576_223577.jpeg",
+  "m_per_px_nominal": 0.4738
+ },
+ {
+  "name": "wfs_lt_c_spbd.json",
+  "url": "https://api.vworld.kr/req/wfs?key=<KEY>&domain=https%3A%2F%2Fgithub.com%2Fi1uvmango%2FGenesis_AI_Sim2real_Real2sim&SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=lt_c_spbd&BBOX=37.4998%2C127.03537%2C37.5016%2C127.03763000000001%2CEPSG%3A4326&SRSNAME=EPSG%3A4326&OUTPUT=application%2Fjson&MAXFEATURES=50",
+  "http": 200,
+  "content_type": "application/json;charset=UTF-8",
+  "bytes": 19299,
+  "saved": "raw/wfs_lt_c_spbd.json.txt"
+ }
+]
