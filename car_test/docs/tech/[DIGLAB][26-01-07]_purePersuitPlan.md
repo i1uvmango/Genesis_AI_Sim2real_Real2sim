@@ -268,11 +268,11 @@ L_throttle = w_slow/fast * e_speed² + w_smooth * Δthrottle²
 
 ### 4.2 Genesis Differentiable Physics 시도 결과
 
-[](../26_0107_tryRigidSolverDiff.md)
+[](./%5BDIGLAB%5D%5B26-01-07%5D_tryRigidDiff.md)
 
 ### 4.3 PyTorch 변환 시도 결과
 
-[](../26_0107_tryPyTorch.md)
+[](./%5BDIGLAB%5D%5B26-01-07%5D_tryPytorch.md)
 
 ### 5.4 Pure Persuit Algorithm + 2MLP
 * 1MLP: steer_pp + error_state(mlp) -> steer

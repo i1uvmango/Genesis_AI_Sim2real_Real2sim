@@ -2,7 +2,7 @@
 
 > MPPI : 강화학습의 병렬환경처럼, 병렬환경에서 1 step 만큼 미리 실행해본 뒤, cost가 낮은 결과를 샘플링하여 채택하는 `predictive path integral estimation`
 
-how MPPI works :  [about MPPI doc](./[26-02-22]_MPPI.md)
+how MPPI works :  [about MPPI doc](./[DIGLAB][26-02-22]_MPPI.md)
 
 
 

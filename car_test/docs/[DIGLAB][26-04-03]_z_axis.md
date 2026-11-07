@@ -64,7 +64,7 @@ RBC의 원본 Speed Curve는 경로 위치(0~1)를 속도 배율로 변환한다
 
 * 속도 배율이 0% 이면 데드락이 걸려 출발하지 못함
 
-[troubleshooting](../tech/[26-04-04]_blender_troubleshooting.md)
+[troubleshooting](./tech/[DIGLAB][26-04-04]_blender_troubleshooting.md)
 
 
 

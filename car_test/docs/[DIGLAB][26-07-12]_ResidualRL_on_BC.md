@@ -140,7 +140,7 @@ u = T_BC + Δu      S = S_BC + ΔS
 
 ### PPO 학습 설정
 
-> PPO 핵심 용어(GAE · clip)는 [PPO terminology 정리](tech/%5B26-07-12%5D_PPO_terminology.md) 참고
+> PPO 핵심 용어(GAE · clip)는 [PPO terminology 정리](tech/%5BDIGLAB%5D%5B26-07-12%5D_PPO_terminology.md) 참고
 
 * 병렬 env **512**
 * GAE advantage

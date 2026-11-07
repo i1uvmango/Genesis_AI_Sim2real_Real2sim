@@ -599,7 +599,7 @@ omega_max = 3.0 - 1.0 × progress  # 3.0 rad/s → 2.0 rad/s
 ---
 
 
-보상함수 구현 코드(미팅 후 보완 예정) : [reward_code](docs\tech\26_0115_reward.md)
+보상함수 구현 코드(미팅 후 보완 예정) : [reward_code](./%5BDIGLAB%5D%5B26-01-15%5D_reward.md)
 
 
 ---

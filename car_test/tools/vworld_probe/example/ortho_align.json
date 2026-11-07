@@ -1,0 +1,17 @@
+{
+ "low_buildings": 15,
+ "building_shift_m": [
+  0.25,
+  -2.5
+ ],
+ "building_shift_norm": 2.5124689052802225,
+ "building_score_before": 0.20798702538013458,
+ "building_score_after": 0.2934698462486267,
+ "hd_lane_shift_m": [
+  3.0,
+  -7.25
+ ],
+ "hd_lane_shift_norm": 7.846177413237608,
+ "hd_score_before": 0.15698105096817017,
+ "hd_score_after": 0.1628933846950531
+}

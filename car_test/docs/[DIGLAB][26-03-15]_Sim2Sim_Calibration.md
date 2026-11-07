@@ -394,7 +394,7 @@ MLP Inference  (실시간)
 MLP는 MPPI의 주행 품질을 실시간으로 재현하였다.
 
 
-* 주행 영상 정리 : [inference result](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md)
+* 주행 영상 정리 : [inference result](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5BDIGLAB%5D%5B26-03-05%5D_BC_inverse_mappper.md)
 
 
 ### 일반화 검증: 미학습 경로
@@ -495,7 +495,7 @@ Blender raw state (v, κ, CTE, HE, Δv, ...) --> Blender일 필요 없음
 
 - [Genesis Embodied AI](https://genesis-embodied-ai.github.io/)
 - [Genesis Performance Benchmarking](https://placid-walkover-0cc.notion.site/genesis-performance-benchmarking)
-- [MPPI Troubleshooting](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/tech/%5B26-03-15%5D_MPPI_troubleshooting.md)
-- [BC Inverse Mapper 결과](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md)
+- [MPPI Troubleshooting](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/tech/%5BDIGLAB%5D%5B26-03-15%5D_MPPI_troubleshooting.md)
+- [BC Inverse Mapper 결과](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5BDIGLAB%5D%5B26-03-05%5D_BC_inverse_mappper.md)
 - [발표 자료 (PDF)](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/Blender2Genesis_Sim2Sim_Calibration.pdf)
-- [추론/주행 영상 정리](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md)
+- [추론/주행 영상 정리](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5BDIGLAB%5D%5B26-03-05%5D_BC_inverse_mappper.md)

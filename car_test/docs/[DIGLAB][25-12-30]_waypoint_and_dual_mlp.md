@@ -229,7 +229,7 @@ dy = 목표점.y - 현재위치.y
 #### 2mlp 구조도 문서
 | 문서 요약 | 링크 |
 | --- | --- |
-| throttle/steering 을 각각의 mlp로 학습 후 통합 | [1231_dual_mlp](../docs/1231_dual_mlp.md) |
+| throttle/steering 을 각각의 mlp로 학습 후 통합 | [1231_dual_mlp](./tech/%5BDIGLAB%5D%5B25-12-31%5D_dual_mlp.md) |
 
 
 

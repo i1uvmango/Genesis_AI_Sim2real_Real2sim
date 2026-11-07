@@ -162,10 +162,10 @@ https://github.com/user-attachments/assets/8fecd2af-336d-4477-92e9-8e992187b3d8
 | :---: | :--- | :--- |
 | 1 | **일반화 성능: 데이터 추가** | Blender에서 다양한 궤적(직선·S자·U턴 등) 추가 생성 |
 | 2 | **Residual RL** | BC 모델 위에 잔차 RL 에이전트를 결합 → 궤도 이탈 잔여 오차를 실시간 보정 |
-| 3 | **보강 방법 : DAgger** | 실패 구간 데이터 재수집 → MPPI로 golden (T,S) 재산출 → Dataset 추가 후 반복 재학습 ([참고](./tech/[26-03-05]_DAgger.md)) |
+| 3 | **보강 방법 : DAgger** | 실패 구간 데이터 재수집 → MPPI로 golden (T,S) 재산출 → Dataset 추가 후 반복 재학습 ([참고](./tech/[DIGLAB][26-03-05]_DAgger.md)) |
 
 ------------------
 
 ppt 시각자료: [BC_Trajectory_Control.pdf](./tech/BC_Trajectory_Control.pdf)  
 
-TroubleShooting : [TroubleShooting_docs](./docs/tech/[26-03-10]_troubleshooting_blender.md)
+TroubleShooting : [TroubleShooting_docs](./tech/[DIGLAB][26-03-10]_troubleshooting_blender.md)

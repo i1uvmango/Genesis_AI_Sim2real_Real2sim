@@ -241,7 +241,7 @@ Model Predictive Path Integral 으로, 샘플링 기반의 모델 예측 제어(
 
 *  `GPU`의 병렬 연산 능력을 활용하여 수백개의 가상 시나리오를 동시에 `시뮬레이션(Genesis Engine)`하고 확률적 샘플링을 통해 가장 결과가 좋은 시나리오(데이터)를 선택 
 
-MPC 방법 시도 & 실패 정리: [MPC2MPPI](../docs/%5B26-02-16%5D_mpc2mppi.md)
+MPC 방법 시도 & 실패 정리: [MPC2MPPI](../%5BDIGLAB%5D%5B26-02-16%5D_mpc2mppi.md)
 
 ### 원리
 #### for every Frame(Receding Horizon : 10 horizon)  
@@ -285,7 +285,7 @@ MPC 방법 시도 & 실패 정리: [MPC2MPPI](../docs/%5B26-02-16%5D_mpc2mppi.md
 * 시간 index VS 위치(공간) index : Behavior Cloning 이란 시간 index에 따른 행동이 중요하여, time index base가 올바름
 
 
-MPPI insight & trouble shooting docs : [MPPI_troubleshooting](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/tech/%5B26-03-15%5D_MPPI_troubleshooting.md)
+MPPI insight & trouble shooting docs : [MPPI_troubleshooting](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/tech/%5BDIGLAB%5D%5B26-03-15%5D_MPPI_troubleshooting.md)
 
 
 ---
@@ -410,7 +410,7 @@ $$\mathbf{Y} = \begin{bmatrix} T \\ S \end{bmatrix} = \begin{bmatrix} T_{golden}
 | :--- | :--- | :--- | 
 | [![blender](../../res_wjdaksry/0316/blender.png)](https://github.com/user-attachments/assets/94549c51-5cd4-41d1-a187-f1262d5e1e53)  | [![path_new2](../../res_wjdaksry/0222/path_new2.png)](https://github.com/user-attachments/assets/14f37b64-8207-4769-9267-a65f0ed32e82) |  [![curve_mlp](../../res_wjdaksry/0222/curve1.png)](https://github.com/user-attachments/assets/e031fadc-0774-46c6-a9dc-267cfccdd9be)|
 
-주행 결과 정리 docs : [BC Inverse Mapper](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md)
+주행 결과 정리 docs : [BC Inverse Mapper](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5BDIGLAB%5D%5B26-03-05%5D_BC_inverse_mappper.md)
 
 ### Generalization Test (미학습 경로 추론)
 (사진 클릭 시 영상 실행)
@@ -425,7 +425,7 @@ $$\mathbf{Y} = \begin{bmatrix} T \\ S \end{bmatrix} = \begin{bmatrix} T_{golden}
 
 > "학습되지 않은 임의의 경로에서도 안정적인 주행을 보인 것은, 본 모델이 특정 경로를 암기한 것이 아니라 [상태 오차 $\rightarrow$ 최적 제어값]으로 이어지는 물리적 인과관계(Physics Intuition)를 학습했음을 시사한다."
 
-결과 정리 docs : [BC Inverse Mapper](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5B26-03-05%5D_BC_inverse_mappper.md)
+결과 정리 docs : [BC Inverse Mapper](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/%5BDIGLAB%5D%5B26-03-05%5D_BC_inverse_mappper.md)
 
 ---
 ppt : [Blender2Genesis_Sim2Sim_Calibration](https://github.com/i1uvmango/Genesis_ai_graphicstudy/blob/main/car_test/docs/Blender2Genesis_Sim2Sim_Calibration.pdf)

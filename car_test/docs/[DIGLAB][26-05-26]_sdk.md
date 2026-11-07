@@ -63,7 +63,7 @@ MPPI는 `VehicleInputs` 만 사용.
 |------|-------|---|
 | `RollingResistance` | 항상 (tire force 후) | - |
 | `LowSpeedRegularizer` | 저속 (pre-loop + post-tire), throttle/brake active 시 자동 OFF | `disable_when_control_active=True` default |
-| `StaticFrictionLock` | brake>0.3 & V<0.5 | v_long만 &rarr; v_lat 추가 [slip_test](docs\tech\[26-05-23]_pacejka_slip_test.md) |
+| `StaticFrictionLock` | brake>0.3 & V<0.5 | v_long만 &rarr; v_lat 추가 [slip_test](./tech/[DIGLAB][26-05-23]_pacejka_slip_test.md) |
 
 - **`RollingResistance`**: rolling resistance 추가. 차가 가속 / 감속 시 자연 감쇠 효과.
   → tire 가 굴러갈 때 변형 / 복원 과정에서 발생하는 작은 energy loss 로 차가 자연 감속.

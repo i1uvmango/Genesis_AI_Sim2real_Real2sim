@@ -15,7 +15,7 @@
 
 **핵심 문제: 비용이 낮은 T와 물리적으로 올바른 T를 구분할 검증 근거가 부족함.** 시간 지연이 원인이라고 가정하지 않고, 아래 공간 정합 조건을 먼저 확인함.
 
-기존 결과: [Camera–LiDAR T 추정 보고서](./[DIGLAB][26-10-24][정만교]_Camera_LiDAR_extrinsic.md)
+기존 결과: [Camera–LiDAR T 추정 보고서](../[DIGLAB][26-10-24][정만교]_Camera_LiDAR_extrinsic.md)
 
 ## 2. 필요한 정보와 ADI 확보 상태
 
