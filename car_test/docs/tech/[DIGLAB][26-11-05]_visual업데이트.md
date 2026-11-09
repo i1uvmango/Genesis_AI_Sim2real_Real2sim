@@ -350,19 +350,21 @@
 | ADI forward40 | 완주 | 99.4% | 0.003 m | 100% | 2.3° |
 | ADI seq60 | 완주 | 99.9% | 0.093 m | 100% | 5.7° |
 
-<sub>pure-pursuit, collider mesh 위 물리 주행, 화면은 1280×720 추종 카메라(차 뒤 6 m, 높이 1.6 m). 진행이 100% 가 아닌 것은 목표점 도달 판정 거리 안에서 멈추기 때문임.</sub>
+<sub>pure-pursuit, collider mesh 위 물리 주행, 화면은 1280×720 추종 카메라(차 뒤 6 m, 높이 1.6 m, 차체 자세에 고정 + 0.3 s 시간상수로 부드럽게). 진행이 100% 가 아닌 것은 목표점 도달 판정 거리 안에서 멈추기 때문임.</sub>
+
+> 카메라를 수평으로 두고 yaw 만 따라가던 이전 영상은 기울어진 노면에서 차만 기울어져 카메라가 틀어진 것처럼 보였음. Alpamayo 커브 이후 노면 옆 경사 ≈ 6° = 차체 roll 과 같음 (건물 벽은 수직 1° 안 → 실제 경사). Nyx 가 그린 차는 물리 차체와 방향 0.5° 안으로 일치함을 확인함. 지금은 카메라를 차체 자세(yaw·pitch·roll)에 붙여 실제 장착 카메라처럼 차가 화면에서 똑바로 보임
 
 ![](../../res_wjdaksry/1107/pai_drive_side.mp4)
 
-* Alpamayo — 왼쪽 = collider (물리 mesh), 오른쪽 = Genesis Nyx 렌더
+* Alpamayo — 왼쪽 = collider (물리 mesh), 오른쪽 = Genesis Nyx 렌더. 노면 제약 + 스무딩 노면 투영 버전으로 다시 찍음
 
 ![](../../res_wjdaksry/1106/f40_drive_side.mp4)
 
-* ADI forward40
+* ADI forward40 — 출발 직후 3 s (출발점 뒤 미관측 영역이 보이는 구간)와 도착 후 mesh 끝에서 떨어지는 구간은 잘라냄
 
 ![](../../res_wjdaksry/1106/s60_drive_side.mp4)
 
-* ADI seq60 (전송용 압축본)
+* ADI seq60 (전송용 압축본) — 출발 직후 3 s 는 잘라냄
 
 ### 8.6 진행 중 막힌 것과 해결
 
@@ -432,4 +434,4 @@
 
 ![](../../res_wjdaksry/1107/pai_ground_drive_side.mp4)
 
-* 노면 제약 후 주행 — 왼쪽 = collider, 오른쪽 = Genesis Nyx
+* 노면 제약 + 스무딩 노면 투영 후 주행 — 왼쪽 = collider, 오른쪽 = Genesis Nyx
