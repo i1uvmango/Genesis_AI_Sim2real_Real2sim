@@ -86,11 +86,11 @@
 | 바닥 | RoGs (arXiv 2405.14342) |
 | 건물 | CityDreamer (CVPR 2024, arXiv 2309.00610) |
 | 인도 위 물체 | Urban Radiance Fields (CVPR 2022, arXiv 2111.14643) |
-| 지도와 LiDAR 정합 | ICP (Besl and McKay, IEEE TPAMI 14(2), 1992) |
+| 지도와 LiDAR 정합 | ICP (Besl and McKay, IEEE TPAMI 14(2), 239 to 256, 1992) |
 | 이미지 label | Mask2Former (CVPR 2022, arXiv 2112.01527), SAM 3 (arXiv 2511.16719) |
-| 학습 | 2D Gaussian Splatting (SIGGRAPH 2024, arXiv 2403.17888), 3D Gaussian Splatting (SIGGRAPH 2023, arXiv 2308.04079), SuGaR (CVPR 2024, arXiv 2311.12775), Street Gaussians (ECCV 2024, arXiv 2401.01339), AutoSplat (ICRA 2025, arXiv 2407.02598) |
+| 학습 | 2D Gaussian Splatting (SIGGRAPH 2024, arXiv 2403.17888), 3D Gaussian Splatting (ACM TOG 42(4), SIGGRAPH 2023, arXiv 2308.04079), SuGaR (CVPR 2024, arXiv 2311.12775), Street Gaussians (ECCV 2024, arXiv 2401.01339), AutoSplat (ICRA 2025, arXiv 2407.02598) |
 | 생성모델 | SDXL (ICLR 2024, arXiv 2307.01952), Latent Diffusion Models (CVPR 2022, arXiv 2112.10752), Difix3D+ (CVPR 2025, arXiv 2503.01774) |
-| 시뮬레이션 | Genesis (GitHub Genesis-Embodied-AI/Genesis), Pure Pursuit (Coulter, CMU-RI-TR-92-01, 1992) |
+| 시뮬레이션 | Genesis: A Generative and Universal Physics Engine for Robotics and Beyond (Genesis Authors, 2024, GitHub Genesis-Embodied-AI/Genesis), Pure Pursuit (Coulter, CMU-RI-TR-92-01, 1992) |
 
 ## 8. ADI 구성에 가져올 것
 
@@ -102,6 +102,15 @@
 | 지도 정합 | OrienterNet, OSM-aided LiDAR SLAM | 카메라와 LiDAR를 지도에 자동 정합 |
 | 궤적 밖 시점 | Difix3D+, StreetCrafter | 새 시점 생성, 보정, 재학습 |
 | 월드모델 확장 | InfiniCube, Cosmos-Drive-Dreams, MagicDrive | 정밀도로지도 조건으로 날씨, 시간, 다른 차로 생성 |
+
+## 서지 확인 상태
+
+2026-11-11 검색으로 학회, 연도, arXiv 번호를 확인함
+
+| 상태 | 논문 |
+|---|---|
+| 확인 | Urban Radiance Fields, RoGs, InfiniCube, MagicDrive, CityDreamer, Streetscapes, Sat2Scene, OrienterNet, OSM-aided LiDAR SLAM, Difix3D+, StreetCrafter, 2D Gaussian Splatting, 3D Gaussian Splatting, SuGaR, Street Gaussians, AutoSplat, Mask2Former, SAM 3, SDXL, Latent Diffusion Models, ICP, Pure Pursuit |
+| 주의 | Cosmos-Drive-Dreams는 arXiv 번호가 두 개(2503.14492, 2506.09042)로 나옴. Genesis는 기술 보고서가 아직 없어 소프트웨어로 인용함 |
 
 ## 기타 참고
 
