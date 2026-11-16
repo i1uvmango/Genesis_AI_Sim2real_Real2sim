@@ -2,6 +2,8 @@
 
 > LiDAR noise로 깨지는 novel view를 Difix3D+(CVPR 2025 Oral, NVIDIA)로 고치려 함. 논문 핵심을 정리하고, 우리 맵에 적용한 방법과 전후 결과를 정리함
 
+* 현재 difix3D+ 논문을 2DGS 기준으로 진행해서 논문의 free 3DGS(gaussian이 자유롭게 배치됨)과는 다름을 명시
+
 ## 용어
 
 | 용어 | 설명 |
