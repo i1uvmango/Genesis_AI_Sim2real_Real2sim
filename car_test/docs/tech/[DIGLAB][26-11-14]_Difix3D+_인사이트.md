@@ -147,17 +147,7 @@ nvidia/difix_ref (+ 가장 가까운 ADI 사진) 로 고침, 1440x536
 * Difix progressive는 그 회색 벽에 창문 같은 무늬를 그려 넣었음. 실제 사진에는 없는 무늬임
 * 구조 자체는 두 방법이 같음
 
-### 4.2 옆면 확대: 잡음은 지우지만 형상은 그대로
-
-> 4방향 카메라를 모두 학습한 블록 80 맵을 궤적 밖 시점 3곳에서 원본 해상도로 렌더하고, 좌우 옆면만 잘라 확대함. 왼쪽은 Difix 없음, 오른쪽은 지금 파이프라인(Difix 2회 증류)
-
-![](../../res_wjdaksry/1115/difix_sides.png)
-
-* 건물 벽, 노면, 그림자 경계의 자글자글한 점 잡음은 지워짐
-* 나무는 줄기와 잎이 세로로 늘어진 모양이 그대로이고, 간판 위치의 알록달록한 얼룩도 남음
-* Difix는 없던 세부를 만들지 않았음. 옆면이 좋아 보이는 것은 잡음이 빠졌기 때문임
-
-### 4.3 할루시네이션: 형상이 틀린 렌더를 Difix가 다른 장면으로 바꿈
+### 4.2 할루시네이션: 형상이 틀린 렌더를 Difix가 다른 장면으로 바꿈
 
 ![](../../res_wjdaksry/1115/difix_hallucination.png)
 
@@ -166,71 +156,6 @@ nvidia/difix_ref (+ 가장 가까운 ADI 사진) 로 고침, 1440x536
 * 가상 시점에서 Difix가 그린 차량 영역은 평균 9%에서 15%였고, 가장 많은 시점은 화면의 43%였음
 * 이 이미지를 그대로 학습하면 없는 구조물의 색이 mesh 위에 칠해짐. 차량은 마스크로 뺐지만 구조물은 뺄 방법이 없음
 
-### 4.4 ADI 경로 전체: 실제 사진과 Difix 전후
-
-> 4방향 카메라로 학습한 ADI 경로 전체 맵(11/09)에서 학습에 안 쓴 프레임을 렌더함. 위부터 실제 사진, Difix 전, Difix 3회 증류 후. 시점은 궤적 위라 형상 오류가 덜 드러나는 쪽임
-
-#### forward40 rear 160 — 실제 사진
-
-![](../../res_wjdaksry/1116/difix_f40f_rear_0160_gt.jpg)
-
-#### forward40 rear 160 — Difix 전
-
-![](../../res_wjdaksry/1116/difix_f40f_rear_0160_before.jpg)
-
-#### forward40 rear 160 — Difix 후
-
-![](../../res_wjdaksry/1116/difix_f40f_rear_0160_after.jpg)
-
-* 노면과 보도 경계의 점 잡음이 줄어듦
-* 트럭과 보행자, 오른쪽 건물 벽의 번진 형상은 그대로임
-
-#### forward40 front 45 — 실제 사진
-
-![](../../res_wjdaksry/1116/difix_f40f_front_0045_gt.jpg)
-
-#### forward40 front 45 — Difix 전
-
-![](../../res_wjdaksry/1116/difix_f40f_front_0045_before.jpg)
-
-#### forward40 front 45 — Difix 후
-
-![](../../res_wjdaksry/1116/difix_f40f_front_0045_after.jpg)
-
-* 교차로 노면에 흩어져 있던 색 조각이 사라짐
-* 나무와 건물은 뭉개진 채이고, 하늘의 검은 빈 곳도 그대로임
-
-#### seq60 rear 25 — 실제 사진
-
-![](../../res_wjdaksry/1116/difix_s60_rear_0025_gt.jpg)
-
-#### seq60 rear 25 — Difix 전
-
-![](../../res_wjdaksry/1116/difix_s60_rear_0025_before.jpg)
-
-#### seq60 rear 25 — Difix 후
-
-![](../../res_wjdaksry/1116/difix_s60_rear_0025_after.jpg)
-
-* 노면 화살표 주변의 깨진 조각이 정리되고 노면이 매끈해짐
-* 왼쪽 주차 차량들은 덩어리 모양 그대로임
-
-#### seq60 front 200 — 실제 사진
-
-![](../../res_wjdaksry/1116/difix_s60_front_0200_gt.jpg)
-
-#### seq60 front 200 — Difix 전
-
-![](../../res_wjdaksry/1116/difix_s60_front_0200_before.jpg)
-
-#### seq60 front 200 — Difix 후
-
-![](../../res_wjdaksry/1116/difix_s60_front_0200_after.jpg)
-
-* 횡단보도 줄무늬가 또렷해지고 보도의 잡음이 줄어듦
-* 나무와 건물, 하늘은 그대로임
-
-**궤적 위에서도 4.2와 같은 결과임 — 노면 잡음은 지우지만 나무, 건물, 차량의 형상은 바꾸지 못함**
 
 ## 5. 결론: mesh 형상이 정확해야 함
 
