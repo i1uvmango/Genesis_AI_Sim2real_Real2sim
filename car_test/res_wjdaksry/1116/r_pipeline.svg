@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1880" height="950" viewBox="0 0 1880 950" font-family="Noto Sans CJK KR, Noto Sans KR, sans-serif">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs><marker id="ar" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#222"/></marker></defs>
+<rect x="20" y="18" width="1840" height="96" rx="14" fill="#222"/>
+<text x="44" y="60" font-size="30" font-weight="700" fill="#fff">목표: Genesis 폐루프 주행용 실주행 씬</text>
+<text x="44" y="96" font-size="20" fill="#ddd">물리는 collider mesh, 화면은 궤적 밖(추종 카메라, 옆 차로)에서도 사진 같은 화질</text>
+<rect x="20" y="150" width="352" height="80" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>
+<text x="38" y="188" font-size="26" font-weight="700">1. 데이터</text>
+<text x="38" y="216" font-size="16" fill="#555">사진, LiDAR, 카메라 자세</text>
+<rect x="20" y="250" width="352" height="152" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="34" y="276" font-size="16" font-weight="700" fill="#2e7d32">지금 쓰는 방법</text>
+<text x="34" y="302" font-size="15" fill="#111">• ADI 360 영상 → 90도 4방향, 5 Hz</text>
+<text x="34" y="332" font-size="15" fill="#111">• LiDAR VLP-16 (16줄)</text>
+<text x="34" y="362" font-size="15" fill="#111">• 원본 2 Mbps 압축: 세부 0.39 (Alpamayo 0.62)</text>
+<rect x="20" y="414" width="352" height="174" rx="10" fill="#f2f2f2" stroke="#757575" stroke-width="2"/>
+<text x="34" y="440" font-size="16" font-weight="700" fill="#757575">시도한 방법 → 결과</text>
+<text x="34" y="466" font-size="15" fill="#666">• 15 fps 전부 사용 → 효과 미미</text>
+<text x="34" y="496" font-size="15" fill="#666">• Alpamayo로 같은 파이프라인 → 궤적 위 사진급.</text>
+<text x="34" y="518" font-size="15" fill="#666">   병목은 ADI 데이터</text>
+<text x="34" y="548" font-size="15" fill="#666">• 스트릿뷰 76곳 수집, 노면 표시 정합 → 블록</text>
+<text x="34" y="570" font-size="15" fill="#666">   80 14곳 정합</text>
+<rect x="20" y="600" width="352" height="100" rx="10" fill="#e6efff" stroke="#2f6fd6" stroke-width="2" stroke-dasharray="7,5"/>
+<text x="34" y="626" font-size="16" font-weight="700" fill="#2f6fd6">다음 후보 (판단 필요)</text>
+<text x="34" y="652" font-size="15" fill="#111">• ADI 압축 전 원본 영상 요청</text>
+<text x="34" y="682" font-size="15" fill="#111">• 평가용 20% 프레임도 학습에 넣기</text>
+<line x1="373" y1="190" x2="387" y2="190" stroke="#222" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="390" y="150" width="352" height="80" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>
+<text x="408" y="188" font-size="26" font-weight="700">2. 형상</text>
+<text x="408" y="216" font-size="16" fill="#555">collider mesh = 화면 형상</text>
+<rect x="390" y="250" width="352" height="130" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="404" y="276" font-size="16" font-weight="700" fill="#2e7d32">지금 쓰는 방법</text>
+<text x="404" y="302" font-size="15" fill="#111">• 바닥: 정밀도로지도</text>
+<text x="404" y="332" font-size="15" fill="#111">• 건물: V-World 상자</text>
+<text x="404" y="362" font-size="15" fill="#111">• 나무, 인도: LiDAR + 구조 나무 28그루</text>
+<rect x="390" y="392" width="352" height="122" rx="10" fill="#f2f2f2" stroke="#757575" stroke-width="2"/>
+<text x="404" y="418" font-size="16" font-weight="700" fill="#757575">시도한 방법 → 결과</text>
+<text x="404" y="444" font-size="15" fill="#666">• 스트릿뷰로 건물 벽 형상 → 주행 시점 효과 없음</text>
+<text x="404" y="474" font-size="15" fill="#666">• 구조 나무(골격 + 잎 카드) → 수관 끝만 개선,</text>
+<text x="404" y="496" font-size="15" fill="#666">   골격이 끊김</text>
+<rect x="390" y="526" width="352" height="70" rx="10" fill="#e6efff" stroke="#2f6fd6" stroke-width="2" stroke-dasharray="7,5"/>
+<text x="404" y="552" font-size="16" font-weight="700" fill="#2f6fd6">다음 후보 (판단 필요)</text>
+<text x="404" y="578" font-size="15" fill="#111">• 나무: 절차적 생성 또는 끊긴 골격 연결</text>
+<line x1="743" y1="190" x2="757" y2="190" stroke="#222" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="760" y="150" width="352" height="80" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>
+<text x="778" y="188" font-size="26" font-weight="700">3. 색 학습</text>
+<text x="778" y="216" font-size="16" fill="#555">mesh 위 2DGS</text>
+<rect x="760" y="250" width="352" height="130" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="774" y="276" font-size="16" font-weight="700" fill="#2e7d32">지금 쓰는 방법</text>
+<text x="774" y="302" font-size="15" fill="#111">• 움직이는 차, 사람 SAM3로 제외</text>
+<text x="774" y="332" font-size="15" fill="#111">• 안 본 바닥에만 정밀도로지도 차선</text>
+<text x="774" y="362" font-size="15" fill="#111">• Gaussian 간격 2화소, 400만 개</text>
+<rect x="760" y="392" width="352" height="130" rx="10" fill="#f2f2f2" stroke="#757575" stroke-width="2"/>
+<text x="774" y="418" font-size="16" font-weight="700" fill="#757575">시도한 방법 → 결과</text>
+<text x="774" y="444" font-size="15" fill="#666">• Gaussian 촘촘(1화소, 1,600만) → 효과 없음</text>
+<text x="774" y="474" font-size="15" fill="#666">• free 3DGS → 궤적 밖 흐림, 중단</text>
+<text x="774" y="504" font-size="15" fill="#666">• 하늘 끄기 → 먼 건물 잘림, 되돌림</text>
+<rect x="760" y="534" width="352" height="100" rx="10" fill="#e6efff" stroke="#2f6fd6" stroke-width="2" stroke-dasharray="7,5"/>
+<text x="774" y="560" font-size="16" font-weight="700" fill="#2f6fd6">다음 후보 (판단 필요)</text>
+<text x="774" y="586" font-size="15" fill="#111">• 네이버 거리뷰만으로 free 3DGS (대기열 3)</text>
+<text x="774" y="616" font-size="15" fill="#111">• mesh 근처에서만 움직이는 Gaussian</text>
+<line x1="1113" y1="190" x2="1127" y2="190" stroke="#222" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="1130" y="150" width="352" height="80" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>
+<text x="1148" y="188" font-size="26" font-weight="700">4. 궤적 밖 보강</text>
+<text x="1148" y="216" font-size="16" fill="#555">학습 사진이 없는 시점</text>
+<rect x="1130" y="250" width="352" height="70" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="1144" y="276" font-size="16" font-weight="700" fill="#2e7d32">지금 쓰는 방법</text>
+<text x="1144" y="302" font-size="15" fill="#111">• 전체 화면 Difix (ADI 사진만 참조)</text>
+<rect x="1130" y="332" width="352" height="152" rx="10" fill="#f2f2f2" stroke="#757575" stroke-width="2"/>
+<text x="1144" y="358" font-size="16" font-weight="700" fill="#757575">시도한 방법 → 결과</text>
+<text x="1144" y="384" font-size="15" fill="#666">• Difix 증류, 점진 (ADI) → 노면 잡음만, 할루</text>
+<text x="1144" y="406" font-size="15" fill="#666">   시네이션</text>
+<text x="1144" y="436" font-size="15" fill="#666">• 스트릿뷰 사진 학습 / 참조 Difix → 얼룩</text>
+<text x="1144" y="466" font-size="15" fill="#666">• Alpamayo 점진 (왼쪽 뺌) → 회색 빈 곳만 채움</text>
+<rect x="1130" y="496" width="352" height="92" rx="10" fill="#fff4d6" stroke="#c77700" stroke-width="2"/>
+<text x="1144" y="522" font-size="16" font-weight="700" fill="#c77700">시도 중</text>
+<text x="1144" y="548" font-size="15" fill="#111">• 논문 설정 Difix: Alpamayo 정면만 학습, 좌우</text>
+<text x="1144" y="570" font-size="15" fill="#111">   카메라 목표</text>
+<rect x="1130" y="600" width="352" height="92" rx="10" fill="#e6efff" stroke="#2f6fd6" stroke-width="2" stroke-dasharray="7,5"/>
+<text x="1144" y="626" font-size="16" font-weight="700" fill="#2f6fd6">다음 후보 (판단 필요)</text>
+<text x="1144" y="652" font-size="15" fill="#111">• ADI 논문 설정: 좌우 50도 + 촘촘한 Gaussian</text>
+<text x="1144" y="674" font-size="15" fill="#111">   (대기열 2)</text>
+<line x1="1483" y1="190" x2="1497" y2="190" stroke="#222" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="1500" y="150" width="352" height="80" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>
+<text x="1518" y="188" font-size="26" font-weight="700">5. 시뮬레이터</text>
+<text x="1518" y="216" font-size="16" fill="#555">Genesis Nyx</text>
+<rect x="1500" y="250" width="352" height="100" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="1514" y="276" font-size="16" font-weight="700" fill="#2e7d32">지금 쓰는 방법</text>
+<text x="1514" y="302" font-size="15" fill="#111">• collider mesh로 물리, Gaussian으로 화면</text>
+<text x="1514" y="332" font-size="15" fill="#111">• Nyx 뷰어 (멈추면 샘플 누적)</text>
+<rect x="1500" y="362" width="352" height="92" rx="10" fill="#f2f2f2" stroke="#757575" stroke-width="2"/>
+<text x="1514" y="388" font-size="16" font-weight="700" fill="#757575">시도한 방법 → 결과</text>
+<text x="1514" y="414" font-size="15" fill="#666">• 8블록 합본 주행 → 동작하지만 화질 낮음 (14.3</text>
+<text x="1514" y="436" font-size="15" fill="#666">   dB)</text>
+<rect x="1500" y="466" width="352" height="92" rx="10" fill="#e6efff" stroke="#2f6fd6" stroke-width="2" stroke-dasharray="7,5"/>
+<text x="1514" y="492" font-size="16" font-weight="700" fill="#2f6fd6">다음 후보 (판단 필요)</text>
+<text x="1514" y="518" font-size="15" fill="#111">• 궤적 밖 정답 평가 기준: 360 영상 좌우 50도</text>
+<text x="1514" y="540" font-size="15" fill="#111">   시점</text>
+<rect x="20" y="735" width="1840" height="150" rx="14" fill="#fff5f5" stroke="#c62828" stroke-width="2.5"/>
+<text x="44" y="773" font-size="21" font-weight="700" fill="#c62828">지금까지의 결론</text>
+<text x="44" y="807" font-size="17" fill="#222">1. 병목은 1 데이터(ADI 영상 2 Mbps 압축, 16줄 LiDAR)와 2 형상(mesh가 곧 화면). 같은 파이프라인이 Alpamayo에서는 궤적 위 사진급</text>
+<text x="44" y="835" font-size="17" fill="#222">2. Difix는 형상이 맞는 곳의 색 잡음만 고침. 형상이 틀리거나 정보가 없는 곳은 못 고치고 할루시네이션</text>
+<text x="44" y="863" font-size="17" fill="#222">3. 판단 필요: ADI 원본 영상 요청 / 나무 형상 방법 / 표현 브랜치(3DGS, mesh 근처 Gaussian) 중 무엇을 남길지</text>
+</svg>
