@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIFIX3D+ Seminar</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--ink:#111;--grey:#5f5f5f;--muted:#8a8a8a;--box:#efefef;--line:#dcdcdc;--navy:#14286e;--bg:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Pretendard,"Pretendard Variable","Apple SD Gothic Neo","Noto Sans KR",sans-serif;overflow:hidden}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#deck{width:1600px;height:900px;position:relative;flex:none;transform-origin:center center}
+.slide{position:absolute;inset:0;padding:118px 72px 56px;display:none}
+.slide.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.ttl{position:absolute;left:72px;top:40px;right:72px;display:flex;align-items:center;gap:16px;font-size:33px;font-weight:500;letter-spacing:-.4px}
+.ttl::before{content:"";width:9px;height:44px;background:#111;flex:none}
+b,strong{font-weight:700;color:#000}
+.cap{font-size:14.5px;color:var(--grey);font-style:italic;line-height:1.45;margin-top:7px}
+.cap::before{content:"> "}
+.src{display:inline-block;font-style:normal;font-size:12px;font-weight:700;padding:0 7px;border-radius:3px;margin-right:6px;vertical-align:1px;line-height:18px}
+.src.p{border:1.3px solid #111;color:#111}.src.m{background:#14286e;color:#fff}.src.e{border:1.3px solid #888;color:#555}
+.box{background:var(--box);padding:16px 22px;font-size:19px;line-height:1.6}
+.box p{margin:0 0 4px}
+.sub{font-size:21px;font-weight:600;margin:0 0 8px}
+.shadow{box-shadow:6px 7px 18px rgba(0,0,0,.28)}
+img,video,canvas{display:block}
+.row{display:flex;gap:28px}
+.col{display:flex;flex-direction:column}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-size:15px;padding:7px 14px;border:1.5px solid #111;background:#fff;color:#111;border-radius:999px;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:#f1f1f1}
+.btn.on{background:#111;color:#fff}
+.tb{display:flex;align-items:center;gap:12px;font-size:15px;color:var(--grey)}
+.tb input[type=range]{flex:1;accent-color:#111;height:22px}
+.tb .val{min-width:120px;text-align:right;color:#111;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.78);color:#fff;font-size:14px;padding:4px 10px;border-radius:3px;font-weight:600}
+.tag.nv{background:rgba(20,40,110,.88)}
+.stat .big{font-size:50px;font-weight:700;line-height:1.05;letter-spacing:-1px}
+.stat .lb{font-size:15px;color:var(--grey);margin-top:4px}
+table.t{border-collapse:collapse;width:100%;font-size:18px}
+table.t th{background:#404040;color:#fff;font-weight:600;padding:9px 10px}
+table.t td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center}
+table.t td:first-child,table.t th:first-child{text-align:left}
+table.t tr.hl td{background:var(--box)}
+.wipe{position:relative;overflow:hidden;cursor:ew-resize;user-select:none}
+.wipe img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.wipe .top{clip-path:inset(0 0 0 50%)}
+.wipe .bar{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.6);transform:translateX(-1.5px)}
+.wipe .bar::after{content:"◀ ▶";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#111;font-size:12px;padding:5px 7px;border-radius:999px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.wipe .lbl{position:absolute;top:10px;background:rgba(0,0,0,.75);color:#fff;font-size:14px;font-weight:600;padding:4px 10px;border-radius:3px}
+.wipe .lbl.l{left:10px}.wipe .lbl.r{right:10px}
+.num{width:30px;height:30px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:none}
+/* nav */
+#nav{position:fixed;right:18px;bottom:12px;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);z-index:20;opacity:.35;transition:opacity .2s}
+#nav:hover{opacity:1}
+#nav button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit;color:#333}
+#prog{position:fixed;left:0;bottom:0;height:3px;background:#111;z-index:20;transition:width .25s}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(255,255,255,.97);border-top:1px solid var(--line);padding:16px 28px 30px;font-size:17px;line-height:1.7;display:none;z-index:30;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+#notes .h{font-size:13px;color:var(--muted);margin-bottom:6px}
+/* zoom overlay (slide 9) */
+#zoom{position:absolute;inset:0;z-index:40;display:none}
+#zoom .dim{position:absolute;inset:0;background:rgba(255,255,255,.86);opacity:0;transition:opacity .35s}
+#zoom .clip{position:absolute;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3);background:#fff;border-radius:4px;transition:all .45s cubic-bezier(.2,.8,.2,1)}
+#zoom .clip img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
+#zoom .zt{position:absolute;left:0;right:0;text-align:center;font-size:20px;line-height:1.55;opacity:0;transition:opacity .3s .25s}
+#zoom.show .dim,#zoom.show .zt{opacity:1}
+.hot{position:absolute;border:2.5px solid transparent;border-radius:6px;cursor:zoom-in;transition:border-color .15s,background .15s}
+.hot:hover{border-color:#14286e;background:rgba(20,40,110,.07)}
+.hot.pulse{animation:pulse 2.2s ease-in-out 2}
+@keyframes pulse{50%{border-color:rgba(20,40,110,.55)}}
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+
+<!-- ============================================================ 1 -->
+<section class="slide" data-notes="안녕하세요. 오늘 소개할 논문은 CVPR 2025에 발표된 DIFIX3D+: Improving 3D Reconstructions with Single-Step Diffusion Models입니다.">
+  <div style="position:absolute;left:72px;top:250px;width:560px">
+    <div style="display:flex;gap:18px;align-items:stretch"><div style="width:9px;background:#111"></div>
+      <div><div style="font-size:66px;font-weight:700;letter-spacing:-1px">DIFIX3D+</div>
+      <div style="font-size:28px;font-weight:500;line-height:1.35;margin-top:10px">Improving 3D Reconstructions with Single-Step Diffusion Models</div></div></div>
+    <div style="font-size:20px;color:var(--grey);margin:34px 0 0 27px">CVPR 2025 · NVIDIA</div>
+  </div>
+  <div style="position:absolute;left:690px;top:190px;width:840px">
+    <img src="media/fig1_teaser.jpg" style="width:100%" class="shadow">
+    <div class="cap"><span class="src p">논문</span>Figure 1. 위: in-the-wild 장면 (NeRF · 3DGS), 아래: 주행 장면. 같은 DIFIX 하나로 둘 다 보정</div>
+  </div>
+</section>
+
+<!-- ============================================================ 2 -->
+<section class="slide" data-notes="먼저 저희가 수업에서 배웠던 NeRF와 3D Gaussian Splatting 같은 3D reconstruction에서 저는 3DGS에 초점을 맞춰 설명드리겠습니다. NeRF와 3DGS는 여러 장의 2D 이미지를 입력으로 받아 3D 장면을 재구성하고, 학습하지 않은 새로운 카메라 시점에서도 이미지를 렌더링할 수 있게 하는 Neural Scene Representation입니다. 그런데 학습에 사용하지 않았던 새로운 시점, Novel View에서 보면 이미지가 뭉개지거나, 형상이 깨지거나, 없는 구조물이 나타나는 Artifact가 생깁니다. 학습 카메라와 멀수록 심해집니다.">
+  <div class="ttl">Background : 2D 이미지로 3D 장면을 만들고, 새 시점을 렌더링</div>
+  <div class="row" style="gap:34px">
+    <div style="width:880px">
+      <video src="media/build_full.mp4" muted loop playsinline style="width:880px;height:330px" class="shadow"></video>
+      <div class="cap"><span class="src m">직접 제작</span>Alpamayo 실제 사진으로 학습 중인 2DGS (전방 카메라 label 6) — Gaussian이 쌓이며 장면이 생김</div>
+      <div class="sub" style="margin-top:22px">NeRF · 3D Gaussian Splatting</div>
+      <div class="box"><p>입력 : 여러 장의 <b>2D 이미지</b> + 카메라 pose</p><p>출력 : <b>3D 장면</b> (NeRF = MLP, <b>3DGS = Gaussian 수백만 개</b>)</p><p>목표 : 학습하지 않은 <b>Novel View</b> 렌더링</p></div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">하지만 Novel View 에서는</div>
+      <img src="media/fig1_baseline_novel.jpg" style="width:100%" class="shadow">
+      <div class="cap"><span class="src p">논문</span>Figure 1 일부. 입력 카메라에서 먼 시점의 Nerfacto · 3DGS 렌더 — 차체가 번지고, 건물 앞에 없는 조각이 떠 있음</div>
+      <div class="box" style="margin-top:14px;font-size:18px">학습 카메라에서 멀어질수록 <b>Artifact</b> — <b>뭉개짐 · 형상 깨짐 · 없는 구조물</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 3 -->
+<section class="slide" id="s3" data-notes="이런 blurry한 부분이 나타나는 가장 주된 이유는 관측 부족입니다. 해당 각도에서 물체에 대한 정보를 받지 못해 깨짐이 나타납니다. 1. 씬 재구성에 쓴 이미지에 그 영역 정보가 없거나 적어서. 손등 사진을 찍어놓고 손바닥이 어떻게 생겼냐 묻는 것과 같습니다. 2. 같은 장면을 여러 각도로 찍어도 lighting condition 차이로 artifact가 생길 수 있습니다. 3. 카메라 pose나 calibration이 좋지 않아도 생깁니다. 결국 NeRF와 3DGS는 입력 이미지 정보만으로 3D를 만들기 때문에 정보가 없는 novel view에서는 한계가 있습니다. 그럼 입력 이미지에 없는 정보는 어디서 가져와야 할까요? 이미 세상의 이미지를 엄청나게 많이 본 모델에게서 가져오자, 이게 이 논문의 출발점입니다.">
+  <div class="ttl">Problem Definition : Artifact 는 왜 생기는가</div>
+  <div class="row">
+    <div style="width:960px">
+      <div style="position:relative;width:960px;height:360px" class="shadow">
+        <img id="s3r" style="position:absolute;inset:0;width:100%;height:100%">
+        <img id="s3p" style="position:absolute;inset:0;width:100%;height:100%;transition:opacity .25s">
+        <div class="tag" id="s3tag"></div>
+        <svg id="s3map" viewBox="0 0 120 120" style="position:absolute;right:10px;bottom:10px;width:120px;height:120px;background:rgba(255,255,255,.88);border-radius:6px"></svg>
+      </div>
+      <div class="btns" style="margin-top:14px" id="s3btns"></div>
+      <div class="row" style="gap:26px;margin-top:12px">
+        <div class="tb" style="flex:1">옆 이동<input type="range" id="s3o" min="0" max="15" value="0"><span class="val" id="s3ov"></span></div>
+        <div class="tb" style="flex:1">회전<input type="range" id="s3y" min="0" max="6" value="0"><span class="val" id="s3yv"></span></div>
+      </div>
+      <div class="btns" style="margin-top:10px;align-items:center"><span style="font-size:14px;color:var(--grey);margin-right:4px">장면</span><button class="btn on" data-scene="60">label 60</button><button class="btn" data-scene="120">label 120</button></div>
+      <div class="cap"><span class="src m">직접 제작</span>Alpamayo v3 2DGS (실제 사진 995장 · 15,000 iter). 학습 경로의 전방 카메라에서 시작해 왼쪽으로 0.2 m · 5° 단위로 이동한 실제 렌더</div>
+    </div>
+    <div style="flex:1;padding-top:2px">
+      <div class="sub">원인</div>
+      <div class="box" style="line-height:1.75"><p>1. <b>관측 부족</b> — 그 영역을 본 사진이 없거나 적음</p><p style="color:var(--grey);padding-left:22px">손등만 찍어 놓고 손바닥을 묻는 것</p><p>2. <b>Lighting condition</b> — 사진마다 다른 조명</p><p>3. <b>Pose · Calibration</b> 오차</p></div>
+      <div style="text-align:center;font-size:30px;margin:6px 0">↓</div>
+      <div class="box"><p>입력 이미지만으로 3D를 만들면 <b>없는 정보는 못 만듦</b></p><p>없는 정보는 어디서?</p><p>→ <b>세상의 이미지를 많이 본 모델</b>에게서</p></div>
+      <div class="cap" style="margin-top:14px"><span class="src m">직접 제작</span>버튼을 누르면 학습 카메라에서 그 시점까지 카메라가 실제로 이동. 차 옆면 · 바닥처럼 학습 경로에서 안 보인 곳부터 늘어지고 깨짐</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 4 -->
+<section class="slide" id="s4" data-notes="그래서 DIFIX3D+는 diffusion 모델을 사용합니다. diffusion model은 노이즈에서 시작해서 노이즈를 조금씩 걷어내며 이미지를 만드는 생성 모델입니다. real world의 대규모 데이터로 학습했기 때문에, 그림처럼 이미지의 가려진 부분을 주면 본 적 없는 영역도 주변과 어울리게 채워 넣습니다. 3D reconstruction에서 novel view의 미관측 영역을 채우는 문제와 정확히 같은 구조입니다. 그래서 이 사전 지식으로 novel view를 채우자는 게 이 논문의 출발점입니다. 그런데 그림의 오른쪽을 보시면, 같은 입력에서도 Sample 1부터 5까지 매번 다른 결과가 나옵니다. 그리고 왼쪽처럼 여러 단계를 거쳐야 합니다. 이 두 가지가 그대로 쓸 때의 문제, 일관성과 속도로 이어집니다.">
+  <div class="ttl">Motivation : Diffusion — 본 적 없는 곳을 그럴듯하게 생성</div>
+  <div class="row" style="gap:34px">
+    <div style="width:930px">
+      <div class="btns" id="s4tab" style="margin-bottom:10px"><button class="btn on" data-t="rp">Diffusion 의 생성 특성 (RePaint)</button><button class="btn" data-t="f5">DIFIX3D+ 결과 (논문 Figure 5)</button></div>
+      <div id="s4rp"><img src="media/repaint_fig1.jpg" style="width:930px" class="shadow">
+        <div class="cap"><span class="src e">외부 논문</span>RePaint (Lugmayr et al., CVPR 2022) Figure 1. 보라색 = 가려진 영역. 노이즈(0%)에서 시작해 단계적으로 걷어내며 채움 → 같은 입력에서 <b>Sample 1~5 가 모두 다름</b></div></div>
+      <div id="s4f5" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);width:96.6%;margin-left:.8%;font-size:15px;text-align:center;margin-bottom:4px;font-family:'Times New Roman',serif"><span>GT</span><span>Nerfbusters</span><span>GANeRF</span><span>NeRFLiX</span><span>Nerfacto</span><span><b>Ours</b></span></div>
+        <img src="media/fig5_inthewild.jpg" style="width:860px" class="shadow">
+        <div class="cap"><span class="src p">논문</span>Figure 5. DL3DV(위 4행) · Nerfbusters(아래) 의 학습 카메라에서 먼 시점. 기존 방법은 구멍 · 번짐, Ours 만 채워짐</div></div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">Diffusion 이 하는 일</div>
+      <div class="col" style="gap:16px;margin-top:6px">
+        <div class="row" style="gap:14px"><div class="num">1</div><div style="font-size:18.5px;line-height:1.55"><b>노이즈 → 이미지</b><br><span style="color:var(--grey);font-size:16.5px">노이즈를 조금씩 걷어내며 생성 (multi-step)</span></div></div>
+        <div class="row" style="gap:14px"><div class="num">2</div><div style="font-size:18.5px;line-height:1.55"><b>대규모 real-world 데이터의 prior</b><br><span style="color:var(--grey);font-size:16.5px">가려진 · 본 적 없는 영역도 주변과 맞게 채움</span></div></div>
+        <div class="row" style="gap:14px"><div class="num">3</div><div style="font-size:18.5px;line-height:1.55"><b>생성 모델이라 매번 다름</b><br><span style="color:var(--grey);font-size:16.5px">같은 입력 → 다른 결과</span></div></div>
+      </div>
+      <div class="box" style="margin-top:22px;font-size:18.5px;line-height:1.7"><p><b>Pitching point</b></p><p>3D 의 novel view 미관측 영역 = <b>inpainting 문제</b></p><p>→ diffusion prior 로 <b>빈 곳을 채우자</b></p></div>
+      <div class="box" style="margin-top:12px;font-size:17px;line-height:1.65;background:#fff;border:1.5px solid #111"><p>단, 그대로 쓰면</p><p>매번 다름 → <b>① 일관성</b> 문제</p><p>multi-step → <b>② 속도</b> 문제</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-notes="첫 번째는 일관성 문제입니다. diffusion은 생성모델이라 서로 다른 시점에서 만든 결과가 일관된 구조를 유지한다는 보장이 없습니다. 정면과 측면에서 다른 나무를 만들 수 있습니다. 나무를 3D Gaussian으로 표현해야 하는데 다른 시점을 보고 오니 나무가 달라져 있을 수 있다는 것이죠. 두 번째는 속도입니다. 여러 step denoising이라 3D 학습 중 계속 호출하거나 렌더링마다 쓰기엔 너무 느립니다. 논문은 이 두 문제를 DIFIX, DIFIX3D, DIFIX3D+ 세 단계로 풀어갑니다. 각 단계가 일관성인지 속도인지 같이 짚어 드리겠습니다.">
+  <div class="ttl">Diffusion 을 그대로 쓰면 : ① 일관성 ② 속도</div>
+  <div class="row">
+    <div class="box" style="flex:1"><p><b>① 일관성 (Consistency)</b></p><p>시점마다 다른 구조를 생성 — 정면의 나무 ≠ 측면의 나무</p><p>→ 3D Gaussian 이 <b>하나의 장면으로 수렴 못 함</b></p></div>
+    <div class="box" style="flex:1"><p><b>② 속도</b></p><p>multi-step denoising — 무거움</p><p>→ 3D 학습 중 반복 호출 · <b>렌더링마다 사용 불가</b></p></div>
+  </div>
+  <div class="row" style="margin-top:16px;align-items:center;gap:14px">
+    <div style="flex:1;border:2px solid #111;border-radius:12px;padding:12px 18px"><div style="font-size:22px;font-weight:700">DIFIX</div><div style="font-size:16px">렌더 2D 이미지 보정 (모델)</div><div style="font-size:14px;color:var(--grey)">① reference view ② single step</div></div>
+    <div style="font-size:26px">➜</div>
+    <div style="flex:1;border:2px solid #111;border-radius:12px;padding:12px 18px"><div style="font-size:22px;font-weight:700">DIFIX3D</div><div style="font-size:16px">보정 이미지로 3D 재학습 (방법론)</div><div style="font-size:14px;color:var(--grey)">① 3D로 증류 → 일관성</div></div>
+    <div style="font-size:26px">➜</div>
+    <div style="flex:1;border:2px solid #111;border-radius:12px;padding:12px 18px"><div style="font-size:22px;font-weight:700">DIFIX3D+</div><div style="font-size:16px">최종 렌더에 후처리</div><div style="font-size:14px;color:var(--grey)">② 실시간에 가까운 속도</div></div>
+  </div>
+  <img src="media/fig2_full.jpg" style="height:345px;margin:18px auto 0" class="shadow">
+  <div class="cap" style="text-align:center"><span class="src p">논문</span>Figure 2. 왼쪽 DIFIX3D (학습 중 보정 → 3D 증류), 오른쪽 DIFIX3D+ (렌더 후처리)</div>
+</section>
+
+<!-- ============================================================ 6 -->
+<section class="slide" data-notes="DIFIX는 NeRF나 3DGS 렌더에 artifact가 있을 때 이를 입력받아 더 선명하고 자연스럽게 보정하는 모델입니다. diffusion prior를 처음부터 학습하는 게 아니라, foundation 모델인 SD-Turbo 위에서 원하는 domain으로 fine-tuning합니다. 공개된 difix_ref는 약 13억 파라미터, 5.2GB입니다. SD-Turbo는 Stable Diffusion의 multi-step denoising을 크게 줄인 모델이고, DIFIX는 이를 fine-tuning해 single step image-to-image 보정을 합니다. 1 step이라 multi-step보다 10배 이상 빠릅니다. 모든 diffusion이 1 step이 되는 건 아니고, SD-Turbo처럼 few-step으로 distill된 모델이라 가능합니다.">
+  <div class="ttl">DIFIX : SD-Turbo 기반 Single-Step 이미지 보정 모델</div>
+  <div class="row" style="gap:50px">
+    <div style="width:960px">
+      <img src="media/fig3_arch.jpg" style="width:960px" class="shadow">
+      <div class="cap"><span class="src p">논문</span>Figure 3. VAE Encoder(고정) → U-Net(학습) → VAE Decoder(LoRA 학습), skip connection</div>
+      <div class="box" style="margin-top:22px;line-height:1.8"><p><b>SD-Turbo</b> 를 fine-tuning — diffusion prior를 처음부터 학습하지 않음</p><p>SD-Turbo = few-step 으로 <b>distill 된 모델</b> → 그래서 <b>1 step</b> 이 가능</p><p>깨진 렌더를 노이즈 낀 이미지로 보고 <b>τ = 199</b> 에서 한 번에 복원 → <b>② 속도</b></p></div>
+    </div>
+    <div class="col" style="gap:36px;padding-top:10px">
+      <div class="stat"><div class="big">1 step</div><div class="lb">multi-step diffusion 대비 <b>10배 이상</b> 빠름 (논문)</div></div>
+      <div class="stat"><div class="big">1.3 B</div><div class="lb">nvidia/difix_ref 파라미터 · <b>5.2 GB</b> (fp16 약 2.6 GB)</div></div>
+      <div class="stat"><div class="big">76 ms</div><div class="lb">NVIDIA A100, 렌더 한 장당 추가 시간 (논문)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 7 -->
+<section class="slide" id="s7" data-notes="DIFIX의 입력은 두 가지입니다. 보정할 novel view 이미지와 reference view 이미지. reference view는 novel view 카메라에서 가장 가까운 실제 training view 이미지입니다. 왜 training view를 넣냐? 앞서 말한 consistency를 이 reference view가 담당합니다. 채워 넣는 영역에서 hallucination이 일어나거나 view마다 일관성이 깨질 수 있어서, reference를 참고해 최대한 비슷하게 보정하도록 유도합니다. reference mixing layer는 UNet self attention을 변형한 구조입니다. 두 view를 각각 VAE encoder로 latent로 만들고, self attention에서 view 축을 공간 축과 합쳐 두 view의 token을 한 번에 attention합니다. 1. 구조가 2D self attention 그대로라 pretrained weight를 그대로 쓰고, 2. reference(GT)의 특징을 가져와 consistency를 지킵니다. 3D-aware하게 모델을 바꿀 필요가 없습니다.">
+  <div class="ttl">Reference View : 가장 가까운 실제 사진으로 일관성 잡기</div>
+  <div class="row" style="gap:30px">
+    <div style="width:640px">
+      <svg id="s7top" style="width:640px;height:300px;display:block" class="shadow"></svg>
+      <div class="cap"><span class="src m">직접 제작</span>Alpamayo top view. 회색 = 학습 카메라, <b style="color:#14286e">파랑</b> = novel view (pseudo view), 검정 = 그 시점의 reference (가장 가까운 실제 카메라)</div>
+      <div class="row" style="gap:10px;margin-top:10px;align-items:center"><button class="btn" id="s7play">일시정지</button><div class="tb" style="flex:1"><input type="range" id="s7sl" min="0" max="24" value="0"><span class="val" id="s7v" style="min-width:150px"></span></div></div>
+      <div class="box" style="margin-top:14px;font-size:17.5px;line-height:1.65"><p><b>Reference mixing layer</b> — U-Net self-attention 변형</p><p>view 축을 공간 축과 합침 : (B·V)·HW·C → B·(V·HW)·C</p><p>→ 두 view 의 token 을 <b>한 번에 attention</b></p><p>1. 2D 구조 그대로 → <b>pretrained weight 재사용</b></p><p>2. reference 특징 참고 → <b>① 일관성</b></p></div>
+    </div>
+    <div style="flex:1">
+      <div class="row" style="gap:16px">
+        <div style="flex:1;position:relative"><img id="s7nv" style="width:100%" class="shadow"><div class="tag nv">입력 1 : novel view 렌더</div></div>
+        <div style="flex:1;position:relative"><img id="s7ref" style="width:100%" class="shadow"><div class="tag">입력 2 : reference (실제 사진)</div></div>
+      </div>
+      <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin:10px 0"><span style="font-size:22px">↓</span><span style="background:#111;color:#fff;font-weight:700;padding:6px 20px;border-radius:8px;font-size:18px">DIFIX</span><span style="font-size:22px">↓</span></div>
+      <div style="position:relative;width:520px;margin:0 auto"><img id="s7fx" style="width:520px" class="shadow"><div class="tag nv">출력 : 보정된 novel view</div></div>
+      <div class="cap" style="text-align:center"><span class="src m">직접 제작</span>실제 학습 중 만든 pseudo view 25장 (label 44 · 52 · 60 · 68 · 76 × 5방향)</div>
+      <div class="row" style="gap:18px;margin-top:12px;align-items:flex-start">
+        <div style="flex:1"><div id="s7tab"><img src="media/tab5_difix.jpg" style="width:100%"></div><div id="s7s1" style="display:none"><img src="media/figS1_ablation.jpg" style="width:100%"></div><div class="cap" id="s7tc"><span class="src p">논문</span>Table 5 — Nerfbusters 테스트 장면의 novel view 를 DIFIX 로 보정해 정답 사진과 비교 (평균). <b>Gram · Ref 열 = 학습 설정</b>(✓ = 사용), <b>LPIPS · FID 열 = 평가 지표</b></div><button class="btn" id="s7s1b" style="margin-top:6px;font-size:13.5px;padding:4px 10px">예시 이미지 보기 (논문 Figure S1)</button></div>
+        <div class="box" style="width:150px;text-align:center;font-size:18px"><p>+Ref FID</p><p><b>55.5 → 47.9</b></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 8 -->
+<section class="slide" id="s8" data-notes="그럼 이 모델은 뭘로 학습할까요? 고치고 싶은 건 novel view인데 novel view에는 GT가 없습니다. 그래서 논문은 깨진 렌더 이미지와 깨끗한 GT 이미지 쌍을 인위적으로 만듭니다. 1. Cycle reconstruction: 원래 궤적으로 학습한 뒤 옆으로 이동한 궤적에서 렌더링하고, 그것으로 다시 재구성해 원래 궤적에서 렌더하면 깨진 이미지와 GT 쌍이 생깁니다. 2. 고의적 underfitting: 일부러 학습을 덜 시켜 artifact가 있는 렌더를 만듭니다. 3. Cross reference: 멀티 카메라에서 정면 카메라만으로 학습하고 좌측 카메라 view를 렌더하면, 좌측 카메라의 실제 이미지가 GT가 됩니다. 화면의 이미지는 모두 저희 Alpamayo 데이터로 실제로 학습해서 만든 결과입니다.">
+  <div class="ttl">학습 데이터 : 깨진 렌더 ↔ GT 쌍을 직접 만들기</div>
+  <div style="font-size:19px;margin:-6px 0 12px">novel view 에는 GT 가 없음 → <b>GT 가 있는 시점에서 깨진 렌더</b>를 만들어 쌍으로 씀</div>
+  <div class="btns" id="s8m"><button class="btn on" data-m="cycle">1 · Cycle Reconstruction</button><button class="btn" data-m="under">2 · Model Underfitting</button><button class="btn" data-m="cross">3 · Cross Reference</button>
+    <span style="flex:1"></span><span id="s8cams" class="btns"></span></div>
+  <div class="row" id="s8imgs" style="gap:16px;margin-top:14px;height:205px"></div>
+  <div class="cap" style="margin-top:6px"><span class="src m">직접 제작</span>Alpamayo 실제 사진 + 실제 2DGS 학습 결과 (label 40~79). 트랙바 = 시점 이동</div>
+  <div class="tb" style="margin-top:6px" id="s8tb1"><span id="s8tbl">시점</span><input type="range" id="s8sl" min="0" max="39" value="10"><span class="val" id="s8v"></span></div>
+  <div class="tb" style="margin-top:6px;display:none" id="s8tb2"><span>학습 진행 (front 60)</span><input type="range" id="s8it" min="0" max="30" value="10"><span class="val" id="s8itv"></span></div>
+  <div class="row" style="gap:26px;margin-top:14px">
+    <div style="flex:1"><div class="box" id="s8desc" style="font-size:18px"></div><img src="media/tab1_curation.jpg" style="width:100%;margin-top:14px"><div class="cap"><span class="src p">논문</span>Table 1. 주행 데이터(Internal RDS)는 cycle · cross · underfitting 세 가지 모두, DL3DV 는 sparse reconstruction + underfitting</div></div>
+    <div style="width:640px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;font-size:14px;text-align:center;color:var(--grey)"><span>Corrupted View</span><span>Clean View</span></div>
+      <img id="s8fig" style="width:640px">
+      <div class="cap" id="s8figc"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 9 -->
+<section class="slide" id="s9" data-notes="DIFIX 학습 loss는 세 가지입니다. 1. Reconstruction loss: GT와 보정 이미지의 L2. 2. LPIPS: VGG16 feature로 사람이 느끼는 유사성. 3. Gram loss: 역시 VGG16 feature지만 feature 간 상관관계로 텍스처와 스타일을 비교합니다. 타우는 SD-Turbo의 노이즈 레벨, diffusion timestep입니다. 크면 구조를 무시하고 새로 그려 일관성이 깨지고, 작으면 artifact가 거의 안 고쳐집니다. 논문 ablation은 200이 최적이라고 제시했습니다. 하지만 제가 정성적으로 보기엔 20이 더 좋아 보였습니다. 3D reconstruction에서는 정량 지표와 정성 평가를 같이 봅니다. 생성 모델은 눈으로는 더 깨끗해 보여도 pixel 단위 PSNR에서는 불리할 수 있기 때문입니다.">
+  <div class="ttl">Loss 와 τ : 무엇을 맞추고, 얼마나 새로 그릴까</div>
+  <div class="row" style="gap:30px">
+    <div style="width:1000px">
+      <div style="position:relative;width:1000px;height:366px" id="s9fig" class="shadow">
+        <img src="media/sdturbo_train.jpg" style="width:1000px">
+      </div>
+      <div class="cap"><span class="src m">직접 제작</span>학습 흐름 (논문 Figure 3 위에 표시). <b>블록이나 이미지를 클릭하면 가운데로 확대</b> — Esc 또는 다시 클릭하면 닫힘</div>
+    </div>
+    <div class="box" style="flex:1;font-size:18.5px;line-height:1.7"><p><b>Loss</b></p><p><b>Reconstruction loss</b> — GT 와 픽셀 차이 (L2)</p><p><b>LPIPS</b> — VGG16 feature 로 지각 유사도</p><p><b>Gram</b> — VGG16 feature 상관관계</p><p style="padding-left:22px">→ <b>텍스처 · 스타일</b> 비교</p><p style="font-size:16px;color:var(--grey)">+Gram, +Reference 로 FID 61.8 → 55.5 → 47.9 (논문 Table 5)</p></div>
+  </div>
+  <div class="row" style="gap:30px;margin-top:22px">
+    <div style="width:640px"><img src="media/fig4_tau.jpg" style="width:640px" class="shadow"><div class="cap"><span class="src p">논문</span>Figure 4. τ 가 크면 차 형태가 바뀌고, 작으면 artifact 가 남음. PSNR 최고 τ = 200</div></div>
+    <div class="box" style="flex:1;font-size:18.5px;line-height:1.7"><p><b>τ</b> = SD-Turbo 노이즈 레벨 (diffusion timestep)</p><p>크면 → 구조를 무시하고 새로 그림 → <b>일관성 깨짐</b></p><p>작으면 → <b>artifact 그대로</b></p><p>논문 최적 <b>τ = 200</b></p><p>정성적으로는 <b>τ = 20</b> 이 더 좋아 보임 → <b>PSNR vs 정성 평가</b> 엇갈림</p></div>
+  </div>
+  <div id="zoom"><div class="dim"></div><div class="clip"><img></div><div class="zt"></div></div>
+</section>
+
+<!-- ============================================================ 10 -->
+<section class="slide" id="s10" data-notes="DIFIX3D는 DIFIX로 보정하는 데서 끝나지 않고, 보정된 이미지를 다시 NeRF나 3DGS의 입력으로 씁니다. 즉 3D reconstruction 방법론입니다. 1. novel view 렌더와 가장 가까운 training view(reference)를 DIFIX에 넣어 보정합니다. single step이라 짧습니다. 2. 보정 이미지를 pseudo training view로 학습 데이터에 추가해 3DGS를 다시 학습합니다. 이 재학습이 깁니다. 생성모델 결과를 3D 학습 데이터로 다시 쓰는 것을 diffusion distillation이라 합니다. 2D diffusion 지식을 3D representation 안으로 증류한다는 의미입니다. 보정 결과가 3D 하나로 합쳐지니 시점마다 따로 놀지 않는 일관된 장면이 됩니다.">
+  <div class="ttl">DIFIX3D : Diffusion Distillation — 보정 이미지를 3D 로 증류</div>
+  <div class="row" style="gap:40px">
+    <div style="width:960px">
+      <div id="s10w" style="position:relative;width:960px;height:540px;cursor:ew-resize" class="shadow"><video id="s10v" src="media/pseudo_view_scrub.mp4" muted playsinline preload="auto" style="width:960px;height:540px"></video>
+        <div id="s10hint" style="position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.7);color:#fff;font-size:13px;padding:4px 10px;border-radius:3px">좌우로 드래그 → 과정 이동</div></div>
+      <div class="row" style="gap:10px;margin-top:10px;align-items:center"><button class="btn" id="s10play">재생</button><div class="tb" style="flex:1"><input type="range" id="s10sl" min="0" max="1000" value="0"><span class="val" id="s10t" style="min-width:64px">0.0 s</span></div></div>
+      <div class="btns" id="s10ch" style="margin-top:8px"></div>
+      <div class="cap"><span class="src m">직접 제작</span>Alpamayo 실제 결과: novel view 깨짐 → DIFIX 1 step → pseudo training view → 3DGS 재학습. 영상 위를 드래그하거나 단계 버튼으로 이동</div>
+    </div>
+    <div style="flex:1">
+      <div class="col" style="gap:26px">
+        <div class="row" style="gap:16px"><div class="num">1</div><div><div style="font-size:20px">novel view 렌더 + reference → <b>DIFIX</b></div><div style="font-size:16px;color:var(--grey)">single step · <b>짧음</b></div></div></div>
+        <div class="row" style="gap:16px"><div class="num">2</div><div><div style="font-size:20px">보정 이미지 = <b>pseudo training view</b></div><div style="font-size:16px;color:var(--grey)">그 카메라 위치의 "가상의 정답"으로 추가</div></div></div>
+        <div class="row" style="gap:16px"><div class="num">3</div><div><div style="font-size:20px">3DGS <b>재학습</b></div><div style="font-size:16px;color:var(--grey)">실제 사진 + pseudo view 같이 · <b>긺</b></div></div></div>
+      </div>
+      <div class="box" style="margin-top:28px;font-size:19px;line-height:1.7"><p>2D diffusion 지식을 <b>3D representation 안으로</b></p><p>→ 보정이 <b>하나의 3D</b> 로 합쳐짐</p><p>→ 시점마다 따로 놀지 않음 <b>① 일관성</b></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 11 -->
+<section class="slide" id="s11" data-notes="중요한 건 한 번에 먼 시점을 고치지 않는다는 점입니다. 학습된 view에서 target view 쪽으로 카메라를 조금씩 옮기면서 비어 있거나 blurry한 부분을 DIFIX로 보정하고 다시 학습에 넣습니다. 처음부터 너무 먼 시점을 고치면 참고할 정보가 부족해 hallucination이 커집니다. 또 매 iteration마다 DIFIX를 호출하지 않고 일정 간격으로 호출합니다. 매번 호출하면 느리고, 텀이 너무 길면 hallucination이 쌓이거나 일관성이 깨집니다. 논문은 1500 iteration마다 DIFIX, distillation, 재학습을 하고 총 30000회 학습합니다. pseudo view가 섞이면 원래 view 품질은 괜찮을까 싶은데, 원본 view도 동시에 최적화합니다(7:3). 원본 view만 학습할 때보다 그 view 품질은 조금 떨어질 수 있지만 novel view에서 훨씬 robust해집니다. 왼쪽 그림의 빨간 열이 한 번에 업데이트한 결과, 파란 열이 점진적으로 업데이트한 결과입니다. 의자 등받이를 보시면 점진적일 때 훨씬 또렷하고, Table 4에서도 FID가 75.9에서 63.8로 내려갑니다.">
+  <div class="ttl">Progressive Update : 가까운 시점부터 조금씩, 주기적으로 DIFIX</div>
+  <div class="row" style="gap:30px">
+    <div style="width:860px">
+      <div style="position:relative;width:860px" class="shadow"><img src="media/fig8_full600.jpg" style="width:860px"><div style="position:absolute;left:45.4%;width:17.9%;top:0;bottom:0;border:3px solid #d33;border-radius:4px"></div><div style="position:absolute;left:63.5%;width:17.900000000000006%;top:0;bottom:0;border:3px solid #14286e;border-radius:4px"></div></div>
+      <div style="position:relative;width:860px;height:44px;margin-top:6px"><div style="position:absolute;left:0%;width:9.4%;text-align:center;line-height:1.3"><div style="font-size:14.5px;font-weight:700;color:#5f5f5f">정답</div><div style="font-size:12.5px;color:#5f5f5f"></div></div><div style="position:absolute;left:9.7%;width:17.7%;text-align:center;line-height:1.3"><div style="font-size:14.5px;font-weight:700;color:#5f5f5f">기준</div><div style="font-size:12.5px;color:#5f5f5f">Nerfacto</div></div><div style="position:absolute;left:27.7%;width:17.599999999999998%;text-align:center;line-height:1.3"><div style="font-size:14.5px;font-weight:700;color:#111">(a) DIFIX 만</div><div style="font-size:12.5px;color:#5f5f5f">2D 보정, 3D 그대로</div></div><div style="position:absolute;left:45.6%;width:17.6%;text-align:center;line-height:1.3"><div style="font-size:14.5px;font-weight:700;color:#d33">(b) 한 번에</div><div style="font-size:12.5px;color:#5f5f5f">3D 업데이트</div></div><div style="position:absolute;left:63.5%;width:17.700000000000003%;text-align:center;line-height:1.3"><div style="font-size:14.5px;font-weight:700;color:#14286e">(c) 점진적</div><div style="font-size:12.5px;color:#5f5f5f">= DIFIX3D</div></div><div style="position:absolute;left:81.5%;width:18.200000000000003%;text-align:center;line-height:1.3"><div style="font-size:14.5px;font-weight:700;color:#111">(d) + 후처리</div><div style="font-size:12.5px;color:#5f5f5f">= DIFIX3D+</div></div></div>
+      <div class="cap" style="margin-top:4px"><span class="src p">논문</span>Figure 8. 열 = Table 4 의 행 (누적). 열 이름 아래 한글 = 각 행의 의미</div>
+      <div class="row" style="gap:22px;margin-top:14px;align-items:flex-start">
+        <div style="position:relative"><img src="media/fig8_two.jpg" style="height:300px" class="shadow"><div class="tag" style="background:rgba(211,51,51,.9);top:auto;bottom:8px">(b) 한 번에</div><div class="tag nv" style="left:auto;right:8px;top:auto;bottom:8px">(c) 점진적</div></div>
+        <div style="flex:1">
+          <table class="t" style="font-size:16.5px"><tr><th>Table 4</th><th>LPIPS ↓</th><th>FID ↓</th></tr>
+            <tr><td>Nerfacto</td><td>0.4021</td><td>134.65</td></tr>
+            <tr><td>(a) + Difix (2D만)</td><td>0.2996</td><td>49.87</td></tr>
+            <tr><td style="color:#d33;font-weight:700">(b) + 한 번에 3D 업데이트</td><td>0.3424</td><td>75.94</td></tr>
+            <tr class="hl"><td style="color:#14286e;font-weight:700">(c) + 점진적 (Difix3D)</td><td><b>0.3277</b></td><td><b>63.77</b></td></tr>
+            <tr><td>(d) + 후처리 (Difix3D+)</td><td>0.2789</td><td>49.44</td></tr></table>
+          <div class="cap"><span class="src p">논문</span>Table 4 · Figure 8 확대. (b) 는 등받이 살이 번지고 (c) 는 또렷함. (a) 2D 만 고치면 수치는 좋아도 덜 관측된 곳에서 약하고 프레임 사이 깜빡임(flickering)이 생김 (Sec. 5.3)</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1">
+      <div class="row" style="gap:18px;margin-top:4px">
+        <div class="stat" style="flex:1"><div class="big" style="font-size:42px">1,500</div><div class="lb">iter 마다 DIFIX</div></div>
+        <div class="stat" style="flex:1"><div class="big" style="font-size:42px">30,000</div><div class="lb">iter 총 학습</div></div>
+        <div class="stat" style="flex:1"><div class="big" style="font-size:42px">7 : 3</div><div class="lb">원본 : pseudo view</div></div>
+      </div>
+      <div class="box" style="margin-top:18px;font-size:18px;line-height:1.7"><p>학습 view → target view 로 <b>카메라를 조금씩</b> 이동</p><p>먼 시점부터 고치면 참고 정보 부족 → <b>hallucination</b></p><p>매 iter 호출 → 느림 / 간격이 길면 → <b>hallucination 누적</b></p><p>원본 시점은 조금 손해, <b>novel view 는 robust</b></p></div>
+      <div style="margin-top:16px;font-size:15.5px;line-height:1.6"><div style="font-weight:700;margin-bottom:4px">Table 4 의 a · b · c · d <span style="font-weight:400;color:#5f5f5f">(누적: 위 행에 하나씩 더함)</span></div>
+        <p style="margin:0"><b>(a)</b> Nerfacto 렌더에 <b>DIFIX 만</b> 적용 — 3D 는 그대로, 보정 이미지를 평가</p>
+        <p style="margin:0"><b style="color:#d33">(b)</b> DIFIX 출력을 pseudo view 로 3D 에 증류, 목표 시점을 <b>한 번에</b> 추가</p>
+        <p style="margin:0"><b style="color:#14286e">(c)</b> 1.5k iter 마다 카메라를 목표 쪽으로 <b>조금씩</b> 옮기며 반복 = <b>DIFIX3D</b></p>
+        <p style="margin:0"><b>(d)</b> (c) 모델의 최종 렌더에 DIFIX 한 번 더 = <b>DIFIX3D+</b></p>
+        <p style="margin:4px 0 0;color:#5f5f5f;font-size:14px">(a) 는 2D 보정 이미지를, (b) · (c) 는 3D 모델 렌더를 평가 → 수치만 보면 (a) 가 좋아 보임</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 12 -->
+<section class="slide" id="s12" data-notes="3D 자체는 좋아졌지만 3D representation의 표현력 한계 때문에 렌더링에는 여전히 artifact가 조금씩 남습니다. 그래서 DIFIX3D+는 DIFIX3D로 재구성한 다음, 실제 렌더링 시점에 DIFIX를 한 번 더 적용합니다. 이 후처리를 실시간에 가깝게 돌릴 수 있다는 점을 논문이 강조하는데, single step이라 가능합니다. A100 기준 렌더 한 장당 76ms 정도입니다. 하지만 제 4090에서는 260ms 정도 걸려 실시간은 아니었습니다. 오른쪽은 Alpamayo 왼쪽 차로 주행을 DIFIX3D 모델로 렌더한 것과, 거기에 DIFIX3D+ 후처리를 한 결과입니다.">
+  <div class="ttl">DIFIX3D+ : 렌더링 시점의 실시간 후처리</div>
+  <div class="row" style="gap:34px">
+    <div style="width:560px">
+      <img src="media/fig7_post.jpg" style="width:560px" class="shadow">
+      <div class="cap"><span class="src p">논문</span>Figure 7. 3DGS → + DIFIX3D → + DIFIX3D+. PSNR 17.19 → 18.27 → 18.63</div>
+      <div style="margin-top:16px;font-size:15px;font-weight:600">렌더 한 장당 DIFIX 추가 시간 (ms)</div>
+      <div id="s12chart" style="margin-top:8px"></div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">Alpamayo 왼쪽 차로 주행 (학습 경로 밖) — 225 프레임</div>
+      <div style="position:relative;width:870px;height:326px;cursor:ew-resize" class="shadow" id="s12w">
+        <canvas id="s12c" width="1440" height="540" style="width:870px;height:326px"></canvas>
+        <div class="lbl" style="position:absolute;left:10px;top:10px;background:rgba(0,0,0,.75);color:#fff;font-size:14px;font-weight:600;padding:4px 10px;border-radius:3px">DIFIX3D (재학습한 3D 렌더)</div>
+        <div style="position:absolute;right:10px;top:10px;background:rgba(20,40,110,.88);color:#fff;font-size:14px;font-weight:600;padding:4px 10px;border-radius:3px">+ DIFIX3D+ (렌더 후처리)</div>
+      </div>
+      <video id="s12v" src="media/drive_d3_vs_plus.mp4" muted loop playsinline style="display:none"></video>
+      <div class="row" style="gap:10px;margin-top:10px;align-items:center"><button class="btn" id="s12play">일시정지</button><span style="font-size:14px;color:var(--grey)">영상 위를 좌우로 드래그하면 경계 이동</span></div>
+      <div class="row" style="gap:26px;margin-top:14px">
+        <div class="stat"><div class="big">76 ms</div><div class="lb">NVIDIA A100 · 논문</div></div>
+        <div class="stat"><div class="big">260 ms</div><div class="lb">RTX 4090 · 직접 측정</div></div>
+        <div class="box" style="flex:1;font-size:17px;line-height:1.6"><p>3D 표현력 한계로 남은 artifact → <b>렌더 후 한 번 더</b></p><p>single step 이라 가능 → <b>② 속도</b>, 4090 에서는 <b>실시간 아님</b></p></div>
+      </div>
+      <div class="cap"><span class="src m">직접 제작</span>주차 차 · 벽의 번짐이 선명해짐. 단 끝 구간(약 프레임 210~)에서는 벽 자리에 <b>없던 흰 차</b>를 그려 넣음 — 프레임마다 독립 보정이라 앞뒤 일관성 보장 없음</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 13 -->
+<section class="slide" data-notes="같은 DIFIX 모델 하나로 NeRF와 3DGS 모두에 적용됩니다. 베이스라인 대비 FID가 평균 약 2배 이상 개선되고 PSNR과 LPIPS도 개선됩니다. DL3DV 3DGS 기준 FID 107.23에서 40.86, 주행 데이터 RDS에서도 PSNR 19.95에서 21.75로 오릅니다.">
+  <div class="ttl">Results : FID 2배 이상 개선, NeRF · 3DGS 모두 적용</div>
+  <div class="row" style="gap:44px">
+    <div style="width:680px">
+      <div class="sub">DL3DV (논문 Table 2)</div>
+      <table class="t"><tr><th>Method</th><th>PSNR ↑</th><th>LPIPS ↓</th><th>FID ↓</th></tr>
+        <tr><td>3DGS</td><td>17.18</td><td>0.3835</td><td>107.23</td></tr><tr><td>+ DIFIX3D</td><td>17.80</td><td>0.3142</td><td>50.45</td></tr><tr class="hl"><td>+ DIFIX3D+</td><td><b>17.99</b></td><td><b>0.2932</b></td><td><b>40.86</b></td></tr>
+        <tr><td>Nerfacto</td><td>17.16</td><td>0.4303</td><td>112.30</td></tr><tr><td>+ DIFIX3D</td><td>17.80</td><td>0.3271</td><td>50.79</td></tr><tr class="hl"><td>+ DIFIX3D+</td><td><b>17.82</b></td><td><b>0.2828</b></td><td><b>41.77</b></td></tr></table>
+      <div class="box" style="margin-top:22px;line-height:1.8"><p>같은 DIFIX 하나로 <b>NeRF · 3DGS 모두</b> 적용</p><p>FID <b>107.2 → 40.9</b> (DL3DV, 3DGS) — 약 <b>2.6배</b></p><p>Nerfbusters 3DGS FID 113.8 → 41.8</p></div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">주행 데이터 (RDS, Nerfacto) — 논문 Figure 6</div>
+      <img src="media/fig6_rds.jpg" style="width:100%" class="shadow">
+      <div class="cap"><span class="src p">논문</span>Figure 6. 위: Nerfacto, 아래: DIFIX3D+. 학습에 안 쓴 카메라 시점 (40° 간격 3대 중 중앙만 학습)</div>
+      <table class="t" style="margin-top:14px"><tr><th>RDS</th><th>PSNR ↑</th><th>LPIPS ↓</th><th>FID ↓</th></tr><tr><td>Nerfacto</td><td>19.95</td><td>0.5300</td><td>91.38</td></tr><tr><td>+ DIFIX3D</td><td>21.52</td><td>0.4266</td><td>77.83</td></tr><tr class="hl"><td>+ DIFIX3D+</td><td><b>21.75</b></td><td><b>0.4016</b></td><td><b>73.08</b></td></tr></table>
+      <div class="cap"><span class="src p">논문</span>Table 3. 주행 데이터 20 씬, 학습에 안 쓴 좌우 카메라로 평가</div>
+      <div class="box" style="margin-top:12px;font-size:18px">주행 데이터도 PSNR <b>19.95 → 21.75</b>, FID 91.4 → 73.1</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 14 -->
+<section class="slide" id="s14" data-notes="저희가 가진 두 종류 주행 데이터에 DIFIX3D, 즉 Difix로 고친 이미지로 3D를 다시 학습하는 방법을 적용한 결과입니다. 왼쪽은 논문의 주행 데이터 RDS 결과로, 카메라 세 대 중 가운데만 학습하고 학습에 안 쓴 좌우 카메라 시점에서 Nerfacto와 DIFIX3D+를 비교한 것입니다. 건물 벽과 노면의 번짐이 사라집니다. 오른쪽은 Alpamayo의 다른 구간으로, 자차 뒤 추종 카메라를 좌우로 3 m까지 옮기면서 본 결과입니다. 흰 트럭과 노면, 주차된 차의 깨짐이 줄어듭니다. Alpamayo 쪽은 학습 경로 밖 시점이라 정답 사진이 없어서 육안 비교입니다.">
+  <div class="ttl">주행 데이터 결과 : 논문 · 직접 제작</div>
+  <div class="row" style="gap:36px">
+    <div style="width:710px">
+      <div class="sub">논문 — RDS 주행 데이터, 학습에 안 쓴 카메라</div>
+      <div class="wipe shadow" id="s14a" style="width:710px;height:396px"><img id="s14a0"><img class="top" id="s14a1"><div class="bar"></div><div class="lbl l">Nerfacto</div><div class="lbl r">+ DIFIX3D+</div></div>
+      <div class="btns" style="margin-top:12px" id="s14av"><button class="btn on" data-v="0">시점 1</button><button class="btn" data-v="1">시점 2</button><button class="btn" data-v="2">시점 3</button></div>
+      <div class="box" style="margin-top:12px;font-size:17px"><p>왼쪽 건물 벽 · 노면의 <b>번짐과 색 얼룩</b>이 사라짐</p><p>PSNR 19.95 → <b>21.75</b>, FID 91.4 → <b>73.1</b> (Table 3)</p></div>
+      <div class="cap"><span class="src p">논문</span>Figure 6 (원본 이미지 960×536). 40° 간격 카메라 3대 중 가운데만 학습, 좌우 카메라 시점에서 비교. 영상 위를 좌우로 드래그</div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">직접 제작 — 추종 카메라, 좌우 이동</div>
+      <div class="wipe shadow" id="s14b" style="width:710px;height:266px"><img id="s14b0"><img class="top" id="s14b1"><div class="bar"></div><div class="lbl l">DIFIX3D 전</div><div class="lbl r">DIFIX3D 후 (재학습)</div></div>
+      <div class="row" style="gap:10px;margin-top:12px;align-items:center"><button class="btn" id="s14play">재생</button><div class="tb" style="flex:1">좌우 이동<input type="range" id="s14o" min="0" max="80" value="17"><span class="val" id="s14ov"></span></div></div>
+      <div class="box" style="margin-top:14px;font-size:17.5px"><p><b>흰 트럭</b> · 노면 · 주차 차의 깨짐이 줄어듦</p><p>트럭 앞 · 오른쪽 나무처럼 관측이 적은 곳은 덜 고쳐짐</p></div>
+      <div class="cap"><span class="src m">직접 제작</span>자차 뒤 추종 카메라를 왼쪽 → 오른쪽으로 최대 3 m 이동 (물체와 1 m 이상 떨어진 곳까지만). 실제 사진 15,000 iter + DIFIX 27,000 iter</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s15" data-notes="DIFIX도 결국 SD-Turbo의 prior 위에서 동작해서 base 모델이 모르는 것은 잘 못 채웁니다. 위는 Alpamayo 왼쪽 차로 주행에 DIFIX3D+ 후처리를 한 프레임들입니다. 3D 렌더에서 번져 있던 같은 덩어리를 프레임마다 세단, 픽업, 밴, 벽 속의 차로 다르게 그립니다. 실제로는 흰 픽업이 서 있었고, 맞춘 프레임은 하나뿐입니다. 프레임마다 독립적으로 보정하기 때문에 앞뒤 일관성이 보장되지 않습니다. 아래는 progressive 학습 중 첫 단계 Difix가 흰 벽에 없던 포스터를 그렸고, 그게 pseudo view로 들어가 3D 모델에 굳어 버린 예입니다. 논문도 3D 재구성이 완전히 실패한 곳은 고치지 못한다고 밝힙니다. 실시간 후처리라고 주장하지만 제 4090 환경에서는 260ms로 실시간은 아니었고, τ 선택처럼 정량 지표와 정성 평가가 엇갈리는 부분이 있어 평가 방법 자체도 고민이 필요해 보입니다. 이상으로 발표를 마치겠습니다. 감사합니다.">
+  <div class="ttl">Limitation &amp; 의견</div>
+  <div class="row" style="gap:12px;align-items:baseline"><div class="sub" style="margin:0">① 같은 덩어리를 프레임마다 다른 차로 — DIFIX3D+ (Alpamayo 왼쪽 차로)</div><span style="flex:1"></span><button class="btn" id="s15in">DIFIX3D 렌더 (입력) 보기</button></div>
+  <div class="row" style="gap:12px;margin-top:10px" id="s15row"></div>
+  <div class="row" style="gap:16px;margin-top:8px;align-items:center"><img src="media/s15/ref_0150.jpg" style="width:200px" class="shadow"><div class="cap" style="margin:0;flex:1"><span class="src m">직접 제작</span>왼쪽: 가장 가까운 실제 사진 (front 150) — 실제로는 <b>흰 픽업</b>이 주차돼 있었음. 맞춘 프레임은 하나뿐 → 프레임마다 독립 보정이라 <b>앞뒤 일관성 보장 없음</b></div></div>
+  <div class="row" style="gap:26px;margin-top:16px">
+    <div style="width:960px">
+      <div class="sub" style="margin-bottom:8px">② Difix 가 그린 것이 3D 에 굳음 — progressive 학습 (Alpamayo 오른쪽 카메라)</div>
+      <div class="row" style="gap:12px">
+        <div style="flex:1;position:relative"><img src="media/s15/poster_gt.jpg" style="width:100%" class="shadow"><div class="tag" style="top:auto;bottom:8px">실제 사진</div></div>
+        <div style="flex:1;position:relative"><img src="media/s15/poster_fix1.jpg" style="width:100%" class="shadow"><div class="tag nv" style="top:auto;bottom:8px">1단계 Difix 출력</div></div>
+        <div style="flex:1;position:relative"><img src="media/s15/poster_st4.jpg" style="width:100%" class="shadow"><div class="tag nv" style="top:auto;bottom:8px">4단계 3D 모델 렌더</div></div>
+      </div>
+      <div class="cap"><span class="src m">직접 제작</span>흰 벽에 없던 컬러 포스터 → pseudo training view 로 들어가 2단계부터 3D 에 남음</div>
+    </div>
+    <div style="flex:1;border-left:3px solid #111;padding:2px 0 0 18px">
+      <div style="font-size:14px;color:var(--grey);margin-bottom:4px">논문 Sec. C (limitation 그림은 없음)</div>
+      <div style="font-size:15.5px;line-height:1.55;font-family:'Times New Roman',serif;font-style:italic">"limited by the quality of the initial 3D reconstruction ... <b>struggles to enhance views where 3D reconstruction has entirely failed</b>."</div>
+      <div style="font-size:15.5px;line-height:1.7;margin-top:8px"><p style="margin:0"><b>속도</b> "실시간에 가깝다" vs 4090 <b>260 ms</b></p><p style="margin:0"><b>평가</b> τ 처럼 정량 vs 정성 엇갈림</p><p style="margin:0;color:var(--grey)">future work : single-step <b>video</b> diffusion</p></div>
+    </div>
+  </div>
+</section>
+
+</div></div>
+<div id="nav"><button id="np">‹</button><span id="nn"></span><button id="nx">›</button><button id="nnotes" title="N">노트</button><button id="nfs" title="F">전체화면</button></div>
+<div id="prog"></div>
+<div id="notes"><div class="h">발표자 노트 (N 키로 닫기)</div><div id="notesT"></div></div>
+<script src="media/data.js"></script>
+<script>
+const $ = s => document.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const slides = $$('.slide'); let cur = 0;
+const preload = srcs => srcs.forEach(s => { const i = new Image(); i.src = s; });
+/* ---------------- scaling + navigation */
+function fit() { const s = Math.min(innerWidth / 1600, innerHeight / 900); $('#deck').style.transform = `scale(${s})`; }
+addEventListener('resize', fit); fit();
+const hooks = {};
+function go(n) {
+  n = Math.max(0, Math.min(slides.length - 1, n));
+  const old = slides[cur]; old.classList.remove('active'); $$('video', old).forEach(v => v.pause()); hooks[old.id]?.leave?.();
+  cur = n; const s = slides[cur]; s.classList.add('active');
+  $$('video', s).forEach(v => { if (v.style.display !== 'none' || v.id === 's12v') { v.currentTime = 0; v.play().catch(() => {}); } });
+  hooks[s.id]?.enter?.();
+  $('#nn').textContent = `${cur + 1} / ${slides.length}`; $('#prog').style.width = `${(cur + 1) / slides.length * 100}%`;
+  $('#notesT').textContent = s.dataset.notes || ''; history.replaceState(null, '', '#' + (cur + 1));
+}
+addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) return;
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+  else if (e.key === 'Home') go(0); else if (e.key === 'End') go(slides.length - 1);
+  else if (e.key === 'n' || e.key === 'N') toggleNotes();
+  else if (e.key === 'f' || e.key === 'F') toggleFs();
+  else if (e.key === 'Escape') closeZoom();
+});
+function toggleNotes() { const n = $('#notes'); n.style.display = n.style.display === 'block' ? 'none' : 'block'; }
+function toggleFs() { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+$('#np').onclick = () => go(cur - 1); $('#nx').onclick = () => go(cur + 1); $('#nnotes').onclick = toggleNotes; $('#nfs').onclick = toggleFs;
+function radio(container, sel, cb) { $$(sel, container).forEach(b => b.addEventListener('click', () => { $$(sel, container).forEach(x => x.classList.remove('on')); b.classList.add('on'); cb(b); })); }
+function wipe(el, onMove) {
+  const top = el.querySelector('.top'), bar = el.querySelector('.bar'); let drag = false;
+  const set = x => { const r = el.getBoundingClientRect(); const p = Math.max(0, Math.min(1, (x - r.left) / r.width)) * 100; top.style.clipPath = `inset(0 0 0 ${p}%)`; bar.style.left = p + '%'; };
+  el.addEventListener('pointerdown', e => { drag = true; el.setPointerCapture(e.pointerId); set(e.clientX); });
+  el.addEventListener('pointermove', e => { if (drag) set(e.clientX); });
+  el.addEventListener('pointerup', () => drag = false);
+}
+const pad = (n, w) => String(n).padStart(w, '0');
+
+/* ---------------- slide 3: novel view viewer */
+(() => {
+  let L = 60, o = 0, y = 0, real = true, timer = null;
+  const r = $('#s3r'), p = $('#s3p'), tag = $('#s3tag');
+  const src = (o, y) => `media/s3/v${pad(L, 3)}_o${pad(o, 2)}_y${y}.jpg`;
+  const presets = [['학습 경로 · 실제 사진', 0, 0, true], ['학습 경로 · 3DGS 렌더', 0, 0], ['왼쪽 1 m', 5, 0], ['왼쪽 2 m', 10, 0], ['왼쪽 3 m', 15, 0], ['왼쪽 3 m + 30° 회전', 15, 6]];
+  const bw = $('#s3btns');
+  presets.forEach((q, i) => { const b = document.createElement('button'); b.className = 'btn' + (i ? '' : ' on'); b.textContent = q[0]; b.onclick = () => { $$('.btn', bw).forEach(x => x.classList.remove('on')); b.classList.add('on'); moveTo(q[1], q[2], !!q[3]); }; bw.appendChild(b); });
+  function draw() {
+    r.src = src(o, y); p.style.opacity = real ? 1 : 0;
+    tag.className = 'tag' + (real ? '' : ' nv');
+    tag.textContent = real ? '학습 카메라 · 실제 사진' : (o === 0 && y === 0 ? '학습 카메라 위치 · 3DGS 렌더' : `Novel View · 왼쪽 ${(o * 0.2).toFixed(1)} m · 회전 ${y * 5}°`);
+    $('#s3o').value = o; $('#s3y').value = y; $('#s3ov').textContent = `${(o * 0.2).toFixed(1)} m`; $('#s3yv').textContent = `${y * 5}°`;
+    // minimap: training path (dashed), camera
+    const cx = 80 - o * 3.2, cy = 92, a = -y * 5 * Math.PI / 180, len = 30, h = 0.5;
+    const f = (ang) => [cx + len * Math.sin(ang), cy - len * Math.cos(ang)];
+    const [x1, y1] = f(a - h), [x2, y2] = f(a + h);
+    $('#s3map').innerHTML = `<text x="6" y="13" font-size="10" fill="#5f5f5f">top view</text>
+      <line x1="80" y1="118" x2="80" y2="18" stroke="#999" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="84" y="112" font-size="8" fill="#888">학습 경로</text>
+      <polygon points="80,92 ${80 + len * Math.sin(-h)},${92 - len * Math.cos(h)} ${80 + len * Math.sin(h)},${92 - len * Math.cos(h)}" fill="rgba(0,0,0,.12)" stroke="#555"/>
+      <polygon points="${cx},${cy} ${x1},${y1} ${x2},${y2}" fill="${real || (o === 0 && y === 0) ? 'rgba(0,0,0,.5)' : 'rgba(20,40,110,.55)'}" stroke="${real ? '#000' : '#14286e'}" stroke-width="1.5"/>
+      <circle cx="${cx}" cy="${cy}" r="3.5" fill="${real ? '#000' : '#14286e'}"/>`;
+  }
+  function moveTo(to, ty, toReal) {
+    clearInterval(timer);
+    const steps = [];
+    if (real && !(toReal)) steps.push('unreal');
+    let co = o, cy = y;
+    // offset changes: straighten the camera first, slide sideways, then turn to the target yaw
+    if (to !== co) while (cy > 0) { cy--; steps.push([co, cy]); }
+    while (co !== to) { co += co < to ? 1 : -1; steps.push([co, cy]); }
+    while (cy !== ty) { cy += cy < ty ? 1 : -1; steps.push([co, cy]); }
+    if (toReal) steps.push('real');
+    let i = 0;
+    timer = setInterval(() => {
+      if (i >= steps.length) { clearInterval(timer); return; }
+      const s = steps[i++];
+      if (s === 'unreal') real = false; else if (s === 'real') real = true; else { [o, y] = s; real = false; }
+      draw();
+    }, 70);
+  }
+  $('#s3o').oninput = e => { clearInterval(timer); real = false; o = +e.target.value; $$('.btn', bw).forEach(x => x.classList.remove('on')); draw(); };
+  $('#s3y').oninput = e => { clearInterval(timer); real = false; y = +e.target.value; $$('.btn', bw).forEach(x => x.classList.remove('on')); draw(); };
+  radio($('#s3'), '[data-scene]', b => { L = +b.dataset.scene; p.src = `media/s3/real_${pad(L, 3)}.jpg`; load(); draw(); });
+  function load() { const a = []; for (let i = 0; i < 16; i++) for (let j = 0; j < 7; j++) a.push(src(i, j)); preload(a); }
+  p.src = `media/s3/real_060.jpg`;
+  hooks.s3 = { enter() { load(); draw(); }, leave() { clearInterval(timer); } };
+  draw();
+})();
+
+/* ---------------- slide 7: reference view animation */
+(() => {
+  const D = window.DECK.s7, P = D.pseudo, svg = $('#s7top'); let k = 0, timer = null, playing = true;
+  const real = Object.fromEntries(D.real.map(r => [r.key, r]));
+  const pts = [...D.real.filter(r => r.dir === 'front').flatMap(r => r.quad), ...P.flatMap(p => p.quad)];
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  let x0 = Math.min(...xs) - 30, x1 = Math.max(...xs) + 30, y0 = Math.min(...ys) - 30, y1 = Math.max(...ys) + 30;
+  const ar = 640 / 300, w = x1 - x0, h = y1 - y0; if (w / h > ar) { const nh = w / ar; y0 -= (nh - h) / 2; y1 = y0 + nh; } else { const nw = h * ar; x0 -= (nw - w) / 2; x1 = x0 + nw; }
+  svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
+  const poly = q => q.map(p => p.join(',')).join(' ');
+  const tgtName = { lane_l: '왼쪽 차로', lane_r: '오른쪽 차로', side_l: '왼쪽 옆', side_r: '오른쪽 옆', chase: '뒤 추종' };
+  function draw() {
+    const p = P[k], rf = real[p.ref];
+    let s = `<image href="media/s7/top.jpg" x="0" y="0" width="${D.W}" height="${D.H}" opacity=".7"/>`;
+    s += `<polyline points="${poly(D.path)}" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="8 6" opacity=".9"/>`;
+    D.real.filter(r => r.dir === 'front' && r.label % 2 === 0).forEach(r => s += `<polygon points="${poly(r.quad)}" fill="rgba(80,80,80,.25)" stroke="rgba(40,40,40,.6)" stroke-width="1.2"/>`);
+    if (rf) s += `<polygon points="${poly(rf.quad)}" fill="rgba(0,0,0,.75)" stroke="#000" stroke-width="2.5"/><line x1="${rf.o[0]}" y1="${rf.o[1]}" x2="${p.o[0]}" y2="${p.o[1]}" stroke="#000" stroke-width="2" stroke-dasharray="5 4"/>`;
+    s += `<polygon points="${poly(p.quad)}" fill="rgba(20,40,110,.7)" stroke="#14286e" stroke-width="3"/><circle cx="${p.o[0]}" cy="${p.o[1]}" r="5" fill="#14286e"/>`;
+    svg.innerHTML = s;
+    $('#s7nv').src = `media/s7/nv_${p.key}.jpg`; $('#s7fx').src = `media/s7/fx_${p.key}.jpg`; $('#s7ref').src = `media/s7/ref_${p.ref}.jpg`;
+    $('#s7sl').value = k; $('#s7v').textContent = `${tgtName[p.target] || p.target} · ref ${p.ref.replace('_0', ' ')}`;
+  }
+  const play = () => { clearInterval(timer); timer = setInterval(() => { k = (k + 1) % P.length; draw(); }, 1600); };
+  $('#s7play').onclick = () => { playing = !playing; $('#s7play').textContent = playing ? '일시정지' : '재생'; playing ? play() : clearInterval(timer); };
+  $('#s7sl').oninput = e => { k = +e.target.value; playing = false; $('#s7play').textContent = '재생'; clearInterval(timer); draw(); };
+  hooks.s7 = { enter() { preload(P.flatMap(p => [`media/s7/nv_${p.key}.jpg`, `media/s7/fx_${p.key}.jpg`, `media/s7/ref_${p.ref}.jpg`])); draw(); if (playing) play(); }, leave() { clearInterval(timer); } };
+  draw();
+})();
+
+/* ---------------- slide 4 tabs, slide 7 Fig S1 toggle */
+radio($('#s4tab'), '[data-t]', b => { $('#s4rp').style.display = b.dataset.t === 'rp' ? 'block' : 'none'; $('#s4f5').style.display = b.dataset.t === 'f5' ? 'block' : 'none'; });
+$('#s7s1b').onclick = () => { const on = $('#s7s1').style.display === 'none'; $('#s7s1').style.display = on ? 'block' : 'none'; $('#s7tab').style.display = on ? 'none' : 'block'; $('#s7s1b').classList.toggle('on', on);
+  $('#s7tc').innerHTML = on ? '<span class="src p">논문</span>Figure S1 — Table 5 의 각 행을 이미지로 비교. (a) 전부 사용, (b) Ref 없음, (c) Ref · Gram 없음, (d) τ = 1000 (pix2pix-Turbo). 빨간 박스 = 확대' : '<span class="src p">논문</span>Table 5 — Nerfbusters 테스트 장면의 novel view 를 DIFIX 로 보정해 정답 사진과 비교 (평균). <b>Gram · Ref 열 = 학습 설정</b>(✓ = 사용), <b>LPIPS · FID 열 = 평가 지표</b>'; };
+
+/* ---------------- slide 8: training data pairs */
+(() => {
+  let m = 'cycle', cam = 'front', idx = 10;
+  const M = {
+    cycle: { labels: [...Array(40)].map((_, i) => 40 + i), cams: null,
+      imgs: l => [[`media/s8/gt_front_${pad(l, 4)}.jpg`, '원래 경로 실제 사진 = GT', ''], [`media/s8/cycA_${pad(l, 4)}.jpg`, '① 3 m 옆 경로에서 렌더', 'nv'], [`media/s8/cycB_${pad(l, 4)}.jpg`, '② ① 렌더들로 새 3DGS 학습 → 원래 경로에서 렌더 = 깨진 입력', 'nv']],
+      desc: '<p>① 실제 사진으로 학습한 3DGS 로 <b>옆 경로(3 m)</b> 렌더</p><p>② ① 렌더들만 써서 <b>새 3DGS</b> 학습 → <b>원래 경로</b>에서 렌더</p><p>→ ② 와 원래 경로 실제 사진이 <b>깨진 입력 ↔ GT</b> 쌍</p>',
+      fig: 'figS2_cycle', figc: '<span class="src p">논문</span>Figure S2. Cycle Reconstruction — 주행 데이터에서 만든 쌍' },
+    under: { labels: [...Array(40)].map((_, i) => 40 + i), cams: ['front', 'left', 'right'],
+      imgs: l => [[`media/s8/under_${cam}_${pad(l, 4)}.jpg`, '1,000 iter 만 학습한 모델 렌더 = 깨진 입력', 'nv'], [`media/s8/gt_${cam}_${pad(l, 4)}.jpg`, '같은 시점 실제 사진 = GT', '']],
+      desc: '<p>학습을 <b>일부만</b> 진행한 모델의 렌더</p><p>→ 같은 시점 실제 사진과 쌍</p><p style="font-size:15.5px;color:#5f5f5f">논문은 학습 25~75% 지점 모델 사용. 오른쪽 아래 트랙바 = 같은 시점의 학습 진행</p>',
+      fig: 'figS2_under', figc: '<span class="src p">논문</span>Figure S2. Model Underfitting — 학습을 덜 한 모델의 렌더' },
+    cross: { labels: [...Array(19)].map((_, i) => 42 + 2 * i), cams: ['left', 'right'],
+      imgs: l => [[`media/s8/gt_front_${pad(l, 4)}.jpg`, '학습에 쓴 전방 카메라 (실제 사진)', ''], [`media/s8/cross_${cam}_${pad(l, 4)}.jpg`, `전방만 학습한 모델로 ${cam === 'left' ? '좌측' : '우측'} 시점 렌더 = 깨진 입력`, 'nv'], [`media/s8/gt_${cam}_${pad(l, 4)}.jpg`, `${cam === 'left' ? '좌측' : '우측'} 카메라 실제 사진 = GT`, '']],
+      desc: '<p><b>카메라 1대(전방)</b>로만 학습 → 뺀 카메라 시점 렌더</p><p>→ 그 카메라의 <b>실제 사진이 GT</b></p><p>멀티 카메라 주행 데이터라서 가능</p>',
+      fig: 'figS2_cross', figc: '<span class="src p">논문</span>Figure S2. Cross Reference (left camera)' } };
+  const box = $('#s8imgs'), camsEl = $('#s8cams');
+  function setCams() {
+    const c = M[m].cams; camsEl.innerHTML = '';
+    if (!c) return; if (!c.includes(cam)) cam = c[0];
+    c.forEach(n => { const b = document.createElement('button'); b.className = 'btn' + (n === cam ? ' on' : ''); b.textContent = { front: '전방', left: '좌측', right: '우측' }[n] + ' 카메라'; b.onclick = () => { cam = n; setCams(); draw(); }; camsEl.appendChild(b); });
+  }
+  function draw() {
+    const S = M[m], L = S.labels; idx = Math.min(idx, L.length - 1); const l = L[idx];
+    const im = S.imgs(l); const w = m === 'under' ? 470 : 470;
+    box.innerHTML = im.map(([s, t, c], i) => `<div style="position:relative;width:${w}px;height:176px"><img src="${s}" style="width:100%;height:100%" class="shadow"><div class="tag ${c}" style="font-size:13px">${t}</div></div>${i < im.length - 1 ? '<div style="align-self:center;font-size:22px;margin-top:-20px">' + (m === 'cycle' && i === 0 ? '→' : (m === 'cycle' ? '→' : '↔')) + '</div>' : ''}`).join('');
+    if (m === 'under') box.innerHTML += `<div style="position:relative;width:470px;height:176px"><img id="s8u" src="media/s8/uit_${pad($('#s8it').value * 100, 5)}.jpg" style="width:100%;height:100%" class="shadow"><div class="tag nv" style="font-size:13px" id="s8ut"></div></div>`;
+    $('#s8sl').max = L.length - 1; $('#s8sl').value = idx; $('#s8v').textContent = `label ${l}`;
+    $('#s8desc').innerHTML = S.desc; $('#s8fig').src = `media/${S.fig}.jpg`; $('#s8figc').innerHTML = S.figc;
+    $('#s8tb2').style.display = m === 'under' ? 'flex' : 'none'; drawIt();
+  }
+  function drawIt() { const it = $('#s8it').value * 100; $('#s8itv').textContent = `${it.toLocaleString()} iter`; const u = $('#s8u'); if (u) { u.src = `media/s8/uit_${pad(it, 5)}.jpg`; $('#s8ut').textContent = `front 60 · ${it.toLocaleString()} iter 시점의 렌더`; } }
+  $('#s8sl').oninput = e => { idx = +e.target.value; draw(); };
+  $('#s8it').oninput = drawIt;
+  radio($('#s8m'), '[data-m]', b => { m = b.dataset.m; setCams(); draw(); });
+  hooks.s8 = { enter() { const a = []; for (let l = 40; l < 80; l++) { a.push(`media/s8/cycA_${pad(l, 4)}.jpg`, `media/s8/cycB_${pad(l, 4)}.jpg`, `media/s8/gt_front_${pad(l, 4)}.jpg`); } preload(a); } };
+  setCams(); draw();
+})();
+
+/* ---------------- slide 9: zoom hotspots -> hi-res source (paper photos at native resolution, vector blocks from the 600 dpi page) */
+const S9 = 1000 / 2620;
+const HOTS = [
+  [56, 163, 379, 216, 'Input', 'input', 1, '<b>입력 1 : novel view 렌더</b> — 3DGS 가 학습하지 않은 시점, 번짐 · 깨짐'],
+  [56, 415, 379, 218, 'Reference', 'ref', 1, '<b>입력 2 : reference view</b> — novel view 와 가장 가까운 카메라의 <b>실제 사진</b>'],
+  [442, 275, 158, 259, 'VAE Encoder', 'enc', 0, '<b>VAE Encoder (Freeze)</b> — 두 이미지를 latent 로. 가중치 <b>고정</b>'],
+  [630, 216, 280, 354, 'U-Net', 'unet', 0, '<b>U-Net (학습)</b> — SD-Turbo 의 U-Net, τ = 199 에서 <b>1 step</b> denoising'],
+  [895, 178, 346, 407, 'Reference Mixing', 'mix', 0, '<b>Reference Mixing Layer</b> — (B·V)HWC → B(V·HW)C 로 view 축을 공간 축에 합쳐 두 view token 을 <b>한 번에 self-attention</b>'],
+  [665, 585, 225, 75, 'zero conv', 'zero', 0, '<b>skip connection (zero conv)</b> — Encoder 특징을 Decoder 로 바로 전달, 입력 디테일 보존'],
+  [1291, 234, 199, 310, 'VAE Decoder', 'dec', 0, '<b>VAE Decoder (LoRA finetune)</b> — LoRA 가중치만 학습해 latent → 이미지'],
+  [1490, 163, 381, 218, 'Output', 'output', 1, '<b>출력 : 보정된 novel view</b>'],
+  [1490, 419, 373, 212, 'Reference(out)', 'refout', 1, '<b>Reference view</b> — 출력 쪽에 함께 복원되는 reference (실제로는 버림, 그래서 반투명)'],
+  [2164, 156, 384, 220, 'GT', 'output', 1, '<b>정답 라벨</b> — 같은 시점의 깨끗한 이미지 (논문에 GT 사진이 없어 Output 으로 대체)'],
+  [1932, 564, 158, 153, 'Loss', 'loss', 0, '<b>Loss = Reconstruction (L2) + LPIPS + 0.5 · Gram</b> → U-Net · Decoder 로 역전파']];
+(() => {
+  const fig = $('#s9fig'), Z = $('#zoom'), clip = Z.querySelector('.clip'), zimg = clip.querySelector('img'), zt = Z.querySelector('.zt'), cache = {};
+  const load = k => cache[k] || (cache[k] = new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = `media/s9/${k}.png`; }));
+  HOTS.forEach(([x, y, w, h, n, k, photo, t]) => {
+    const d = document.createElement('div'); d.className = 'hot pulse'; d.title = n;
+    Object.assign(d.style, { left: x * S9 - 3 + 'px', top: y * S9 - 3 + 'px', width: w * S9 + 6 + 'px', height: h * S9 + 6 + 'px' });
+    d.onclick = e => { e.stopPropagation(); openZoom(x, y, w, h, k, photo, t); }; fig.appendChild(d);
+  });
+  const place = r => Object.assign(clip.style, { left: r.l + 'px', top: r.t + 'px', width: r.w + 'px', height: r.h + 'px' });
+  window.openZoom = async (x, y, w, h, k, photo, t) => {
+    const im = await load(k), nw = im.naturalWidth, nh = im.naturalHeight;
+    const slide = $('#s9'), fr = fig.getBoundingClientRect(), sr = slide.getBoundingClientRect(), kk = 1600 / sr.width;
+    const start = { l: (fr.left - sr.left) * kk + x * S9, t: (fr.top - sr.top) * kk + y * S9, w: w * S9, h: h * S9 };
+    // photos: native pixels x2 (the paper embeds them at 480 px); vector blocks: fit the box, never upscaled past the 600 dpi render
+    const sc = Math.min(1100 / nw, 560 / nh, photo ? 2 : 1), W = nw * sc, H = nh * sc;
+    const end = { l: (1600 - W) / 2, t: (900 - H) / 2 - 30, w: W, h: H };
+    zimg.src = im.src; Z.style.display = 'block'; clip.style.transition = 'none'; place(start);
+    zt.innerHTML = t + `<div style="font-size:14px;color:#8a8a8a;margin-top:4px">${photo ? `논문 PDF 원본 이미지 ${nw}×${nh}` : '논문 PDF 벡터 그림 600 dpi'}</div>`; zt.style.top = end.t + H + 20 + 'px';
+    void clip.offsetWidth; setTimeout(() => { clip.style.transition = ''; Z.classList.add('show'); place(end); }, 20);
+    Z._back = () => place(start);
+  };
+  window.closeZoom = () => { if (Z.style.display !== 'block') return; Z.classList.remove('show'); Z._back?.(); setTimeout(() => Z.style.display = 'none', 420); };
+  Z.onclick = closeZoom;
+  hooks.s9 = { enter() { HOTS.forEach(hh => load(hh[5])); }, leave() { Z.style.display = 'none'; Z.classList.remove('show'); } };
+})();
+
+/* ---------------- slide 10: scrub the Difix3D process video with the cursor */
+(() => {
+  const v = $('#s10v'), w = $('#s10w'), sl = $('#s10sl'); let drag = false, raf = null;
+  const CH = [[0, '표지'], [2.5, '① 3DGS 학습'], [10, '② novel view'], [15.5, '③ DIFIX 1 step'], [23.5, '③ pseudo view'], [26.5, '④ 재학습'], [34, '정리']];
+  const D = () => v.duration || 39;
+  const ui = () => {
+    const t = v.currentTime; sl.value = Math.round(t / D() * 1000); $('#s10t').textContent = t.toFixed(1) + ' s';
+    let c = 0; CH.forEach((x, i) => { if (t >= x[0] - 0.05) c = i; });
+    $$('#s10ch .btn').forEach((b, i) => b.classList.toggle('on', i === c));
+  };
+  $('#s10ch').innerHTML = CH.map(([t, n]) => `<button class="btn" data-t="${t}" style="font-size:13.5px;padding:5px 11px">${n}</button>`).join('');
+  $$('#s10ch .btn').forEach(b => b.onclick = () => { v.pause(); v.currentTime = +b.dataset.t + 0.4; $('#s10play').textContent = '재생'; });
+  const seekX = x => { const r = w.getBoundingClientRect(); v.currentTime = Math.max(0, Math.min(1, (x - r.left) / r.width)) * (D() - 0.05); };
+  w.addEventListener('pointerdown', e => { drag = true; v.pause(); $('#s10play').textContent = '재생'; w.setPointerCapture(e.pointerId); seekX(e.clientX); $('#s10hint').style.display = 'none'; });
+  w.addEventListener('pointermove', e => { if (drag) seekX(e.clientX); });
+  w.addEventListener('pointerup', () => { drag = false; });
+  sl.oninput = () => { v.pause(); $('#s10play').textContent = '재생'; v.currentTime = sl.value / 1000 * (D() - 0.05); };
+  $('#s10play').onclick = () => {
+    if (v.paused) { if (v.currentTime >= D() - 0.2) v.currentTime = 0; v.play(); $('#s10play').textContent = '일시정지'; }
+    else { v.pause(); $('#s10play').textContent = '재생'; }
+  };
+  v.addEventListener('ended', () => { $('#s10play').textContent = '재생'; });
+  v.addEventListener('timeupdate', ui); v.addEventListener('seeked', ui);
+  const loop = () => { ui(); raf = requestAnimationFrame(loop); };
+  hooks.s10 = { enter() { v.pause(); v.currentTime = 0; $('#s10play').textContent = '재생'; cancelAnimationFrame(raf); loop(); }, leave() { v.pause(); cancelAnimationFrame(raf); } };
+})();
+
+/* ---------------- slide 12: chart + video wipe */
+(() => {
+  const data = [['A100 (논문)', 76, '#404040'], ['RTX 4090 (직접 측정)', 260, '#404040'], ['30 fps 예산', 33, '#bfbfbf']];
+  $('#s12chart').innerHTML = data.map(([n, v, c]) => `<div style="display:flex;align-items:center;gap:10px;margin:8px 0;font-size:15px"><span style="width:170px;text-align:right;color:#333">${n}</span><span style="height:26px;width:${v / 260 * 300}px;background:${c};border-radius:0 4px 4px 0"></span><b style="font-variant-numeric:tabular-nums">${v}</b></div>`).join('');
+  const v = $('#s12v'), c = $('#s12c'), ctx = c.getContext('2d'), wrap = $('#s12w'); let split = 0.5, raf = null, drag = false;
+  function frame() {
+    if (v.readyState >= 2) {
+      const sx = Math.round(split * 1440);
+      ctx.drawImage(v, 0, 0, 1440, 540, 0, 0, 1440, 540);
+      if (sx < 1440) ctx.drawImage(v, 1440 + sx, 0, 1440 - sx, 540, sx, 0, 1440 - sx, 540);
+      ctx.fillStyle = '#fff'; ctx.fillRect(sx - 2, 0, 4, 540);
+      ctx.beginPath(); ctx.arc(sx, 270, 16, 0, 7); ctx.fill(); ctx.fillStyle = '#111'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('◀▶', sx, 275);
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  const set = x => { const r = wrap.getBoundingClientRect(); split = Math.max(0, Math.min(1, (x - r.left) / r.width)); };
+  wrap.addEventListener('pointerdown', e => { drag = true; wrap.setPointerCapture(e.pointerId); set(e.clientX); });
+  wrap.addEventListener('pointermove', e => drag && set(e.clientX)); wrap.addEventListener('pointerup', () => drag = false);
+  $('#s12play').onclick = () => { if (v.paused) { v.play(); $('#s12play').textContent = '일시정지'; } else { v.pause(); $('#s12play').textContent = '재생'; } };
+  hooks.s12 = { enter() { cancelAnimationFrame(raf); frame(); $('#s12play').textContent = '일시정지'; }, leave() { cancelAnimationFrame(raf); } };
+})();
+
+/* ---------------- slide 14: Difix3D before / after wipes */
+(() => {
+  wipe($('#s14a')); wipe($('#s14b'));
+  const setA = v => { $('#s14a0').src = `media/s14c/rds_v${v}_before.jpg`; $('#s14a1').src = `media/s14c/rds_v${v}_after.jpg`; };
+  radio($('#s14av'), '[data-v]', b => setA(b.dataset.v)); setA(0);
+  const OFF = [0.0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35, 1.5, 1.65, 1.8, 1.95, 2.1, 2.25, 2.4, 2.55, 2.7, 2.85, 3.0, 2.9, 2.75, 2.6, 2.45, 2.3, 2.15, 2.0, 1.85, 1.7, 1.55, 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2, 0.05, -0.1, -0.25, -0.4, -0.55, -0.7, -0.85, -1.0, -1.15, -1.3, -1.45, -1.6, -1.75, -1.9, -2.05, -2.2, -2.35, -2.5, -2.65, -2.8, -2.95, -2.95, -2.8, -2.65, -2.5, -2.35, -2.2, -2.05, -1.9, -1.75, -1.6, -1.45, -1.3, -1.15, -1.0, -0.85, -0.7, -0.55, -0.4, -0.25, -0.1];
+  let timer = null;
+  const set = () => { const i = +$('#s14o').value, o = OFF[i]; $('#s14b0').src = `media/s14b/alp_before_${pad(i, 3)}.jpg`; $('#s14b1').src = `media/s14b/alp_after_${pad(i, 3)}.jpg`; $('#s14ov').textContent = o === 0 ? '0 m' : `${o > 0 ? '왼쪽' : '오른쪽'} ${Math.abs(o).toFixed(2)} m`; };
+  const stop = () => { clearInterval(timer); timer = null; $('#s14play').textContent = '재생'; };
+  $('#s14o').oninput = () => { stop(); set(); };
+  $('#s14play').onclick = () => { if (timer) return stop(); $('#s14play').textContent = '정지'; timer = setInterval(() => { const e = $('#s14o'); e.value = (+e.value + 1) % OFF.length; set(); }, 120); };
+  hooks.s14 = { enter() { const a = []; OFF.forEach((_, i) => a.push(`media/s14b/alp_before_${pad(i, 3)}.jpg`, `media/s14b/alp_after_${pad(i, 3)}.jpg`)); preload(a); }, leave: stop };
+  set();
+})();
+
+/* ---------------- slide 15: Alpamayo limitation stills */
+(() => {
+  const F = [[196, '세단 · SUV 두 대'], [204, '흰 픽업 (실제와 같음)'], [212, '흰 밴'], [220, '벽 속의 흰 차']]; let inp = false;
+  const draw = () => { $('#s15row').innerHTML = F.map(([f, t]) => `<div style="flex:1;position:relative"><img src="media/s15/${inp ? 'd3' : 'plus'}_${f}.jpg" style="width:100%" class="shadow"><div class="tag ${inp ? '' : 'nv'}">프레임 ${f}${inp ? ' · DIFIX3D 렌더' : ' → ' + t}</div></div>`).join(''); $('#s15in').classList.toggle('on', inp); };
+  $('#s15in').onclick = () => { inp = !inp; draw(); }; draw();
+})();
+
+const h = parseInt(location.hash.slice(1)); go(isNaN(h) ? 0 : h - 1);
+// QA hook: ?click=<css selector>,<css selector> clicks those elements after load
+new URLSearchParams(location.search).get('click')?.split('|').forEach((q, i) => setTimeout(() => document.querySelector(q)?.click(), 400 + i * 600));
+</script>
+</body>
+</html>

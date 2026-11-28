@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reality View 대응 씬 구성</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--ink:#111;--grey:#5f5f5f;--muted:#8a8a8a;--box:#efefef;--line:#dcdcdc;--navy:#14286e;--bg:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Pretendard,"Pretendard Variable","Apple SD Gothic Neo","Noto Sans KR",sans-serif;overflow:hidden}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#deck{width:1600px;height:900px;position:relative;flex:none;transform-origin:center center}
+.slide{position:absolute;inset:0;padding:118px 72px 56px;display:none}
+.slide.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.ttl{position:absolute;left:72px;top:40px;right:72px;display:flex;align-items:center;gap:16px;font-size:33px;font-weight:500;letter-spacing:-.4px}
+.ttl::before{content:"";width:9px;height:44px;background:#111;flex:none}
+b,strong{font-weight:700;color:#000}
+.cap{font-size:14.5px;color:var(--grey);font-style:italic;line-height:1.45;margin-top:7px}
+.cap::before{content:"> "}
+.src{display:inline-block;font-style:normal;font-size:12px;font-weight:700;padding:0 7px;border-radius:3px;margin-right:6px;vertical-align:1px;line-height:18px}
+.src.p{border:1.3px solid #111;color:#111}.src.m{background:#14286e;color:#fff}.src.e{border:1.3px solid #888;color:#555}
+.box{background:var(--box);padding:16px 22px;font-size:19px;line-height:1.6}
+.box p{margin:0 0 4px}
+.sub{font-size:21px;font-weight:600;margin:0 0 8px}
+.shadow{box-shadow:6px 7px 18px rgba(0,0,0,.28)}
+img,video,canvas{display:block}
+.row{display:flex;gap:28px}
+.col{display:flex;flex-direction:column}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-size:15px;padding:7px 14px;border:1.5px solid #111;background:#fff;color:#111;border-radius:999px;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:#f1f1f1}
+.btn.on{background:#111;color:#fff}
+.tb{display:flex;align-items:center;gap:12px;font-size:15px;color:var(--grey)}
+.tb input[type=range]{flex:1;accent-color:#111;height:22px}
+.tb .val{min-width:120px;text-align:right;color:#111;font-weight:600;font-variant-numeric:tabular-nums}
+.tag{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.78);color:#fff;font-size:14px;padding:4px 10px;border-radius:3px;font-weight:600}
+.tag.nv{background:rgba(20,40,110,.88)}
+.stat .big{font-size:50px;font-weight:700;line-height:1.05;letter-spacing:-1px}
+.stat .lb{font-size:15px;color:var(--grey);margin-top:4px}
+table.t{border-collapse:collapse;width:100%;font-size:18px}
+table.t th{background:#404040;color:#fff;font-weight:600;padding:9px 10px}
+table.t td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center}
+table.t td:first-child,table.t th:first-child{text-align:left}
+table.t tr.hl td{background:var(--box)}
+.wipe{position:relative;overflow:hidden;cursor:ew-resize;user-select:none}
+.wipe img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.wipe .top{clip-path:inset(0 0 0 50%)}
+.wipe .bar{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.6);transform:translateX(-1.5px)}
+.wipe .bar::after{content:"◀ ▶";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#111;font-size:12px;padding:5px 7px;border-radius:999px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.wipe .lbl{position:absolute;top:10px;background:rgba(0,0,0,.75);color:#fff;font-size:14px;font-weight:600;padding:4px 10px;border-radius:3px}
+.wipe .lbl.l{left:10px}.wipe .lbl.r{right:10px}
+.num{width:30px;height:30px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:none}
+/* nav */
+#nav{position:fixed;right:18px;bottom:12px;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);z-index:20;opacity:.35;transition:opacity .2s}
+#nav:hover{opacity:1}
+#nav button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit;color:#333}
+#prog{position:fixed;left:0;bottom:0;height:3px;background:#111;z-index:20;transition:width .25s}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(255,255,255,.97);border-top:1px solid var(--line);padding:16px 28px 30px;font-size:17px;line-height:1.7;display:none;z-index:30;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+#notes .h{font-size:13px;color:var(--muted);margin-bottom:6px}
+/* zoom overlay (slide 9) */
+#zoom{position:absolute;inset:0;z-index:40;display:none}
+#zoom .dim{position:absolute;inset:0;background:rgba(255,255,255,.86);opacity:0;transition:opacity .35s}
+#zoom .clip{position:absolute;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3);background:#fff;border-radius:4px;transition:all .45s cubic-bezier(.2,.8,.2,1)}
+#zoom .clip img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
+#zoom .zt{position:absolute;left:0;right:0;text-align:center;font-size:20px;line-height:1.55;opacity:0;transition:opacity .3s .25s}
+#zoom.show .dim,#zoom.show .zt{opacity:1}
+.hot{position:absolute;border:2.5px solid transparent;border-radius:6px;cursor:zoom-in;transition:border-color .15s,background .15s}
+.hot:hover{border-color:#14286e;background:rgba(20,40,110,.07)}
+.hot.pulse{animation:pulse 2.2s ease-in-out 2}
+@keyframes pulse{50%{border-color:rgba(20,40,110,.55)}}
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+
+<!-- 1 -->
+<section class="slide" data-notes="테슬라 FSD v15의 Reality View에 대응하는 저희 장면 구성을 정리했습니다. 테슬라는 3차원 장면 없이 영상 생성 모델로 화면을 바로 그립니다. 저희는 반대로 알파마요 데이터로 명시적인 3차원 Gaussian 맵을 먼저 만들고, Difix로 학습해 경로 밖 시점까지 다듬은 뒤, 렌더할 때 프레임마다 Difix를 한 번 더 씌우는 구성입니다. 3차원 맵이 있어서 시뮬레이터에서 충돌과 차량 주행을 같이 돌릴 수 있다는 점이 다릅니다.">
+  <div style="position:absolute;left:72px;top:200px;width:640px">
+    <div style="display:flex;gap:18px;align-items:stretch"><div style="width:9px;background:#111"></div>
+      <div><div style="font-size:58px;font-weight:700;letter-spacing:-1px;line-height:1.1">Reality View 대응<br>장면 구성</div>
+      <div style="font-size:26px;font-weight:500;line-height:1.35;margin-top:14px">Difix3D 맵 + 실시간 Difix3D+</div></div></div>
+    <div style="font-size:20px;color:var(--grey);margin:30px 0 0 27px">DIGLAB 정만교</div>
+  </div>
+  <div style="position:absolute;left:740px;top:150px;width:800px">
+    <div style="position:relative"><img src="media/cover_map_car_difixplus.jpg" style="width:800px" class="shadow"><div class="tag">3DGS 맵 + Genesis 차량 + Difix3D+</div></div>
+    <div class="cap"><span class="src m">직접 제작</span>알파마요 058, Genesis 차량 주행 화면</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-notes="구성은 세 단계입니다. 첫째, 알파마요 058 사진과 LiDAR로 3차원 Gaussian 맵을 학습합니다. 이때 학습 중간중간 Difix로 경로 밖 가상 시점을 고쳐서 다시 학습에 넣는 Difix3D 방식을 씁니다. 둘째, 시뮬레이터에서 차가 달리며 매 프레임 이 맵을 렌더합니다. 셋째, 렌더된 프레임마다 가장 가까운 실제 사진을 참조로 Difix를 한 번 더 씌웁니다. 이게 Difix3D+입니다. 맵 학습은 한 번만 하면 되고, 2단계 렌더는 실시간입니다. 3단계 Difix3D+는 렌더된 맵 화면을 주행하며 프레임마다 보정하는 것이고, 논문 기준으로 프레임당 76 ms가 더 듭니다.">
+  <div class="ttl">구성 : ① Difix3D로 정적 맵 학습 → ② 매 프레임 렌더 → ③ 프레임마다 Difix3D+ (실시간 후처리 보정)</div>
+  <div class="row" style="gap:22px">
+    <div style="flex:1;position:relative"><img src="media/step1_map.jpg" style="width:100%;aspect-ratio:16/9;object-fit:cover" class="shadow"><div class="tag">① 3DGS 정적 맵</div></div>
+    <div style="flex:1;position:relative"><img src="media/step2_render.jpg" style="width:100%;aspect-ratio:16/9;object-fit:cover" class="shadow"><div class="tag">② 차량과 함께 렌더</div></div>
+    <div style="flex:1;position:relative"><img src="media/step3_difixplus.jpg" style="width:100%;aspect-ratio:16/9;object-fit:cover" class="shadow"><div class="tag">③ + Difix3D+</div></div>
+  </div>
+  <div class="row" style="gap:22px;margin-top:22px">
+    <div class="box" style="flex:1;font-size:18px"><div class="sub">Difix3D로 정적 맵 학습 (한 번)</div><p>알파마요 058 사진 5대 + LiDAR</p><p>전부 free 3DGS, SH 3</p><p>학습 중 <b>Difix 24회</b> : 경로 밖 가상 시점을 고쳐 다시 학습에 넣음</p><p>맵 학습 <b>1.76 h</b></p></div>
+    <div class="box" style="flex:1;font-size:18px"><div class="sub">매 프레임 렌더</div><p>Genesis 차량이 달리며 카메라 포즈를 줌</p><p>맵을 그 포즈에서 렌더</p><p>충돌 mesh, SDK 차량과 같이 돎</p><p>렌더 프레임당 <b>20.6 ms</b> (1280×720, RTX 4090)</p></div>
+    <div class="box" style="flex:1;font-size:18px"><div class="sub">프레임마다 Difix3D+ (실시간 후처리 보정)</div><p><b>현재 구도의 맵 렌더</b>를 Difix에 넣어 보정 (참조 : 가장 가까운 실제 사진)</p><p>1 step, 1024×576</p><p>프레임당 <span style="color:#d0021b;font-weight:700">+ 76 ms</span> (논문, A100)</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-notes="3DGS 맵 기준 비교입니다. 위부터 실제 사진, Difix3D로 학습한 고정 맵을 그대로 렌더한 것, 그리고 그 렌더에 실시간 후처리로 Difix3D+를 씌운 것입니다. 시간 비용은 고정 맵이 맵 학습 1.76시간을 한 번 들이고 그 뒤 렌더는 프레임당 약 21 ms입니다. Difix3D+는 여기에 프레임마다 논문 기준 76 ms가 추가됩니다. 기준 사진은 바로 앞 시각의 실제 사진을 쓰되, 거기 찍힌 달리는 차는 트랙 박스 마스크로 가리고 그 자리를 같은 시점의 맵 렌더로 채웠습니다. 그래서 맵에 없는 차가 Difix3D+에서 새로 생기지 않습니다. 맵에 남아 있던 흐린 잔상은 일부 보입니다.">
+  <div class="ttl">3DGS 맵 : 실제 사진 / Difix3D 고정 맵 / 고정 맵 + 실시간 후처리 (Difix3D+)</div>
+  <div class="row" style="gap:40px">
+    <div style="width:620px">
+      <video src="media/v4_gt_map_mapplus.mp4" muted loop playsinline style="width:620px" class="shadow"></video>
+      <div class="cap"><span class="src m">직접 제작</span>058 기록 경로 정면 199프레임. Difix3D+ 기준 사진 = 바로 앞 시각 실제 사진에서 <b>달리는 차를 가리고</b> 그 자리를 맵 렌더로 채운 것</div>
+    </div>
+    <div style="flex:1">
+      <table class="t" style="font-size:17px"><tr><th></th><th>실제 사진 (GT)</th><th>Difix3D 고정 맵</th><th>고정 맵 + Difix3D+</th></tr>
+        <tr><td>맵 준비</td><td>촬영</td><td>맵 학습 <b>1.76 h</b> (한 번)</td><td>맵 학습 <b>1.76 h</b> (한 번)</td></tr>
+        <tr><td>프레임당</td><td></td><td>렌더 약 21 ms</td><td>렌더 약 21 ms <span style="color:#d0021b;font-weight:700">+ 76 ms</span></td></tr>
+        <tr><td>형상</td><td></td><td>고정 (맵)</td><td>고정 (맵) + 2D 보정</td></tr>
+        <tr><td>달리는 차</td><td>있음</td><td>없음 (지움)</td><td>기준 사진에서 가림 → <b>대부분 사라짐</b></td></tr></table>
+      <div class="cap"><span class="src m">직접 제작</span>맵 학습, 렌더는 RTX 4090 실측, +76 ms는 Difix3D+ 논문 수치 (A100)</div>
+      <div class="box" style="margin-top:20px;line-height:1.8;font-size:18px"><p>고정 맵만으로 <b>형상과 배치</b>는 고정, 먼 건물과 나무는 번짐</p><p>Difix3D+로 노면 글자, 창문, 하늘 경계가 <b>사진에 가까워짐</b></p><p>기준 사진의 달리는 차를 가려서 <b>맵에 없는 차가 생기지 않음</b>. 맵의 흐린 잔상은 일부 남음</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-notes="Reality View의 특징 중 하나가 시점 전환입니다. 왼쪽 영상처럼 운전자가 손가락으로 화면을 돌리면 차 주변을 다른 각도에서 보여 줍니다. 이건 3차원 장면 없이 영상 생성 모델이 그 시점을 새로 그리는 방식입니다. 저희 대응은 Difix3D로 만든 고정 맵에서 카메라를 옮기는 것입니다. 오른쪽 위는 고정 맵 그대로, 아래는 Difix3D+를 씌운 것입니다. 운전석 시점에서 차 뒤 위쪽 추종 시점까지는 맵이 잘 유지됩니다. 옆으로 110도까지 돌면 기록 경로에서 본 적 없는 각도라 바닥에 덩어리와 번짐이 생기고, Difix3D+가 하늘과 노면은 정리하지만 형상이 깨진 곳은 남습니다. 자기 차는 Genesis 차량 mesh를 같이 렌더해서 보여 줍니다.">
+  <div class="ttl">시점 전환 : Reality View vs Difix3D 고정 맵 vs 고정 맵 + Difix3D+</div>
+  <div class="row" style="gap:34px">
+    <div style="width:760px">
+      <div class="sub">Tesla Reality View (FSD v15)</div>
+      <video src="media/tesla_reality_view_user.mp4" muted loop playsinline style="width:760px" class="shadow"></video>
+      <div class="cap"><span class="src e">외부 자료</span>사용자 촬영 영상. 손가락으로 화면을 돌려 차 주변 시점을 바꿈. 3D 장면 없이 영상 생성 모델이 그림</div>
+      <div class="box" style="margin-top:18px;font-size:17px;line-height:1.8"><p>우리 대응 : Difix3D <b>고정 맵에서 카메라를 옮겨 렌더</b>, 필요하면 Difix3D+로 보정</p><p>차 뒤 추종 시점 → 위로 → 오른쪽으로 100° 회전 → 위에서 내려다봄 (주행 중)</p></div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">우리 3DGS 맵 (위 고정 맵, 아래 + Difix3D+)</div>
+      <video src="media/v4_viewswitch_compare.mp4" muted loop playsinline style="height:500px;width:auto;display:block" class="shadow"></video>
+      <div class="box" style="margin-top:12px;font-size:16px;line-height:1.7"><p>추종 시점까지는 <b>맵 유지</b></p><p>옆으로 돌면 바닥 덩어리, 번짐 (<b>본 적 없는 각도</b>)</p><p>Difix3D+ : 하늘, 노면 정리. <b>깨진 형상은 남음</b></p><p>자차는 Genesis 차량 mesh로 같이 렌더</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" id="s5" data-notes="이 맵 위에서 알파마요 주행 모델을 폐루프로 돌린 결과입니다. 알파마요 모델이 렌더된 카메라 화면을 보고 판단하고, 그 판단으로 차가 움직이면 다음 화면이 다시 렌더됩니다. 화면 아래 CoT가 모델이 낸 추론 문장입니다. 이 장면은 맞은편 차량을 SDK 차량으로 넣은 시나리오로, 모델이 교차로에서 감속하고 좌회전을 준비합니다. 위는 맵 렌더 그대로, 아래는 Difix3D+입니다. 렌더 그대로일 때 하늘과 먼 곳의 깨짐이 Difix3D+에서 정리됩니다.">
+  <div class="ttl">Closed Loop : 알파마요 주행 및 판단 화면 (CoT)</div>
+  <div class="row" style="gap:36px">
+    <div style="width:640px">
+      <div class="btns" id="s5b" style="margin-bottom:10px"><button class="btn on" data-v="hud">CoT, 내비 화면</button><button class="btn" data-v="clean">카메라 화면만</button></div>
+      <video id="s5h" src="media/cot_closedloop_compare.mp4" muted loop playsinline style="width:560px" class="shadow"></video>
+      <video id="s5c" src="media/cot_closedloop_clean_compare.mp4" muted loop playsinline style="width:560px;display:none" class="shadow"></video>
+      <div class="sub" style="margin-top:10px;font-size:19px">위 : 일반 3DGS 맵 렌더 &nbsp;/&nbsp; 아래 : 3DGS 맵 + Difix3D+</div><div class="cap">legacy map(이전 3DGS 맵)으로 돌린 영상이라 위쪽 3DGS 화질이 낮음</div>
+    </div>
+    <div style="flex:1">
+      <div class="sub">폐루프란</div>
+      <div class="box" style="line-height:1.9"><p>① 맵을 차 카메라 포즈에서 <b>렌더</b></p><p>② 알파마요 모델이 화면을 보고 <b>궤적과 CoT</b>를 냄</p><p>③ 그 궤적으로 차가 움직임 → 다음 프레임 ①</p></div>
+      <div class="sub" style="margin-top:22px">화면 구성</div>
+      <div class="box" style="font-size:18px;line-height:1.8"><p>위 : 시간, 속도, 진행 거리, 내비 입력</p><p>오른쪽 : 회전 안내, 신호 상태, 계획 궤적</p><p>아래 : <b>CoT</b> (모델의 추론 문장)</p></div>
+      <div class="box" style="margin-top:16px;font-size:18px">Difix3D+는 화면 품질을 올리지만 <b>프레임당 + 76 ms</b> (논문)</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-notes="시간 비용으로 비교하면, Reality View는 장면 준비가 필요 없고 화면을 36 fps로 그리지만 실제보다 1초 가까이 늦습니다. 저희 고정 맵은 장면마다 1.76시간 맵을 학습하고, 그 뒤 렌더는 프레임당 약 21 ms입니다. Difix3D+를 씌우면 논문 기준으로 프레임마다 76 ms가 더 붙습니다. 가장 큰 비용인 맵 준비 1.76시간을 줄이는 것이 STORM입니다. 2초 구간 하나를 160 ms에 만들고, 지금 알파마요 사방 카메라로 fine-tune 중입니다.">
+  <div class="ttl">시간 비용 : Reality View vs 고정 맵 vs 고정 맵 + Difix3D+ (→ STORM)</div>
+  <table class="t" style="font-size:19px"><tr><th></th><th>Tesla Reality View</th><th>Difix3D 고정 맵</th><th>고정 맵 + Difix3D+</th><th>STORM (다음 단계)</th></tr>
+    <tr><td>장면 준비</td><td>없음</td><td>맵 학습 <b>1.76 h</b></td><td>맵 학습 <b>1.76 h</b></td><td><b>160 ms</b> / 2초 구간</td></tr>
+    <tr><td>프레임당</td><td>약 28 ms (36 fps)</td><td>렌더 약 21 ms</td><td>렌더 약 21 ms <span style="color:#d0021b;font-weight:700">+ 76 ms</span></td><td>렌더 약 21 ms</td></tr>
+    <tr><td>지연</td><td>약 1 s (추정)</td><td>없음</td><td>프레임당 + 76 ms</td><td>없음</td></tr>
+    <tr><td>명시적 맵</td><td>없음 (추정)</td><td><b>있음</b></td><td><b>있음</b></td><td><b>있음</b></td></tr>
+    <tr><td>현재 품질</td><td>비공개</td><td>PSNR 22.55</td><td>사진에 가까움</td><td>17.8 (학습 전), fine-tune 진행 중</td></tr></table>
+  <div class="cap"><span class="src e">외부 자료</span>Reality View는 Musk X 글과 언론 풀이 <span class="src m" style="margin-left:10px">직접 제작</span>렌더는 RTX 4090 실측, Difix3D+는 논문 (A100)</div>
+  <div class="row" style="gap:30px;margin-top:22px">
+    <div class="box" style="flex:1.25;padding:14px 20px"><div class="sub" style="font-size:18px">프레임당 시간 (ms) : 렌더 RTX 4090, Difix3D+ 논문</div><div style="display:flex;align-items:center;gap:12px;margin:9px 0"><div style="width:170px;font-size:16px;text-align:right">Tesla Reality View</div><div style="display:flex;height:30px"><div style="width:112.0px;background:#9aa3b5;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;white-space:nowrap"></div></div><div style="font-size:16px;font-weight:600">약 28 ms (추정)</div></div><div style="display:flex;align-items:center;gap:12px;margin:9px 0"><div style="width:170px;font-size:16px;text-align:right">Difix3D 고정 맵</div><div style="display:flex;height:30px"><div style="width:84.0px;background:#14286e;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;white-space:nowrap"></div></div><div style="font-size:16px;font-weight:600">21 ms</div></div><div style="display:flex;align-items:center;gap:12px;margin:9px 0"><div style="width:170px;font-size:16px;text-align:right">고정 맵 + Difix3D+</div><div style="display:flex;height:30px"><div style="width:84.0px;background:#14286e;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;white-space:nowrap"></div><div style="width:304.0px;background:#d0021b;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;white-space:nowrap">+76</div></div><div style="font-size:16px;font-weight:600">97 ms</div></div><div style="display:flex;align-items:center;gap:12px;margin:9px 0"><div style="width:170px;font-size:16px;text-align:right">STORM 맵</div><div style="display:flex;height:30px"><div style="width:84.0px;background:#14286e;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;white-space:nowrap"></div></div><div style="font-size:16px;font-weight:600">21 ms</div></div></div>
+    <div class="box" style="flex:1;padding:14px 20px"><div class="sub" style="font-size:18px">장면 준비 시간 : 가장 큰 병목</div>
+      <div style="display:flex;align-items:flex-end;gap:26px;height:140px;margin-top:14px">
+        <div style="text-align:center"><div style="width:110px;height:100px;background:#d0021b"></div><div style="font-size:15px;margin-top:6px">3DGS 맵 학습<br><b>1.76 h</b></div></div>
+        <div style="text-align:center"><div style="width:110px;height:3px;background:#14286e"></div><div style="font-size:15px;margin-top:6px">STORM<br><b>160 ms</b> / 2초 구간</div></div>
+        <div style="font-size:15px;line-height:1.6;padding-bottom:20px">약 <b>4만 배</b> 짧음<br><span style="color:var(--grey)">(막대는 개념 비율)</span></div>
+      </div></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" id="s7" data-notes="다음 단계로 진행 중인 STORM입니다. 장면마다 몇 시간 학습하던 맵을, 미리 학습한 신경망이 2초 구간 하나당 160 ms에 바로 만듭니다. 왼쪽은 학습 없이 STORM이 만든 Gaussian으로 3DGS 맵과 같은 주행 경로를 렌더한 영상입니다. 2초마다 구간이 바뀌어 끊기고, Waymo로 학습된 가중치라 흐리고 거리가 틀어집니다. 버튼으로 같은 영상에 Difix3D+를 씌운 것도 볼 수 있습니다. 지금 알파마요 데이터로 사방 카메라 5대 fine-tune을 돌리고 있습니다.">
+  <div class="ttl">Next Step : STORM — 장면마다 학습하지 않고 160 ms에 Gaussian 생성</div>
+  <div class="row" style="gap:36px">
+    <div style="width:820px">
+      <div class="btns" id="s7b" style="margin-bottom:10px"><button class="btn on" data-src="media/storm_drive.mp4">STORM 그대로</button><button class="btn" data-src="media/storm_drive_difix3dplus.mp4">STORM + Difix3D+</button><button class="btn" data-src="media/storm_v4_difixplus_4rows.mp4">비교 영상</button></div>
+      <video id="s7v" src="media/storm_drive.mp4" muted loop playsinline style="width:820px;max-height:620px" class="shadow"></video>
+      <div class="cap" id="s7cap"><span class="src m">직접 제작</span>학습 없이 STORM이 만든 Gaussian, 3DGS 맵과 같은 주행 경로. 2초 구간마다 바뀜</div>
+    </div>
+    <div style="flex:1">
+      <div class="row" style="gap:20px">
+        <div class="stat"><div class="big">160 ms</div><div class="lb">2초 구간 하나 생성 (4090)</div></div>
+        <div class="stat"><div class="big">1.76 h</div><div class="lb">지금 맵 학습</div></div>
+      </div>
+      <table class="t" style="margin-top:20px;font-size:16px"><tr><th>지금 (학습 없음)</th><th>값</th></tr><tr><td>PSNR</td><td>17.8 (3DGS 맵 22.55)</td></tr><tr><td>거리</td><td>1.6~2배 멂</td></tr><tr><td>구간</td><td>2초마다 끊김</td></tr><tr><td>카메라</td><td>앞 3대로 학습됨</td></tr></table>
+      <div class="sub" style="margin-top:20px">진행 순서</div>
+      <div class="box" style="font-size:17px;line-height:1.9"><p>1 Waymo 가중치 사방 시험 <b>(완료)</b></p><p>2 알파마요 사방 5대 fine-tune <b>(진행 중)</b></p><p>3 nuScenes fine-tune</p><p>4 섞어서 학습 → 강건성 비교</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-notes="정리입니다. 지금 저희 구성은 3차원 맵이 있어서 시뮬레이션과 폐루프 주행이 되고, Difix3D+로 화면 품질을 올립니다. 대신 맵 학습에 1.76시간, 보정에 논문 기준 프레임당 76 ms가 걸립니다. 다음 단계는 STORM으로 맵 생성을 수백 ms로 줄이는 것이고, 그 위에 보정을 실시간으로 만드는 것이 남은 과제입니다.">
+  <div class="ttl">정리 : 지금 구성과 다음 단계</div>
+  <table class="t" style="font-size:19px"><tr><th></th><th>Tesla Reality View</th><th>지금 (Difix3D 맵 + Difix3D+)</th><th>다음 (STORM + 보정)</th></tr>
+    <tr><td>명시적 맵</td><td>없음 (추정)</td><td><b>있음</b></td><td><b>있음</b></td></tr>
+    <tr><td>장면 준비</td><td>필요 없음</td><td>1.76 h</td><td><b>160 ms</b> / 2초 구간</td></tr>
+    <tr><td>화면 보정</td><td>생성 자체 (36 fps)</td><td>+ 76 ms / 프레임 (논문)</td><td>같은 과제</td></tr>
+    <tr><td>폐루프 시뮬레이션</td><td>World Simulator (별도)</td><td><b>됨</b> (알파마요 CoT)</td><td>fine-tune 후 시험</td></tr>
+    <tr><td>현재 품질</td><td>비공개</td><td>PSNR 22.55</td><td>17.8 (fine-tune 전)</td></tr></table>
+  <div class="box" style="margin-top:24px;padding:16px 22px">
+    <div class="sub" style="font-size:18px">로드맵 : 맵 생성 병목을 STORM으로 해결</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:10px"><div style="width:70px;font-weight:700">지금</div>
+      <div style="background:#efefef;color:#111;border:2px solid #ccc;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">주행 사진</div><div style="font-size:14px;margin-top:3px">카메라 5대 + LiDAR</div></div><div style="font-size:26px;color:#888">→</div><div style="background:#fde8ea;color:#d0021b;border:2px solid #d0021b;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">3DGS 맵 학습</div><div style="font-size:14px;margin-top:3px">1.76 h (장면마다) : 병목</div></div><div style="font-size:26px;color:#888">→</div><div style="background:#efefef;color:#111;border:2px solid #ccc;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">렌더</div><div style="font-size:14px;margin-top:3px">약 21 ms</div></div><div style="font-size:26px;color:#888">→</div><div style="background:#efefef;color:#111;border:2px solid #ccc;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">Difix3D+</div><div style="font-size:14px;margin-top:3px">+76 ms</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:14px"><div style="width:70px;font-weight:700">다음</div>
+      <div style="background:#efefef;color:#111;border:2px solid #ccc;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">주행 사진</div><div style="font-size:14px;margin-top:3px">카메라 5대</div></div><div style="font-size:26px;color:#888">→</div><div style="background:#e6ebf7;color:#14286e;border:2px solid #14286e;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">STORM</div><div style="font-size:14px;margin-top:3px">160 ms / 2초 구간</div></div><div style="font-size:26px;color:#888">→</div><div style="background:#efefef;color:#111;border:2px solid #ccc;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">렌더</div><div style="font-size:14px;margin-top:3px">약 21 ms</div></div><div style="font-size:26px;color:#888">→</div><div style="background:#efefef;color:#111;border:2px solid #ccc;border-radius:8px;padding:10px 14px;min-width:150px;text-align:center"><div style="font-weight:700;font-size:17px">Difix3D+</div><div style="font-size:14px;margin-top:3px">+76 ms</div></div></div>
+    <div style="font-size:15px;color:var(--grey);margin-top:10px">진행 : Waymo 가중치 사방 시험 (완료) → 알파마요 사방 5대 fine-tune (진행 중) → nuScenes fine-tune → 섞어서 학습</div>
+  </div>
+</section>
+
+</div></div>
+<div id="nav"><button id="np">‹</button><span id="nn"></span><button id="nx">›</button><button id="nnotes" title="N">노트</button><button id="nfs" title="F">전체화면</button></div>
+<div id="prog"></div>
+<div id="notes"><div class="h">발표자 노트 (N 키로 닫기)</div><div id="notesT"></div></div>
+<script>
+const $ = s => document.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const slides = $$('.slide'); let cur = 0;
+function fit() { const s = Math.min(innerWidth / 1600, innerHeight / 900); $('#deck').style.transform = `scale(${s})`; }
+addEventListener('resize', fit); fit();
+function go(n) {
+  n = Math.max(0, Math.min(slides.length - 1, n));
+  const old = slides[cur]; old.classList.remove('active'); $$('video', old).forEach(v => v.pause());
+  cur = n; const s = slides[cur]; s.classList.add('active');
+  $$('video', s).forEach(v => { if (v.style.display !== 'none') { v.currentTime = 0; v.play().catch(() => {}); } });
+  $('#nn').textContent = `${cur + 1} / ${slides.length}`; $('#prog').style.width = `${(cur + 1) / slides.length * 100}%`;
+  $('#notesT').textContent = s.dataset.notes || ''; history.replaceState(null, '', '#' + (cur + 1));
+}
+addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+  else if (e.key === 'Home') go(0); else if (e.key === 'End') go(slides.length - 1);
+  else if (e.key === 'n' || e.key === 'N') toggleNotes(); else if (e.key === 'f' || e.key === 'F') toggleFs();
+});
+function toggleNotes() { const n = $('#notes'); n.style.display = n.style.display === 'block' ? 'none' : 'block'; }
+function toggleFs() { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+$('#np').onclick = () => go(cur - 1); $('#nx').onclick = () => go(cur + 1); $('#nnotes').onclick = toggleNotes; $('#nfs').onclick = toggleFs;
+function radio(box, cb) { $$('.btn', box).forEach(b => b.addEventListener('click', () => { $$('.btn', box).forEach(x => x.classList.remove('on')); b.classList.add('on'); cb(b); })); }
+radio($('#s5b'), b => { const h = b.dataset.v === 'hud', on = h ? $('#s5h') : $('#s5c'), off = h ? $('#s5c') : $('#s5h'); off.pause(); off.style.display = 'none'; on.style.display = 'block'; on.currentTime = 0; on.play().catch(() => {}); });
+const CAP7 = {'media/storm_drive.mp4': '학습 없이 STORM이 만든 Gaussian, 3DGS 맵과 같은 주행 경로. 2초 구간마다 바뀜', 'media/storm_drive_difix3dplus.mp4': '같은 STORM 영상의 모든 프레임에 Difix3D+ (프레임당 0.68 s, 녹화 후 처리)', 'media/storm_v4_difixplus_4rows.mp4': '기록 경로 정면. 위부터 실제 사진, 3DGS 맵 (맵 학습 1.76 h), STORM (2초 구간당 160 ms), STORM + Difix3D+ (160 ms + 프레임당 76 ms)'};
+radio($('#s7b'), b => { const v = $('#s7v'); v.src = b.dataset.src; v.play().catch(() => {}); $('#s7cap').innerHTML = '<span class="src m">직접 제작</span>' + CAP7[b.dataset.src]; });
+go(Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
+</script>
+<!-- in-browser edit mode: E toggles editing, S (or the 저장 button) saves the edited page -->
+<style id="edit-style">
+#editbar{position:fixed;left:18px;bottom:12px;display:flex;gap:8px;z-index:50;font-size:14px}
+#editbar button{border:1px solid #ccc;background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit}
+#editbar button.on{background:#14286e;color:#fff;border-color:#14286e}
+body.editing [contenteditable=true]{outline:1.5px dashed rgba(20,40,110,.45);outline-offset:2px;cursor:text}
+body.editing [contenteditable=true]:focus{outline:2px solid #14286e;background:rgba(20,40,110,.04)}
+#editmsg{position:fixed;left:50%;top:14px;transform:translateX(-50%);background:#14286e;color:#fff;padding:6px 14px;border-radius:6px;font-size:14px;z-index:60;display:none}
+</style>
+<div id="editbar"><button id="ebtn" title="E">편집</button><button id="sbtn" title="S">저장</button></div>
+<div id="editmsg"></div>
+<script id="edit-script">
+(() => {
+  const SEL = '.ttl,.sub,.box,.cap,td,th,.stat .big,.stat .lb,.slide div[style*="font-size:66px"],.slide div[style*="font-size:58px"],.slide div[style*="font-size:28px"],.slide div[style*="font-size:26px"],.slide div[style*="font-size:20px"]';
+  let on = false, fh = null;
+  const msg = t => { const m = document.getElementById('editmsg'); m.textContent = t; m.style.display = 'block'; clearTimeout(m._t); m._t = setTimeout(() => m.style.display = 'none', 2200); };
+  const notesT = document.getElementById('notesT');
+  function setEdit(v) {
+    on = v; document.body.classList.toggle('editing', on); document.getElementById('ebtn').classList.toggle('on', on);
+    document.querySelectorAll(SEL).forEach(el => { if (el.closest('.cap') && el !== el.closest('.cap') ) return; on ? el.setAttribute('contenteditable', 'true') : el.removeAttribute('contenteditable'); });
+    if (notesT) on ? notesT.setAttribute('contenteditable', 'true') : notesT.removeAttribute('contenteditable');
+    msg(on ? '편집 모드 : 글자를 눌러 고치고, 저장 버튼(S)으로 저장. 방향키 이동은 편집 중 꺼짐' : '편집 모드 끔');
+  }
+  if (notesT) notesT.addEventListener('input', () => { const s = document.querySelector('.slide.active'); if (s) s.dataset.notes = notesT.textContent; });
+  function html() {
+    const doc = document.documentElement.cloneNode(true);
+    doc.querySelectorAll('[contenteditable]').forEach(e => e.removeAttribute('contenteditable'));
+    doc.querySelector('body').classList.remove('editing');
+    doc.querySelectorAll('.slide.active').forEach(e => e.classList.remove('active'));
+    ['#notes', '#editmsg'].forEach(q => { const e = doc.querySelector(q); if (e) e.style.display = 'none'; });
+    const nt = doc.querySelector('#notesT'); if (nt) nt.textContent = '';
+    const dk = doc.querySelector('#deck'); if (dk) dk.style.transform = '';
+    return '<!doctype html>\n' + doc.outerHTML;
+  }
+  async function save() {
+    const text = html();
+    try {
+      if (window.showSaveFilePicker) {
+        if (!fh) fh = await showSaveFilePicker({suggestedName: 'index.html', types: [{description: 'HTML', accept: {'text/html': ['.html']}}]});
+        const w = await fh.createWritable(); await w.write(text); await w.close(); msg('저장함 : ' + fh.name); return;
+      }
+    } catch (e) { if (e.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], {type: 'text/html'})); a.download = 'index.html'; a.click(); msg('다운로드로 저장함. 같은 폴더의 index.html에 덮어쓰기');
+  }
+  document.getElementById('ebtn').onclick = () => setEdit(!on);
+  document.getElementById('sbtn').onclick = save;
+  addEventListener('keydown', e => {
+    const typing = e.target.isContentEditable;
+    if (typing) { e.stopImmediatePropagation(); if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); save(); } return; }
+    if (e.key === 'e' || e.key === 'E') { e.stopImmediatePropagation(); setEdit(!on); }
+    else if ((e.key === 's' || e.key === 'S') && !e.ctrlKey) { e.stopImmediatePropagation(); save(); }
+    else if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); save(); }
+  }, true);
+})();
+</script>
+
+</body>
+</html>
